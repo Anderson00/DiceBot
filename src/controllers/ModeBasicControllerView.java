@@ -40,7 +40,7 @@ public class ModeBasicControllerView {
     	onLoss.setStepwidth(BigDecimal.ONE);
     	onLoss.setMinValue(BigDecimal.ONE);
     	onLoss.setFormat(new DecimalFormat("#,###0.000", new DecimalFormatSymbols(Locale.ENGLISH)));
-    	
+
     	onWin.setNumber(BigDecimal.ONE);
     	onWin.setStepwidth(BigDecimal.ONE);
     	onWin.setMinValue(BigDecimal.ONE);
