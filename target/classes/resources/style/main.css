@@ -1,0 +1,9 @@
+.split-pane .split-pane-divider {-fx-background-color:green; -fx-padding:0px 0.05em 0px 0.05em}
+.split-pane:vertical {-fx-background-color:black}
+.titled-pane:collapsed .title {-fx-background-color: black;}
+.titled-pane:collapsed .title .text {-fx-fill:green}
+.titled-pane:collapsed .arrow-button .arrow {-fx-background-color:green}
+.titled-pane:expanded .title {-fx-background-color:black;}
+.titled-pane:expanded .title .text {-fx-fill:green}
+.titled-pane:collapsed .arrow-button .arrow {-fx-background-color:green; -fx-effect: none;}
+.titled-pane:expanded .content {-fx-background-color:#111; -fx-border-color:none}

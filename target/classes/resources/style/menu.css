@@ -1,0 +1,33 @@
+
+.menu-bar{
+	-fx-background-color:#111;
+}
+
+.menu {
+	-fx-text-fill:green;
+}
+
+.menu:hover{
+	-fx-background-color:#000;
+}
+
+.menu:showing{
+	-fx-background-color:#000;
+}
+
+.menu-button .label {
+    -fx-text-fill:green;
+}
+
+.menu .context-menu {
+	-fx-background-color:#222;
+}
+
+.menu .context-menu .menu-item:focused{
+	-fx-background-color:#000;
+}
+
+.menu-item .label {
+    -fx-text-fill: green;
+}
+
