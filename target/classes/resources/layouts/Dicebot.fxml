@@ -13,6 +13,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -23,7 +24,14 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="821.0" style="-fx-background-color: #000;" stylesheets="@../style/main.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeControllerView">
    <bottom>
-      <BorderPane BorderPane.alignment="CENTER" />
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <ToolBar prefHeight="20.0" style="-fx-background-color: #111;" BorderPane.alignment="CENTER">
+               <items>
+                  <Label text="No connection" textFill="GREEN" />
+               </items>
+            </ToolBar>
+         </center></BorderPane>
    </bottom>
    <center>
       <SplitPane fx:id="split_horizontal" dividerPositions="0.8" prefHeight="160.0" prefWidth="200.0" style="-fx-background-color: #000;" BorderPane.alignment="CENTER">
@@ -32,7 +40,7 @@
                <center>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <top>
-                        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <children>
                               <GridPane>
                                 <columnConstraints>

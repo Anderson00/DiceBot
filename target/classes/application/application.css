@@ -48,3 +48,12 @@
 	-fx-tick-label-fill:green;
 	-fx-minor-tick-visible: false;
 }
+
+
+/*ChoiceBox style */
+.choice-box {-fx-background-color:#222}
+.choice-box > .label > .text {-fx-fill:green}
+.choice-box > .open-button > .arrow{-fx-background-color:green}
+.choice-box .context-menu {-fx-background-color:#111}
+.choice-box .context-menu .label > .text {-fx-fill:green}
+.choice-box .context-menu .menu-item:focused{ -fx-background-color: #000}
