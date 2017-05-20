@@ -2,24 +2,21 @@ package application;
 	
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 
 
-public class Main extends Application {
+public class Main extends Application {	
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			ApplicationSingleton.getInstance().setApplication(this);// init singleton			
 			BorderPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/Dicebot.fxml"));
 			Scene scene = new Scene(root,900,600);
 			scene.setOnKeyPressed(k -> {
@@ -41,15 +38,7 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@Override
-	public void stop() throws Exception {
-		// TODO Auto-generated method stub
-		super.stop();
-	}
-	
-	
+	}	
 	
 	public static void main(String[] args) {
 		launch(args);

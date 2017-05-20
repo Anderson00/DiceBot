@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import jfxtras.labs.scene.control.BigDecimalField?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="370.0" prefWidth="600.0" style="-fx-background-color: #000;" stylesheets="@../style/modes.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Strategies">
+               <content>
+                  <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <VBox>
+                           <children>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Label text="Starting Bet: " textFill="GREEN" HBox.hgrow="ALWAYS" />
+                                    <BigDecimalField minWidth="50.0" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </BigDecimalField>
+                                    <Label text="Chance: " textFill="GREEN" HBox.hgrow="ALWAYS" />
+                                    <BigDecimalField minWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="SOMETIMES">
+                                <tabs>
+                                  <Tab text="Martingale">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </Tab>
+                                  <Tab text="Labouchère">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </Tab>
+                                    <Tab text="Fibonacci">
+                                       <content>
+                                          <StackPane>
+                                             <children>
+                                                <HBox prefHeight="100.0" prefWidth="200.0">
+                                                   <children>
+                                                      <ListView prefHeight="200.0" prefWidth="200.0">
+                                                         <HBox.margin>
+                                                            <Insets bottom="10.0" left="10.0" top="10.0" />
+                                                         </HBox.margin>
+                                                      </ListView>
+                                                      <VBox HBox.hgrow="SOMETIMES">
+                                                         <children>
+                                                            <Label text="On Loss:" textFill="WHITE" />
+                                                            <HBox>
+                                                               <children>
+                                                                  <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                                                     <children>
+                                                                        <RadioButton mnemonicParsing="false" selected="true" text="Increment" textFill="#cccccc">
+                                                                           <toggleGroup>
+                                                                              <ToggleGroup fx:id="onLoss" />
+                                                                           </toggleGroup>
+                                                                        </RadioButton>
+                                                                        <RadioButton mnemonicParsing="false" text="Reset on loss" textFill="#cccccc" toggleGroup="$onLoss" />
+                                                                        <RadioButton mnemonicParsing="false" text="Stop on loss" textFill="#cccccc" toggleGroup="$onLoss" />
+                                                                     </children>
+                                                                  </VBox>
+                                                                  <StackPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" HBox.hgrow="SOMETIMES">
+                                                                     <children>
+                                                                        <HBox StackPane.alignment="CENTER">
+                                                                           <children>
+                                                                              <BigDecimalField prefWidth="70.0" />
+                                                                              <Label maxHeight="1.7976931348623157E308" text="Steps on Loss" textFill="#cccccc" />
+                                                                           </children>
+                                                                        </HBox>
+                                                                     </children>
+                                                                     <HBox.margin>
+                                                                        <Insets left="10.0" />
+                                                                     </HBox.margin>
+                                                                  </StackPane>
+                                                               </children>
+                                                            </HBox>
+                                                            <Label text="On Win:" textFill="WHITE">
+                                                               <VBox.margin>
+                                                                  <Insets top="10.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <HBox>
+                                                               <children>
+                                                                  <VBox HBox.hgrow="ALWAYS">
+                                                                     <children>
+                                                                        <RadioButton mnemonicParsing="false" text="Increment" textFill="#cccccc">
+                                                                           <toggleGroup>
+                                                                              <ToggleGroup fx:id="onWin" />
+                                                                           </toggleGroup>
+                                                                        </RadioButton>
+                                                                        <RadioButton mnemonicParsing="false" selected="true" text="Reset on loss" textFill="#cccccc" toggleGroup="$onWin" />
+                                                                        <RadioButton mnemonicParsing="false" text="Stop on loss" textFill="#cccccc" toggleGroup="$onWin" />
+                                                                     </children>
+                                                                  </VBox>
+                                                                  <StackPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0">
+                                                                     <children>
+                                                                        <HBox StackPane.alignment="CENTER">
+                                                                           <children>
+                                                                              <BigDecimalField prefWidth="70.0" />
+                                                                              <Label maxHeight="1.7976931348623157E308" text="Steps on Loss" textFill="#cccccc" />
+                                                                           </children>
+                                                                        </HBox>
+                                                                     </children>
+                                                                  </StackPane>
+                                                               </children>
+                                                            </HBox>
+                                                            <HBox alignment="CENTER">
+                                                               <children>
+                                                                  <JFXCheckBox text="When level" textFill="#cccccc">
+                                                                     <HBox.margin>
+                                                                        <Insets right="10.0" />
+                                                                     </HBox.margin>
+                                                                  </JFXCheckBox>
+                                                                  <BigDecimalField prefWidth="70.0" />
+                                                                  <Label text="is reached" textFill="#cccccc" />
+                                                               </children>
+                                                               <VBox.margin>
+                                                                  <Insets top="10.0" />
+                                                               </VBox.margin>
+                                                            </HBox>
+                                                            <HBox alignment="CENTER">
+                                                               <children>
+                                                                  <RadioButton mnemonicParsing="false" text="Stop" textFill="#cccccc">
+                                                                     <HBox.margin>
+                                                                        <Insets right="10.0" />
+                                                                     </HBox.margin>
+                                                                     <toggleGroup>
+                                                                        <ToggleGroup fx:id="levelReached" />
+                                                                     </toggleGroup>
+                                                                  </RadioButton>
+                                                                  <RadioButton mnemonicParsing="false" selected="true" text="Reset" textFill="#cccccc" toggleGroup="$levelReached" />
+                                                               </children>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </HBox>
+                                                         </children>
+                                                         <padding>
+                                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </StackPane>
+                                       </content>
+                                    </Tab>
+                                    <Tab text="d´Alembert">
+                                       <content>
+                                          <StackPane>
+                                             <children>
+                                                <VBox>
+                                                   <children>
+                                                      <Label text="On Loss:" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="System Bold" size="12.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <HBox alignment="CENTER_LEFT">
+                                                         <children>
+                                                            <Label text="Increment bet by" textFill="WHITE" />
+                                                            <BigDecimalField />
+                                                            <Label text="On loss" textFill="WHITE" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets left="5.0" top="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER_LEFT">
+                                                         <children>
+                                                            <Label text="Stretch losses by" textFill="WHITE" />
+                                                            <BigDecimalField>
+                                                               <HBox.margin>
+                                                                  <Insets left="2.0" />
+                                                               </HBox.margin>
+                                                            </BigDecimalField>
+                                                            <Label text="bets" textFill="WHITE" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets left="5.0" top="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <Label text="On Win:" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="System Bold" size="12.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets top="10.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <HBox alignment="CENTER_LEFT">
+                                                         <children>
+                                                            <Label text="Increment bet by" textFill="WHITE" />
+                                                            <BigDecimalField />
+                                                            <Label text="On win" textFill="WHITE" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets left="5.0" top="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER_LEFT">
+                                                         <children>
+                                                            <Label text="Stretch wins by" textFill="WHITE" />
+                                                            <BigDecimalField>
+                                                               <HBox.margin>
+                                                                  <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                            </BigDecimalField>
+                                                            <Label text="bets" textFill="WHITE" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets left="5.0" top="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </children>
+                                          </StackPane>
+                                       </content>
+                                    </Tab>
+                                    <Tab text="Preset List">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                       </content>
+                                    </Tab>
+                                    <Tab text="Custom">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                       </content>
+                                    </Tab>
+                                </tabs>
+                              </TabPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </content>
+          </Tab>
+          <Tab text="Stop Conditions">
+               <content>
+                  <StackPane>
+                     <children>
+                        <ScrollPane fitToWidth="true" StackPane.alignment="CENTER" />
+                     </children></StackPane>
+               </content>
+          </Tab>
+            <Tab text="Advanced Bet Settings">
+               <content>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <bottom>
+      <HBox prefHeight="40.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #222;" text="Start" textFill="GREEN" HBox.hgrow="SOMETIMES" />
+            <JFXButton maxHeight="1.7976931348623157E308" style="-fx-background-color: #111;" text="Stop" textFill="RED" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

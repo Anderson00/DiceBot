@@ -6,6 +6,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ResourceBundle;
 
+import application.ApplicationSingleton;
 import application.Main;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -83,6 +84,8 @@ public class HomeControllerView {
         assert chartBets != null : "fx:id=\"chartBets\" was not injected: check your FXML file 'Dicebot.fxml'.";
         assert tableBets != null : "fx:id=\"tableBets\" was not injected: check your FXML file 'Dicebot.fxml'.";
         assert topBalance != null : "fx:id=\"topBalance\" was not injected: check your FXML file 'Dicebot.fxml'.";
+        
+        ApplicationSingleton.getInstance().setHomeController(this);
         
         chartBets.setLegendVisible(false);
         NumberAxis xAxis = (NumberAxis) chartBets.getXAxis();

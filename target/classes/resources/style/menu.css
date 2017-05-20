@@ -3,10 +3,6 @@
 	-fx-background-color:#111;
 }
 
-.menu {
-	-fx-text-fill:green;
-}
-
 .menu:hover{
 	-fx-background-color:#000;
 }

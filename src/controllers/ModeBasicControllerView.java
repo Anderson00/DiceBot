@@ -6,6 +6,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import application.ApplicationSingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
@@ -24,6 +25,9 @@ public class ModeBasicControllerView {
     
     @FXML
     void initialize() {
+    	
+    	ApplicationSingleton.getInstance().setModeBasicController(this);
+    	
     	startingBet.setNumber(BigDecimal.ZERO);
     	startingBet.setFormat(new DecimalFormat("#,########0.00000000"));
     	startingBet.setMinValue(BigDecimal.ZERO);

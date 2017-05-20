@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.CheckMenuItem;
@@ -142,7 +143,15 @@ public class MenuViewListener{
 		back = true;
 	}
 	
-	private void onModeAdvanced(ActionEvent event, MenuItem it){
+	private void onModeAdvanced(ActionEvent event, MenuItem it){		
+		try {
+			Node root = FXMLLoader.load(getClass().getResource("../resources/layouts/AdvancedBetMenu.fxml"));
+			context.modes.getChildren().remove(0);
+			context.modes.getChildren().add(root);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		back = false;
 	}
 	
