@@ -1,5 +1,7 @@
 package application;
 	
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -7,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -19,7 +23,7 @@ public class Main extends Application {
 		try {
 			ApplicationSingleton.getInstance().setApplication(this);// init singleton			
 			//BorderPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/Dicebot.fxml"));
-			StackPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/LoginView.fxml"));
+			StackPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/LoginView.fxml"));			
 			Scene scene = new Scene(root,900,600);
 			scene.setOnKeyPressed(k -> {
 				if(k.getCode().equals(KeyCode.F11))

@@ -5,6 +5,11 @@
 	
 }*/
 
+.error .label{
+	-fx-text-fill: red;
+	
+}
+
 .chart-plot-background {
     -fx-background-color: #000;
 }

@@ -7,20 +7,27 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 
 import application.RoundImageView;
 import application.RoundImageViewSkin;
+import de.jensd.fx.fontawesome.AwesomeIcon;
+import de.jensd.fx.fontawesome.Icon;
+import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class LoginViewController implements Initializable {
     @FXML
@@ -51,25 +58,59 @@ public class LoginViewController implements Initializable {
     private StackPane fotoIcon;
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		File file = new File("/DiceBot/src/resources/icons/999dice.png");
-        Image image = new Image(file.toURI().toString());
-        ImageView imageView = new ImageView();
-        imageView.setImage(image);
+	public void initialize(URL location, ResourceBundle resources) {		
+		RoundImageView imageView = new RoundImageView();
+		
+		RoundImageViewSkin skin = new RoundImageViewSkin(imageView);
+        skin.getSkinnable().setMaxWidth(200);
+        skin.getSkinnable().setMinWidth(200);
+        skin.getSkinnable().setMaxHeight(150.0);
+        skin.getSkinnable().setMinHeight(150.0);
         
 		fotoIcon.getChildren().add(imageView);
-		choiceMode.setItems(FXCollections.observableArrayList("999Dice","PrimeDice"));
-		//choiceMode.setValue("999Dice"); //Default		
+		choiceMode.setItems(FXCollections.observableArrayList("999Dice","PrimeDice"));		
 		choiceMode.valueProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
 				
+				URL url = getClass().getResource("../resources/icons/"+newValue+".png");
+				if(url != null){
+					FadeTransition transition = new FadeTransition(Duration.millis(500));
+					transition.setFromValue(0.5);
+					transition.setToValue(1);
+					transition.setNode(imageView);
+					transition.playFromStart();
+					imageView.setImage(new Image(url.toString()));
+				}
+				else
+					imageView.setImage(null);
 			}
 		});
+		choiceMode.setValue("999Dice"); //Default		
+		
+		
+		RequiredFieldValidator requiredUser = new RequiredFieldValidator();
+		requiredUser.setIcon(new Icon(AwesomeIcon.WARNING,"0.6em",";","error"));
+		requiredUser.setMessage("Required user");
+		
+		RequiredFieldValidator requiredPass = new RequiredFieldValidator();
+		requiredPass.setIcon(new Icon(AwesomeIcon.WARNING,"0.6em",";","error"));
+		requiredPass.setMessage("Required Pass");
+		
+		authField.getValidators().add(requiredUser);
+        pwdField.getValidators().add(requiredPass);
+		
 		
 	}
-    
+	
+	@FXML
+    void loginButtonAction(ActionEvent event) {
+		if(authField.getText().equals("") || pwdField.getText().equals("")){
+    		authField.validate();
+    		pwdField.validate();
+		}
+    }
 
 }
