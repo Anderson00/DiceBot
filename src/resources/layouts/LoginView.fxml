@@ -14,12 +14,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminLoginController">
+<StackPane fx:id="stackPane" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginViewController">
 <AnchorPane fx:id="anchorPane" maxHeight="500.0" maxWidth="600.0" prefHeight="500.0" prefWidth="600.0">
    <children>
       <VBox layoutX="118.0" layoutY="160.0" prefHeight="250.0" prefWidth="340.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="180.0">
          <children>
-            <JFXTextField fx:id="authField" focusColor="GREEN" labelFloat="true" onKeyReleased="#keyCheck" promptText="User" style="-fx-text-fill: #fff;" unFocusColor="GREEN">
+            <JFXTextField fx:id="authField" focusColor="GREEN" labelFloat="true" promptText="User" style="-fx-text-fill: #fff;" unFocusColor="GREEN">
                <font>
                   <Font size="18.0" />
                </font>
@@ -30,7 +30,7 @@
                   <Insets bottom="20.0" top="10.0" />
                </padding>
             </JFXTextField>
-            <JFXPasswordField fx:id="pwdField" focusColor="GREEN" labelFloat="true" onKeyReleased="#keyCheck" promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="GREEN">
+            <JFXPasswordField fx:id="pwdField" focusColor="GREEN" labelFloat="true" promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="GREEN">
                <font>
                   <Font size="18.0" />
                </font>
@@ -43,12 +43,12 @@
             </JFXPasswordField>
                <VBox prefHeight="200.0" prefWidth="100.0">
                   <children>
-                     <ChoiceBox prefWidth="100.0" stylesheets="@../../application/application.css">
+                     <ChoiceBox fx:id="choiceMode" prefWidth="100.0" stylesheets="@../../application/application.css">
                         <VBox.margin>
                            <Insets bottom="10.0" />
                         </VBox.margin>
                      </ChoiceBox>
-               		<JFXCheckBox checkedColor="GREEN" selected="true" text="Remeber me" textFill="#cccccc" />
+               		<JFXCheckBox checkedColor="GREEN" text="Remeber me" textFill="#cccccc" />
                      <StackPane prefHeight="150.0" prefWidth="200.0">
                         <children>
                            <Text fx:id="avisoIncorreto" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" StackPane.alignment="CENTER" />
@@ -61,7 +61,7 @@
                </VBox>
             <HBox alignment="CENTER" prefHeight="97.0" prefWidth="360.0" spacing="10.0">
                <children>
-                  <JFXButton fx:id="loginBtn" buttonType="RAISED" minWidth="360.0" onAction="#loginCheck" prefWidth="110.0" style="-fx-background-color: #222; -fx-text-fill: green; -fx-background-radius: 4;" text="LOGIN">
+                  <JFXButton fx:id="loginBtn" buttonType="RAISED" minWidth="360.0" prefWidth="110.0" style="-fx-background-color: #222; -fx-text-fill: green; -fx-background-radius: 4;" text="LOGIN">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -73,7 +73,7 @@
             </HBox>
             <HBox alignment="CENTER">
                <children>
-                     <JFXButton fx:id="loginBtn1" buttonType="RAISED" minWidth="360.0" onAction="#loginCheck" prefWidth="110.0" style="-fx-background-color: #111; -fx-text-fill: green; -fx-background-radius: 4;" text="CreateAccount">
+                     <JFXButton fx:id="createAcountBtn" buttonType="RAISED" minWidth="360.0" prefWidth="110.0" style="-fx-background-color: #111; -fx-text-fill: green; -fx-background-radius: 4;" text="CreateAccount">
                         <font>
                            <Font name="System Bold" size="12.0" />
                         </font>
