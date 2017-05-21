@@ -185,6 +185,9 @@ public class HomeControllerView {
 		
         
         SplitPane.setResizableWithParent(split_horizontal.getItems().get(1), false);
+        
+        XYChart.Series<Number,Number> data = new XYChart.Series<>();
+    	chartBets.getData().add(data);
         //chartBets.setAnimated(false);
         //TestChart();
 
@@ -227,10 +230,9 @@ public class HomeControllerView {
 					public void run() {
 						// TODO Auto-generated method stub
 						int q = (int)(Math.random()*10+1);
-						tableBets.getItems().add(0, new Bet.BetBuilder(i, 50, 100,true)
+						tableBets.getItems().add(0, new Bet.BetBuilder(i, 50, "100",q%2==0)
 								.high(true)
-								.won(q%2==0)
-								.profit(1)
+								.profit("1")
 								.build());
 						
 						data.getData().add(new XYChart.Data<Number,Number>(i, Math.random()%10*i));

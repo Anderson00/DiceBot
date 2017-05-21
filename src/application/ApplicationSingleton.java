@@ -43,6 +43,10 @@ public class ApplicationSingleton {
 		return this.modeBasicController;
 	}
 	
+	public BeginSessionResponse getSession(){
+		return this.session;
+	}
+	
 	//Singleton instance
 	public static ApplicationSingleton getInstance(){
 		return uniqueInstance;

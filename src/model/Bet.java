@@ -1,19 +1,22 @@
 package model;
 
+import java.math.BigDecimal;
+
 import com.jfoenix.controls.JFXCheckBox;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Bet {
-	private SimpleIntegerProperty id;
+	private SimpleLongProperty id;
 	private SimpleStringProperty date;
 	private SimpleObjectProperty<JFXCheckBox> high;
 	private SimpleIntegerProperty chance;
-	private SimpleIntegerProperty amount;
+	private SimpleStringProperty amount;
 	private SimpleStringProperty roll;
-	private SimpleIntegerProperty profit;
+	private SimpleStringProperty profit;
 	private boolean won = false;
 	
 	public Bet(BetBuilder builder){
@@ -28,7 +31,7 @@ public class Bet {
 	}
 	
 	
-	public int getId() {
+	public long getId() {
 		return id.get();
 	}
 
@@ -48,7 +51,7 @@ public class Bet {
 	}
 
 
-	public int getAmount() {
+	public String getAmount() {
 		return amount.get();
 	}
 
@@ -58,7 +61,7 @@ public class Bet {
 	}
 
 
-	public int getProfit() {
+	public String getProfit() {
 		return profit.get();
 	}
 	
@@ -68,23 +71,23 @@ public class Bet {
 
 
 	public static class BetBuilder{
-		private SimpleIntegerProperty id;//required
+		private SimpleLongProperty id;//required
 		private SimpleStringProperty date;
 		private SimpleObjectProperty<JFXCheckBox> high;
 		private SimpleIntegerProperty chance;//required
-		private SimpleIntegerProperty amount;//required
+		private SimpleStringProperty amount;//required
 		private SimpleStringProperty roll;
-		private SimpleIntegerProperty profit;
+		private SimpleStringProperty profit;
 		private boolean won = false;
 		
-		public BetBuilder(int id, int chance, int amount, boolean won){
-			this.id = new SimpleIntegerProperty(id);
+		public BetBuilder(long id, int chance, String amount, boolean won){
+			this.id = new SimpleLongProperty(id);
 			this.date = new SimpleStringProperty("");
 			this.high = new SimpleObjectProperty<JFXCheckBox>(new JFXCheckBox());
 			this.chance = new SimpleIntegerProperty(chance);
-			this.amount = new SimpleIntegerProperty(amount);
+			this.amount = new SimpleStringProperty(amount);
 			this.roll = new SimpleStringProperty("");
-			this.profit = new SimpleIntegerProperty(0);
+			this.profit = new SimpleStringProperty("0");
 			this.won = won;
 			
 		}
@@ -106,8 +109,8 @@ public class Bet {
 			return this;
 		}
 		
-		public BetBuilder amount(int amount){
-			this.amount = new SimpleIntegerProperty(amount);
+		public BetBuilder amount(String amount){
+			this.amount = new SimpleStringProperty(amount);
 			return this;
 		}
 		
@@ -116,13 +119,8 @@ public class Bet {
 			return this;
 		}
 		
-		public BetBuilder profit(int profit){
-			this.profit = new SimpleIntegerProperty(profit);
-			return this;
-		}
-		
-		public BetBuilder won(boolean won){
-			this.won = won;
+		public BetBuilder profit(String profit){
+			this.profit = new SimpleStringProperty(profit);
 			return this;
 		}
 		

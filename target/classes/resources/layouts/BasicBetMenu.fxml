@@ -35,8 +35,8 @@
          <center>
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" ripplerFill="GREEN" style="-fx-background-color: #222;" text="Start" textFill="GREEN" HBox.hgrow="ALWAYS" />
-                  <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" ripplerFill="RED" style="-fx-background-color: #111;" text="Stop" textFill="RED" />
+                  <JFXButton fx:id="startBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" ripplerFill="GREEN" style="-fx-background-color: #222;" text="Start" textFill="GREEN" HBox.hgrow="ALWAYS" />
+                  <JFXButton fx:id="stopBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" ripplerFill="RED" style="-fx-background-color: #111;" text="Stop" textFill="RED" />
                </children>
             </HBox>
          </center>
