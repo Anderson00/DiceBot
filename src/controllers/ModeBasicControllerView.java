@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import com.jfoenix.controls.JFXButton;
@@ -82,20 +83,30 @@ public class ModeBasicControllerView {
     	});
     }
     
-    public class PlaceBetTask extends Task<Boolean>{
+    public class PlaceBetTask extends Task<String>{
     	
     	PlaceBetResponse betResponse = null;
     	BigDecimal startBet = startingBet.getNumber();
     	boolean executed = true;
 
 		@Override
-		protected Boolean call() throws Exception {
+		protected String call() throws Exception {
 			// TODO Auto-generated method stub
 			BeginSessionResponse session = ApplicationSingleton.getInstance().getSession();
 			
-			while(true && !stopBetting){
-				SessionInfo info = session.getSession();				
-				betResponse = DiceWebAPI.PlaceBet(info, startBet, 0, 499499);		
+			while(true){
+				SessionInfo info = session.getSession();			
+				//Thread.sleep(400);
+				if(stopBetting){ 
+					Calendar date = Calendar.getInstance();
+					date.setTimeInMillis(System.currentTimeMillis());
+					return "Finished "+date.getTime();				
+				}
+				if(startBet.compareTo(BigDecimal.ZERO) == 0) return "Insufficient funds";
+				
+				betResponse = DiceWebAPI.PlaceBet(info, startBet, 0, 499499);
+				updateProgress(0, 0);
+				Thread.sleep(100);
 				if(betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0){
 					startBet = startBet.multiply(onLoss.getNumber());
 					System.out.println(">> "+startBet);
@@ -103,16 +114,21 @@ public class ModeBasicControllerView {
 					//reset bet
 					startBet = startingBet.getNumber();
 					startBet = startBet.multiply(onWin.getNumber());
-				}
-				Thread.sleep(500);
+				}	
 				
-				updateProgress(0, 0);
 				System.out.println(betResponse.isSuccess()+" "+betResponse.getPayOut()+" "+betResponse.getStartingBalance());
 				
 				
 			}
-			return null;
 		}
+		
+		@Override
+		protected void updateValue(String value) {
+			// TODO Auto-generated method stub
+			super.updateValue(value);			
+			ApplicationSingleton.getInstance().getHomeController().infoLB.setText((value == null)? "" : value);
+		}
+		
 		@Override
 		protected void updateProgress(double workDone, double max) {
 			// TODO Auto-generated method stub
@@ -123,11 +139,12 @@ public class ModeBasicControllerView {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
+					System.out.println(">>>\t"+betResponse.isNoPossibleProfit());
 					if(betResponse.isSuccess()){
 						HomeControllerView controller = ApplicationSingleton.getInstance().getHomeController();
 						BeginSessionResponse session = ApplicationSingleton.getInstance().getSession();
 						BigDecimal profit = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? startBet.negate() : betResponse.getPayOut().subtract(startBet);
-						System.out.println(">>>>> "+profit.toPlainString());
+						
 						sessionProfit += profit.doubleValue();
 						System.out.println(profit.doubleValue());
 						BigDecimal balance = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? betResponse.getStartingBalance().subtract(startingBet.getNumber()) : betResponse.getPayOut().subtract(startingBet.getNumber()).add(betResponse.getStartingBalance());
@@ -143,7 +160,6 @@ public class ModeBasicControllerView {
 						System.out.println(">> "+betResponse.getPayOut().toPlainString());
 						controller.chartBets.getData().get(0).getData().add(new XYChart.Data<Number,Number>(count, sessionProfit));
 						count++;
-						executed = true;
 					}
 				}
 			});

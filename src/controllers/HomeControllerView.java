@@ -78,7 +78,7 @@ public class HomeControllerView {
     protected StackPane modes; 
     
     @FXML
-    protected Label balanceLB, winsLB, lossesLB, totalBetsLB, profitLB, wageredLB;
+    protected Label balanceLB, winsLB, lossesLB, totalBetsLB, profitLB, wageredLB, infoLB;
     
     private Main application;
 
@@ -188,6 +188,7 @@ public class HomeControllerView {
         
         XYChart.Series<Number,Number> data = new XYChart.Series<>();
     	chartBets.getData().add(data);
+    	
         //chartBets.setAnimated(false);
         //TestChart();
 

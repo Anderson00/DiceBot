@@ -28,7 +28,7 @@
          <center>
             <ToolBar prefHeight="20.0" style="-fx-background-color: #111;" BorderPane.alignment="CENTER">
                <items>
-                  <Label text="No connection" textFill="GREEN" />
+                  <Label fx:id="infoLB" text="No connection" textFill="GREEN" />
                </items>
             </ToolBar>
          </center></BorderPane>

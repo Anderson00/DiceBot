@@ -1,5 +1,6 @@
 /application/
+/controllers/
+/model/
+/sites/
 /libs/
 /resources/
-/model/
-/controllers/
