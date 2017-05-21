@@ -3,12 +3,14 @@ package application;
 import controllers.HomeControllerView;
 import controllers.ModeBasicControllerView;
 import javafx.application.Application;
+import sites.client999dice.BeginSessionResponse;
 
 public class ApplicationSingleton {
 	private static final ApplicationSingleton  uniqueInstance = new ApplicationSingleton();
 	private Application application;
 	private HomeControllerView homeController;
 	private ModeBasicControllerView modeBasicController;// Mode of Bet BASIC
+	private BeginSessionResponse session;
 	
 	private ApplicationSingleton(){}
 	
@@ -26,6 +28,10 @@ public class ApplicationSingleton {
 	public void setModeBasicController(ModeBasicControllerView controller){
 		if(this.modeBasicController == null)
 			this.modeBasicController = controller;
+	}
+	
+	public void setSession(BeginSessionResponse session){
+		this.session = session;
 	}
 	
 	//Getters

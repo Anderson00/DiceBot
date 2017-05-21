@@ -6,11 +6,10 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
-import application.RoundImageView;
-import application.RoundImageViewSkin;
 import de.jensd.fx.fontawesome.AwesomeIcon;
 import de.jensd.fx.fontawesome.Icon;
 import javafx.animation.FadeTransition;
@@ -20,6 +19,8 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
@@ -28,6 +29,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import model.RoundImageView;
+import model.RoundImageViewSkin;
+import sites.client999dice.DiceWebAPI;
 
 public class LoginViewController implements Initializable {
     @FXML
@@ -56,6 +60,8 @@ public class LoginViewController implements Initializable {
 
     @FXML
     private StackPane fotoIcon;
+    
+    StackPane modal;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
@@ -110,7 +116,27 @@ public class LoginViewController implements Initializable {
 		if(authField.getText().equals("") || pwdField.getText().equals("")){
     		authField.validate();
     		pwdField.validate();
+		}else{
+			modal = new StackPane(new JFXSpinner());
+			modal.setStyle("-fx-background-color: rgba(0,0,0,.5)");
+			stackPane.getChildren().add(modal);
+			LoginThread thread = new LoginThread(this, choiceMode.getValue(),authField.getText(),pwdField.getText());
+			new Thread(thread).start();
+			
 		}
     }
+	
+	void removeModal(){
+		stackPane.getChildren().remove(modal);
+	}
+	
+	void setAvisoMsg(String text){
+		avisoIncorreto.setText(text);
+	}
+	
+	public void setView(Parent parent){
+		this.stackPane.getScene().setRoot(parent);
+	}
+	    
 
 }

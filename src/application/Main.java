@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import sites.client999dice.DiceWebAPI;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +22,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			System.out.println(DiceWebAPI.BeginSession("f3a5f0d8e5b24ba4a99ecd1a952f7064").isInvalidApiKey());
 			ApplicationSingleton.getInstance().setApplication(this);// init singleton			
 			//BorderPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/Dicebot.fxml"));
 			StackPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/LoginView.fxml"));			

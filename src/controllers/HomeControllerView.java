@@ -77,6 +77,9 @@ public class HomeControllerView {
     @FXML
     protected StackPane modes; 
     
+    @FXML
+    protected Label balanceLB, winsLB, lossesLB, totalBetsLB, profitLB, wageredLB;
+    
     private Main application;
 
     @FXML
@@ -183,7 +186,7 @@ public class HomeControllerView {
         
         SplitPane.setResizableWithParent(split_horizontal.getItems().get(1), false);
         //chartBets.setAnimated(false);
-        TestChart();
+        //TestChart();
 
     }
     
