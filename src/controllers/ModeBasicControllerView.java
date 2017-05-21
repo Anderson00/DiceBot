@@ -41,9 +41,14 @@ public class ModeBasicControllerView {
     boolean stopBetting = false;
     private int count = 0;
     private double sessionProfit;
+    private long winsCount = 0, lossesCount = 0, betCount = 0;
     
     @FXML
     void initialize() {
+    	SessionInfo info = ApplicationSingleton.getInstance().getBotHeart().getSession().getSession();
+    	winsCount = info.getBetWinCount();
+    	betCount = info.getBetCount();
+    	lossesCount = betCount - winsCount;
     	
     	ApplicationSingleton.getInstance().setModeBasicController(this);
     	
@@ -87,12 +92,14 @@ public class ModeBasicControllerView {
     	
     	PlaceBetResponse betResponse = null;
     	BigDecimal startBet = startingBet.getNumber();
+    	HomeControllerView controller = ApplicationSingleton.getInstance().getHomeController();
     	boolean executed = true;
 
 		@Override
 		protected String call() throws Exception {
 			// TODO Auto-generated method stub
-			BeginSessionResponse session = ApplicationSingleton.getInstance().getSession();
+			BeginSessionResponse session = ApplicationSingleton.getInstance().getBotHeart().getSession();
+			updateValue("Start "+Calendar.getInstance().getTime());
 			
 			while(true){
 				SessionInfo info = session.getSession();			
@@ -125,8 +132,16 @@ public class ModeBasicControllerView {
 		@Override
 		protected void updateValue(String value) {
 			// TODO Auto-generated method stub
-			super.updateValue(value);			
-			ApplicationSingleton.getInstance().getHomeController().infoLB.setText((value == null)? "" : value);
+			super.updateValue(value);	
+			Platform.runLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					ApplicationSingleton.getInstance().getHomeController().infoLB.setText((value == null)? "" : value);
+				}
+			});
+			
 		}
 		
 		@Override
@@ -140,14 +155,12 @@ public class ModeBasicControllerView {
 				public void run() {
 					// TODO Auto-generated method stub
 					System.out.println(">>>\t"+betResponse.isNoPossibleProfit());
-					if(betResponse.isSuccess()){
-						HomeControllerView controller = ApplicationSingleton.getInstance().getHomeController();
-						BeginSessionResponse session = ApplicationSingleton.getInstance().getSession();
+					if(betResponse.isSuccess()){	
 						BigDecimal profit = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? startBet.negate() : betResponse.getPayOut().subtract(startBet);
 						
 						sessionProfit += profit.doubleValue();
 						System.out.println(profit.doubleValue());
-						BigDecimal balance = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? betResponse.getStartingBalance().subtract(startingBet.getNumber()) : betResponse.getPayOut().subtract(startingBet.getNumber()).add(betResponse.getStartingBalance());
+						BigDecimal balance = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? betResponse.getStartingBalance().subtract(startBet) : betResponse.getPayOut().subtract(startBet).add(betResponse.getStartingBalance());
 						boolean win = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? false : true; 
 						
 						controller.topBalance.setText(balance.toString());
@@ -156,6 +169,16 @@ public class ModeBasicControllerView {
 								.high(betType.getToggles().get(0).equals(betType.getSelectedToggle()))
 								.profit(profit.toPlainString())
 								.build());
+						
+						if(win){
+							winsCount++;
+							controller.winsLB.setText(winsCount+"");
+						}else{
+							lossesCount++;
+							controller.lossesLB.setText(lossesCount+"");
+						}
+						
+						controller.totalBetsLB.setText(++betCount+"");	
 						
 						System.out.println(">> "+betResponse.getPayOut().toPlainString());
 						controller.chartBets.getData().get(0).getData().add(new XYChart.Data<Number,Number>(count, sessionProfit));

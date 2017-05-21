@@ -30,7 +30,7 @@ public class LoginThread extends Task<BeginSessionResponse> {
 		BotHeart bot = new BotHeart(site);
 		BeginSessionResponse session = bot.login(this.user, this.pass);
 		if(session != null){
-			ApplicationSingleton.getInstance().setSession(session);
+			ApplicationSingleton.getInstance().setBotHeart(bot);
 			return session;
 		}else
 			return null;

@@ -3,6 +3,7 @@ package application;
 import controllers.HomeControllerView;
 import controllers.ModeBasicControllerView;
 import javafx.application.Application;
+import model.BotHeart;
 import sites.client999dice.BeginSessionResponse;
 
 public class ApplicationSingleton {
@@ -10,7 +11,7 @@ public class ApplicationSingleton {
 	private Application application;
 	private HomeControllerView homeController;
 	private ModeBasicControllerView modeBasicController;// Mode of Bet BASIC
-	private BeginSessionResponse session;
+	private BotHeart botHeart;
 	
 	private ApplicationSingleton(){}
 	
@@ -30,8 +31,8 @@ public class ApplicationSingleton {
 			this.modeBasicController = controller;
 	}
 	
-	public void setSession(BeginSessionResponse session){
-		this.session = session;
+	public void setBotHeart(BotHeart botHeart){
+		this.botHeart = botHeart;
 	}
 	
 	//Getters
@@ -43,8 +44,8 @@ public class ApplicationSingleton {
 		return this.modeBasicController;
 	}
 	
-	public BeginSessionResponse getSession(){
-		return this.session;
+	public BotHeart getBotHeart(){
+		return this.botHeart;
 	}
 	
 	//Singleton instance

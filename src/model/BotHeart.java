@@ -17,10 +17,19 @@ public class BotHeart{
 		switch(site.toLowerCase()){
 			case "999dice":
 				System.out.println("entrou");
-				BeginSessionResponse session = DiceWebAPI.BeginSession(API, user, pass);					
+				session = DiceWebAPI.BeginSession(API, user, pass);					
 			return (session.isSuccess())? session : null;		
 		}
 		return null;
+	}
+	
+	public BeginSessionResponse refreshSession(){		
+		session = DiceWebAPI.BeginSession(this.API, session.getSession().getAccountCookie());
+		System.out.println("entrou");
+		if(session.isSuccess())
+			return session;
+		else
+			return null;
 	}
 	
 	public BeginSessionResponse getSession(){
