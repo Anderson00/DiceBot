@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -15,6 +16,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -178,7 +181,6 @@ public class HomeControllerView {
 			
 			
 		});
-		
 				
 		ObservableList dataTable = FXCollections.observableArrayList();
 		tableBets.setItems(dataTable);
@@ -186,7 +188,7 @@ public class HomeControllerView {
         
         SplitPane.setResizableWithParent(split_horizontal.getItems().get(1), false);
         
-        XYChart.Series<Number,Number> data = new XYChart.Series<>();
+        XYChart.Series<Number,Number> data = new XYChart.Series<>();        
     	chartBets.getData().add(data);
     	
         //chartBets.setAnimated(false);

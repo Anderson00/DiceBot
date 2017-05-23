@@ -121,8 +121,7 @@ public class LoginViewController implements Initializable {
 			modal.setStyle("-fx-background-color: rgba(0,0,0,.5)");
 			stackPane.getChildren().add(modal);
 			LoginThread thread = new LoginThread(this, choiceMode.getValue(),authField.getText(),pwdField.getText());
-			new Thread(thread).start();
-			
+			new Thread(thread).start();			
 		}
     }
 	

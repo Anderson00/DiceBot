@@ -2,8 +2,8 @@ package controllers;
 
 import java.io.IOException;
 
+import application.ApplicationSingleton;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.CheckMenuItem;
@@ -11,7 +11,9 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
-import javafx.scene.layout.BorderPane;
+import model.BotHeart;
+import sites.client999dice.BeginSessionResponse;
+import sites.client999dice.DiceWebAPI;
 
 public class MenuViewListener{
 	
@@ -19,10 +21,21 @@ public class MenuViewListener{
 	private MenuBar menuBar;
 	private boolean graphicIsVisible = true;
 	private boolean tableIsVisible = true;
+	private Node basic, advanced, programmer;
 	
 	public MenuViewListener(HomeControllerView context, MenuBar menuBar){
 		this.context = context;
 		this.menuBar = menuBar;	
+		
+		// Puts the modes on the stack
+        try {
+			basic = FXMLLoader.load(getClass().getResource("../resources/layouts/BasicBetMenu.fxml"));
+			advanced = FXMLLoader.load(getClass().getResource("../resources/layouts/AdvancedBetMenu.fxml"));
+			context.modes.getChildren().add(basic);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		for(Menu menuView : menuBar.getMenus()){
 			switch(menuView.getText().toLowerCase()){
@@ -130,33 +143,18 @@ public class MenuViewListener{
 	
 	boolean back = false;
 	private void onModeBasic(ActionEvent event, MenuItem it){	
-		RadioMenuItem item = (RadioMenuItem) it;	
-		if(!back)
-		try {
-			Node root = FXMLLoader.load(getClass().getResource("../resources/layouts/BasicBetMenu.fxml"));
-			context.modes.getChildren().add(root);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		back = true;
+		RadioMenuItem item = (RadioMenuItem) it;
+		context.modes.getChildren().set(0, basic);
 	}
 	
-	private void onModeAdvanced(ActionEvent event, MenuItem it){		
-		try {
-			Node root = FXMLLoader.load(getClass().getResource("../resources/layouts/AdvancedBetMenu.fxml"));
-			context.modes.getChildren().remove(0);
-			context.modes.getChildren().add(root);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		back = false;
+	private void onModeAdvanced(ActionEvent event, MenuItem it){
+		context.modes.getChildren().set(0, advanced);
 	}
 	
 	private void onModeProgrammer(ActionEvent event, MenuItem it){
-		back = false;
+		BeginSessionResponse s = DiceWebAPI.BeginSession(BotHeart.API, ApplicationSingleton.getInstance().getBotHeart().getSession().getSession().getSessionCookie());
+		//System.out.println(ApplicationSingleton.getInstance().getBotHeart().getSession().getSession().getSessionCookie());
+		System.out.println(s.getSession().getAccountCookie()+" "+s.getSession().getBalance());
 	}
 	
 	public boolean graphicIsVisible(){

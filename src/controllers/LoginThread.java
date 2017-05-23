@@ -29,6 +29,7 @@ public class LoginThread extends Task<BeginSessionResponse> {
 		System.out.println(site);
 		BotHeart bot = new BotHeart(site);
 		BeginSessionResponse session = bot.login(this.user, this.pass);
+		System.out.println("QOWEKLOQWKLEOQWLE");
 		if(session != null){
 			ApplicationSingleton.getInstance().setBotHeart(bot);
 			return session;
