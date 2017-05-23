@@ -1,7 +1,5 @@
 package model;
 
-import java.math.BigDecimal;
-
 import com.jfoenix.controls.JFXCheckBox;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -114,7 +112,7 @@ public class Bet {
 			return this;
 		}
 		
-		public BetBuilder roll(int roll){
+		public BetBuilder roll(long roll){
 			this.roll = new SimpleStringProperty(roll+"");
 			return this;
 		}

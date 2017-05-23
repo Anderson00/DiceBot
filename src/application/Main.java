@@ -22,7 +22,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			System.out.println(DiceWebAPI.BeginSession("f3a5f0d8e5b24ba4a99ecd1a952f7064").isInvalidApiKey());
+			System.out.println(DiceWebAPI.CalculateChanceToWin(949999, 50000));
 			ApplicationSingleton.getInstance().setApplication(this);// init singleton			
 			//BorderPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/Dicebot.fxml"));
 			StackPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/LoginView.fxml"));			

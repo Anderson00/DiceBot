@@ -4,7 +4,6 @@ import controllers.HomeControllerView;
 import controllers.ModeBasicControllerView;
 import javafx.application.Application;
 import model.BotHeart;
-import sites.client999dice.BeginSessionResponse;
 
 public class ApplicationSingleton {
 	private static final ApplicationSingleton  uniqueInstance = new ApplicationSingleton();
