@@ -11,7 +11,7 @@ public class Bet {
 	private SimpleLongProperty id;
 	private SimpleStringProperty date;
 	private SimpleObjectProperty<JFXCheckBox> high;
-	private SimpleIntegerProperty chance;
+	private SimpleStringProperty chance;
 	private SimpleStringProperty amount;
 	private SimpleStringProperty roll;
 	private SimpleStringProperty profit;
@@ -44,7 +44,7 @@ public class Bet {
 	}
 
 
-	public int getChance() {
+	public String getChance() {
 		return chance.get();
 	}
 
@@ -72,17 +72,17 @@ public class Bet {
 		private SimpleLongProperty id;//required
 		private SimpleStringProperty date;
 		private SimpleObjectProperty<JFXCheckBox> high;
-		private SimpleIntegerProperty chance;//required
+		private SimpleStringProperty chance;//required
 		private SimpleStringProperty amount;//required
 		private SimpleStringProperty roll;
 		private SimpleStringProperty profit;
 		private boolean won = false;
 		
-		public BetBuilder(long id, int chance, String amount, boolean won){
+		public BetBuilder(long id, String chance, String amount, boolean won){
 			this.id = new SimpleLongProperty(id);
 			this.date = new SimpleStringProperty("");
 			this.high = new SimpleObjectProperty<JFXCheckBox>(new JFXCheckBox());
-			this.chance = new SimpleIntegerProperty(chance);
+			this.chance = new SimpleStringProperty(chance);
 			this.amount = new SimpleStringProperty(amount);
 			this.roll = new SimpleStringProperty("");
 			this.profit = new SimpleStringProperty("0");
@@ -102,8 +102,8 @@ public class Bet {
 			return this;
 		}
 		
-		public BetBuilder chance(int chance){
-			this.chance = new SimpleIntegerProperty(chance);
+		public BetBuilder chance(String chance){
+			this.chance = new SimpleStringProperty(chance);
 			return this;
 		}
 		

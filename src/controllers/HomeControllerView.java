@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -185,6 +186,16 @@ public class HomeControllerView {
 		ObservableList dataTable = FXCollections.observableArrayList();
 		tableBets.setItems(dataTable);
 		
+		profitLB.textProperty().addListener( (observable, oldValue, newValue) -> {
+			BigDecimal profit = new BigDecimal(newValue);
+			int compare = profit.compareTo(BigDecimal.ZERO);
+			if(compare > 0)
+				profitLB.setStyle("-fx-text-fill:#00ff00");
+			else if(compare == 0)
+				profitLB.setStyle("-fx-text-fill:#ccc");
+			else
+				profitLB.setStyle("-fx-text-fill:red");
+		} );
         
         SplitPane.setResizableWithParent(split_horizontal.getItems().get(1), false);
         
@@ -233,7 +244,7 @@ public class HomeControllerView {
 					public void run() {
 						// TODO Auto-generated method stub
 						int q = (int)(Math.random()*10+1);
-						tableBets.getItems().add(0, new Bet.BetBuilder(i, 50, "100",q%2==0)
+						tableBets.getItems().add(0, new Bet.BetBuilder(i, "50", "100",q%2==0)
 								.high(true)
 								.profit("1")
 								.build());

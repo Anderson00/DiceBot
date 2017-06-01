@@ -46,10 +46,6 @@ public class ModeBasicControllerView {
     
     @FXML
     void initialize() {
-    	/*SessionInfo info = ApplicationSingleton.getInstance().getBotHeart().getSession().getSession();
-    	winsCount = info.getBetWinCount();
-    	betCount = info.getBetCount();
-    	lossesCount = betCount - winsCount;*/
     	SessionInfo info = ApplicationSingleton.getInstance().getBotHeart().getSession().getSession();
     	winsCount = info.getBetWinCount();
     	betCount = info.getBetCount();
@@ -64,8 +60,8 @@ public class ModeBasicControllerView {
     	//startingBet.setMaxValue(new BigDecimal(1)); // Depends on the balance
     	startingBet.setStepwidth(new BigDecimal(0.00000100));
     	
-    	chanceToWin.setNumber(new BigDecimal(50));// Changes depending on site
-    	chanceToWin.setStepwidth(BigDecimal.ONE);
+    	chanceToWin.setNumber(new BigDecimal(49.95));// Changes depending on site
+    	chanceToWin.setStepwidth(new BigDecimal(0.5));
     	chanceToWin.setMinValue(BigDecimal.ONE);// Changes depending on site
     	chanceToWin.setMaxValue(new BigDecimal(99));// Changes depending on site
     	chanceToWin.setFormat(new DecimalFormat("#,###0.000", new DecimalFormatSymbols(Locale.ENGLISH)));
@@ -85,15 +81,14 @@ public class ModeBasicControllerView {
     	
     	startBtn.setOnAction(event -> {
     		stopBetting = false;
-    		if(!initiated){
-	    		Thread task = new Thread(new PlaceBetTask());
-	    		task.start();
-    		}
+    		startBtn.setDisable(true);
+	    	Thread task = new Thread(new PlaceBetTask());
+	    	task.start();    		
     	});
     	
     	stopBtn.setOnAction(event -> {
-    		initiated = false;
     		stopBetting = true;
+    		startBtn.setDisable(false);
     	});
     }
     
@@ -105,12 +100,6 @@ public class ModeBasicControllerView {
     	HomeControllerView controller = ApplicationSingleton.getInstance().getHomeController();
     	boolean executed = true;
     	
-    	public PlaceBetTask() {
-			// TODO Auto-generated constructor stub
-    		if(count == 0)
-    			ApplicationSingleton.getInstance().getHomeController().chartBets.getData().get(0).getData().add(new XYChart.Data<Number,Number>(0,0));
-		}
-
 		@Override
 		protected String call() throws Exception {
 			// TODO Auto-generated method stub
@@ -122,22 +111,30 @@ public class ModeBasicControllerView {
 			}
 			
 			//Check balance
-			if(count == 0 && botHeart.getSession().getSession().getBalance().compareTo(startBet) <= 0){			
+			if(botHeart.getSession().getSession().getBalance().compareTo(startBet) <= 0){			
     			return ErrorsList.INSUFFICIENT_FUNDS;
     		}
 			
-			
-			System.out.println(session.getSession().getBalance());
+			if(count == 0){
+				Platform.runLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						ApplicationSingleton.getInstance().getHomeController().chartBets.getData().get(0).getData().add(new XYChart.Data<Number,Number>(0,0));			
+					}
+				});
+    		}
 			
 			winsCount = session.getSession().getBetWinCount();
 			betCount = session.getSession().getBetCount();
 			lossesCount = betCount - winsCount;
 			
-			updateValue("Start "+Calendar.getInstance().getTime());
+			//updateValue("Start "+Calendar.getInstance().getTime());
+			updateMessage("Start "+Calendar.getInstance().getTime());
+			SessionInfo info = session.getSession();
 			
-			while(true){
-				SessionInfo info = session.getSession();			
-				//Thread.sleep(400);
+			while(true){				
 				if(stopBetting){ 
 					Calendar date = Calendar.getInstance();
 					date.setTimeInMillis(System.currentTimeMillis());
@@ -145,9 +142,12 @@ public class ModeBasicControllerView {
 				}
 				if(startBet.compareTo(BigDecimal.ZERO) == 0) return ErrorsList.INSUFFICIENT_FUNDS;
 				
-				betResponse = DiceWebAPI.PlaceBet(info, startBet, 0, 499499);
+				betResponse = botHeart.placeBet(betType.getToggles().get(0).equals(betType.getSelectedToggle()), startBet, chanceToWin.getNumber().doubleValue());
 				if(!betResponse.isSuccess()) return "Bet Error";
 				updateProgress(System.currentTimeMillis(), 0);
+				if(stopBetting){
+					continue;
+				}
 				Thread.sleep(100);
 				if(betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0){
 					startBet = startBet.multiply(onLoss.getNumber());
@@ -157,10 +157,7 @@ public class ModeBasicControllerView {
 					startBet = startingBet.getNumber();
 					startBet = startBet.multiply(onWin.getNumber());
 				}	
-				
-				System.out.println(betResponse.isSuccess()+" "+betResponse.getPayOut()+" "+betResponse.getStartingBalance());
-				
-				
+				startBet = startBet.setScale(8, BigDecimal.ROUND_CEILING);				
 			}
 		}
 		
@@ -168,15 +165,19 @@ public class ModeBasicControllerView {
 		protected void updateValue(String value) {
 			// TODO Auto-generated method stub
 			super.updateValue(value);	
-			Platform.runLater(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					ApplicationSingleton.getInstance().getHomeController().infoLB.setText((value == null)? "" : value);
-				}
+			Platform.runLater(() ->{
+				stopBtn.fire();
+				ApplicationSingleton.getInstance().getHomeController().infoLB.setText((value == null)? "" : value);
+			});			
+		}
+		
+		@Override
+		protected void updateMessage(String message) {
+			// TODO Auto-generated method stub
+			super.updateMessage(message);
+			Platform.runLater(() ->{
+				ApplicationSingleton.getInstance().getHomeController().infoLB.setText((message == null)? "" : message);				
 			});
-			
 		}
 		
 		@Override
@@ -194,7 +195,6 @@ public class ModeBasicControllerView {
 						BigDecimal profit = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? startBet.negate() : betResponse.getPayOut().subtract(startBet);
 						sessionProfit += profit.doubleValue();
 						
-						System.out.println(profit.doubleValue());
 						BigDecimal balance = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? betResponse.getStartingBalance().subtract(startBet) : betResponse.getPayOut().subtract(startBet).add(betResponse.getStartingBalance());
 						boolean win = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? false : true; 
 						
@@ -203,11 +203,11 @@ public class ModeBasicControllerView {
 						
 						Calendar date = Calendar.getInstance();
 						date.setTimeInMillis(workDone);
-						controller.tableBets.getItems().add(0, new Bet.BetBuilder(betResponse.getBetId(), 50, startBet.toPlainString(),win)
+						controller.tableBets.getItems().add(0, new Bet.BetBuilder(betResponse.getBetId(), chanceToWin.getNumber().setScale(2, BigDecimal.ROUND_DOWN).toPlainString(), startBet.setScale(8, BigDecimal.ROUND_CEILING).toPlainString(),win)
 								.date(date.getTime().toString())
 								.high(betType.getToggles().get(0).equals(betType.getSelectedToggle()))
 								.roll(betResponse.getSecret())
-								.profit(profit.toPlainString())
+								.profit(profit.setScale(8, BigDecimal.ROUND_CEILING).toPlainString())
 								.build());
 						
 						if(win){
@@ -219,6 +219,11 @@ public class ModeBasicControllerView {
 						}
 						
 						controller.totalBetsLB.setText(++betCount+"");	
+
+						BigDecimal prof = botHeart.getSession().getSession().getBetPayOut().add(botHeart.getSession().getSession().getBetPayIn());
+						
+						controller.profitLB.setText(prof.setScale(8, BigDecimal.ROUND_CEILING).toPlainString());
+						controller.wageredLB.setText(botHeart.getSession().getSession().getBetPayIn().abs()+"");
 						
 						System.out.println(">> "+betResponse.getPayOut().toPlainString());	
 						controller.chartBets.getData().get(0).getData().add(new XYChart.Data<Number,Number>(++count, sessionProfit));
@@ -226,6 +231,15 @@ public class ModeBasicControllerView {
 				}
 			});
 			
+		}
+		
+		private void stop(boolean condition){
+			if(condition){
+				Calendar date = Calendar.getInstance();
+				date.setTimeInMillis(System.currentTimeMillis());
+				updateValue("Finished "+date.getTime());
+				this.cancel();
+			}
 		}
     	
     }

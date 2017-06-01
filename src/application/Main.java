@@ -22,9 +22,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			System.out.println(DiceWebAPI.CalculateChanceToWin(949999, 50000));
+			System.out.println((999999.0) * (49.95 / 100.0));
 			ApplicationSingleton.getInstance().setApplication(this);// init singleton			
-			//BorderPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/Dicebot.fxml"));
 			StackPane root = FXMLLoader.load(getClass().getResource("../resources/layouts/LoginView.fxml"));			
 			Scene scene = new Scene(root,900,600);
 			scene.setOnKeyPressed(k -> {

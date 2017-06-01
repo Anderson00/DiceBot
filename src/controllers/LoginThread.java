@@ -53,13 +53,13 @@ public class LoginThread extends Task<BeginSessionResponse> {
 			String balance = session.getBalance().toString();
 			long wins = session.getBetWinCount();
 			long betCount = session.getBetCount();
+			BigDecimal profit = session.getBetPayOut().add(session.getBetPayIn());
 			controller.topBalance.setText(balance);
 			controller.balanceLB.setText(balance);
 			controller.winsLB.setText(wins+"");
 			controller.lossesLB.setText(betCount - wins+"");
 			controller.totalBetsLB.setText(betCount+"");
-			System.out.println(session.getBetPayIn()+"   "+session.getBetPayOut());
-			controller.profitLB.setText(session.getBetPayOut().add(session.getBetPayIn())+"");
+			controller.profitLB.setText(profit+"");
 			controller.wageredLB.setText(session.getBetPayIn().abs()+"");
 			
 		}else{

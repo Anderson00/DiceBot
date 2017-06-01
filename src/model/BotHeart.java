@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 import exceptions.ErrorsList;
 import sites.client999dice.BeginSessionResponse;
 import sites.client999dice.DiceWebAPI;
@@ -11,6 +13,7 @@ public class BotHeart{
 	private String site;
 	private BeginSessionResponse session;
 	private String user,pass;
+	private BigDecimal balance = BigDecimal.ZERO;
 	
 	public BotHeart(String site){
 		this.site = site;
@@ -21,19 +24,36 @@ public class BotHeart{
 		this.pass = pass;
 		switch(site.toLowerCase()){
 			case "999dice":
-				System.out.println("entrou");
 				session = DiceWebAPI.BeginSession(BotHeart.API, user, pass);
-			return (session.isSuccess())? session : null;		
+				if(session.isSuccess()){
+					this.balance = session.getSession().getBalance();
+					return session;
+				}
+				return null;		
 		}
 		return null;
 	}
 	
 	public BeginSessionResponse refreshSession(){		
 		session = DiceWebAPI.BeginSession(BotHeart.API, user, pass);
-		if(session.isSuccess())
+		if(session.isSuccess()){
+			this.balance = session.getSession().getBalance();
 			return session;
+		}
 		else
 			return null;
+	}
+	
+	public BigDecimal getBalance(){
+		return this.balance;
+	}
+		
+	public PlaceBetResponse placeBet(boolean high,BigDecimal payIn,double chance){
+		double chanc = (999999.0) * (chance / 100.0);
+		long guessLow = (high ? 999999 - (int)chanc : 0);
+		long guessHigh = (high ? 999999 : (int)chanc);
+		PlaceBetResponse betResponse = DiceWebAPI.PlaceBet(this.session.getSession(), payIn, guessLow, guessHigh);
+		return betResponse;
 	}
 	
 	public BeginSessionResponse getSession(){
