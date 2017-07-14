@@ -5,15 +5,21 @@ import java.math.MathContext;
 
 import javax.json.JsonObject;
 
-public final class PlaceBetResponse extends DiceResponse {
+import model.bet.PlaceBetRequest;
+
+public final class PlaceBetResponse extends DiceResponse implements model.bet.PlaceBetResponse{
 	boolean chanceTooHigh, chanceTooLow, insufficientFunds, noPossibleProfit,
-			maxPayoutExceeded;
+			maxPayoutExceeded, win;
 	long betId, secret;
 	BigDecimal payOut = BigDecimal.ZERO;
-	BigDecimal startingBalance;
+	BigDecimal profit = BigDecimal.ZERO;
+	BigDecimal startingBalance;//balance antes do profit
+	BigDecimal balance;//balance depos do profit
+	
+	PlaceBetRequest request = null;
 
 	@Override
-	void setRawResponse(JsonObject resp) {
+	protected void setRawResponse(JsonObject resp) {
 		super.setRawResponse(resp);
 
 		if (resp.containsKey("ChanceTooHigh"))
@@ -29,7 +35,8 @@ public final class PlaceBetResponse extends DiceResponse {
 		else if (resp.containsKey("BetId") && resp.containsKey("PayOut")
 				&& resp.containsKey("Secret")
 				&& resp.containsKey("StartingBalance")) {
-			success = true;
+			
+			success = true;			
 			betId = resp.getJsonNumber("BetId").longValue();
 			payOut = resp.getJsonNumber("PayOut").bigDecimalValue()
 					.divide(new BigDecimal(100000000), MathContext.DECIMAL128);
@@ -37,6 +44,12 @@ public final class PlaceBetResponse extends DiceResponse {
 			startingBalance = resp.getJsonNumber("StartingBalance")
 					.bigDecimalValue()
 					.divide(new BigDecimal(100000000), MathContext.DECIMAL128);
+			System.out.println(">>>>>>>>>> "+ request.getAmount());
+			BigDecimal amount = new BigDecimal(request.getAmount());
+			amount = amount.multiply(new BigDecimal(1e-8));
+			profit = (payOut.compareTo(BigDecimal.ZERO) == 0)? amount.negate() : payOut.subtract(amount);
+			win = (payOut.compareTo(BigDecimal.ZERO) == 0)? false : true;
+			balance = startingBalance.add(profit);
 		}
 	}
 
@@ -59,21 +72,36 @@ public final class PlaceBetResponse extends DiceResponse {
 	public boolean isMaxPayoutExceeded() {
 		return maxPayoutExceeded;
 	}
+	
+	public boolean isWinner(){
+		return this.win;
+	}
 
 	public long getBetId() {
 		return betId;
 	}
-
-	public long getSecret() {
+	
+	public BigDecimal getProfit(){	
+		return profit;
+	}
+	
+	public long getRollNumber() {
 		return secret;
 	}
 
-	public BigDecimal getPayOut() {
-		return payOut;
+	public BigDecimal getBalance() {		
+		return balance;
 	}
 
-	public BigDecimal getStartingBalance() {
-		return startingBalance;
+	@Override
+	public PlaceBetRequest getRequest() {
+		return request;
 	}
 
+	@Override
+	public void setRequest(PlaceBetRequest request) {
+		this.request = request;
+	}
+
+	
 }

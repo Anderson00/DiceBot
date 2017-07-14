@@ -3,9 +3,11 @@ package model;
 import java.math.BigDecimal;
 
 import exceptions.ErrorsList;
-import sites.client999dice.BeginSessionResponse;
+import model.bet.PlaceBetRequest;
+import model.bet.BeginSessionResponse;
 import sites.client999dice.DiceWebAPI;
 import sites.client999dice.PlaceBetResponse;
+import sites.client999dice.SessionInfo;
 
 public class BotHeart{
 	
@@ -48,11 +50,9 @@ public class BotHeart{
 		return this.balance;
 	}
 		
-	public PlaceBetResponse placeBet(boolean high,BigDecimal payIn,double chance){
-		double chanc = (999999.0) * (chance / 100.0);
-		long guessLow = (high ? 999999 - (int)chanc : 0);
-		long guessHigh = (high ? 999999 : (int)chanc);
-		PlaceBetResponse betResponse = DiceWebAPI.PlaceBet(this.session.getSession(), payIn, guessLow, guessHigh);
+	public PlaceBetResponse placeBet(boolean high,BigDecimal payIn,double chance){		
+		PlaceBetRequest request = new sites.client999dice.PlaceBetRequest(payIn, high, chance);
+		PlaceBetResponse betResponse = DiceWebAPI.PlaceBet((SessionInfo)this.session.getSession(), request);
 		return betResponse;
 	}
 	
@@ -67,8 +67,6 @@ public class BotHeart{
 					return ErrorsList.INVALID_APIKEY;
 				if(session.isLoginRequired())
 					return ErrorsList.LOGIN_REQUIRED;
-				if(session.isRateLimited())
-					return ErrorsList.RATE_LIMITED;
 				if(session.isWrongUsernameOrPassword())
 					return ErrorsList.WRONG_USER_OR_PASS;
 			}else

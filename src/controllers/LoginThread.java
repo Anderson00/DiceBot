@@ -7,9 +7,9 @@ import application.ApplicationSingleton;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import model.BotHeart;
-import sites.client999dice.BeginSessionResponse;
+import model.bet.BeginSessionResponse;
 import sites.client999dice.DiceWebAPI;
-import sites.client999dice.SessionInfo;
+import model.bet.SessionInfo;
 
 public class LoginThread extends Task<BeginSessionResponse> {
 	
@@ -53,14 +53,14 @@ public class LoginThread extends Task<BeginSessionResponse> {
 			String balance = session.getBalance().toString();
 			long wins = session.getBetWinCount();
 			long betCount = session.getBetCount();
-			BigDecimal profit = session.getBetPayOut().add(session.getBetPayIn());
+			BigDecimal profit = session.getProfit();
 			controller.topBalance.setText(balance);
 			controller.balanceLB.setText(balance);
 			controller.winsLB.setText(wins+"");
 			controller.lossesLB.setText(betCount - wins+"");
 			controller.totalBetsLB.setText(betCount+"");
 			controller.profitLB.setText(profit+"");
-			controller.wageredLB.setText(session.getBetPayIn().abs()+"");
+			controller.wageredLB.setText(session.getWagered().toPlainString());
 			
 		}else{
 			controller.removeModal();

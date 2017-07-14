@@ -7,7 +7,7 @@ public final class CreateUserResponse extends DiceResponse {
 	boolean usernameAlreadyTaken;
 
 	@Override
-	void setRawResponse(JsonObject resp) {
+	protected void setRawResponse(JsonObject resp) {
 		super.setRawResponse(resp);
 		if (resp.containsKey("AccountHasUser"))
 			accountAlreadyHasUser = true;

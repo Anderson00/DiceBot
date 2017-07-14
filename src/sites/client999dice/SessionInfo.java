@@ -2,14 +2,17 @@ package sites.client999dice;
 
 import java.math.BigDecimal;
 
-public final class SessionInfo {
+public final class SessionInfo implements model.bet.SessionInfo{
 	String sessionCookie, accountCookie, email, emergencyAddress,
 			depositAddress, username;
-	long accountId, clientSeed, betCount, betWinCount;
+	long accountId, clientSeed, betCount, betWinCount, betLoseCount;
 	int maxBetBatchSize;
 	BigDecimal betPayIn = BigDecimal.ZERO;
 	BigDecimal betPayOut = BigDecimal.ZERO;
 	BigDecimal balance = BigDecimal.ZERO;
+	
+	BigDecimal profit = BigDecimal.ZERO;
+	BigDecimal wagered = BigDecimal.ZERO;
 
 	SessionInfo(String _sessionCookie, long _accountId, int _maxBetBatchSize) {
 		sessionCookie = _sessionCookie;
@@ -65,16 +68,40 @@ public final class SessionInfo {
 		return maxBetBatchSize;
 	}
 
-	public BigDecimal getBetPayIn() {
-		return forceNotNull(betPayIn);
+	public BigDecimal getProfit() {
+		return forceNotNull(betPayOut.add(betPayIn));
 	}
 
-	public BigDecimal getBetPayOut() {
-		return forceNotNull(betPayOut);
+	public BigDecimal getWagered() {
+		return forceNotNull(betPayIn.abs());
 	}
 
 	public BigDecimal getBalance() {
 		return forceNotNull(balance);
+	}
+	
+	public void setUsername(String username){
+		this.username = username;
+	}
+
+	@Override
+	public long getBetLoseCount() {
+		// TODO Auto-generated method stub
+		return betLoseCount;
+	}
+
+	@Override
+	public void setBetCount(long betCount) {
+		// TODO Auto-generated method stub
+		betLoseCount = betCount - betWinCount;
+		this.betCount = betCount;
+	}
+
+	@Override
+	public void setBetWinCount(long betCount) {
+		// TODO Auto-generated method stub
+		betLoseCount = betCount - betWinCount;
+		this.betWinCount = betCount;
 	}
 
 }

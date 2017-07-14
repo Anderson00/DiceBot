@@ -5,12 +5,12 @@ import java.math.MathContext;
 
 import javax.json.JsonObject;
 
-public final class BeginSessionResponse extends DiceResponse {
+public final class BeginSessionResponse extends DiceResponse implements model.bet.BeginSessionResponse{
 	SessionInfo session;
 	boolean invalidApiKey, loginRequired, wrongUsernameOrPassword;
 
 	@Override
-	void setRawResponse(JsonObject resp) {
+	protected void setRawResponse(JsonObject resp) {
 		super.setRawResponse(resp);
 		if (resp.containsKey("InvalidApiKey")) {
 			invalidApiKey = true;
@@ -71,7 +71,7 @@ public final class BeginSessionResponse extends DiceResponse {
 		}
 	}
 
-	public SessionInfo getSession() {
+	public model.bet.SessionInfo getSession() {
 		return session;
 	}
 

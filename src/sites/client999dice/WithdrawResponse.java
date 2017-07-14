@@ -10,7 +10,7 @@ public final class WithdrawResponse extends DiceResponse {
 	boolean withdrawalTooSmall, insufficientFunds;
 
 	@Override
-	void setRawResponse(JsonObject resp) {
+	protected void setRawResponse(JsonObject resp) {
 		super.setRawResponse(resp);
 
 		if (resp.containsKey("TooSmall"))

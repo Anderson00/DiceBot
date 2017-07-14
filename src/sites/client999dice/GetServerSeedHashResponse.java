@@ -6,7 +6,7 @@ public final class GetServerSeedHashResponse extends DiceResponse {
 	String serverSeedHash;
 
 	@Override
-	void setRawResponse(JsonObject resp) {
+	protected void setRawResponse(JsonObject resp) {
 		super.setRawResponse(resp);
 
 		if (resp.containsKey("Hash") && !resp.isNull("Hash")) {

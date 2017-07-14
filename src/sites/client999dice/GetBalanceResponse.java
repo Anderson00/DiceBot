@@ -9,7 +9,7 @@ public final class GetBalanceResponse extends DiceResponse {
 	BigDecimal balance = BigDecimal.ZERO;
 
 	@Override
-	void setRawResponse(JsonObject resp) {
+	protected void setRawResponse(JsonObject resp) {
 		super.setRawResponse(resp);
 
 		if (resp.containsKey("Balance")) {

@@ -13,7 +13,7 @@ public abstract class DiceResponse {
 		// TODO Auto-generated constructor stub
 	}
 	
-	protected abstract void setRaw(JsonObject resp);
+	protected abstract void setRawResponse(JsonObject resp);
 	
 	public boolean isSuccess() {
 		return success;

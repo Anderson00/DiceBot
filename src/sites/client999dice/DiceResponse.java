@@ -2,7 +2,8 @@ package sites.client999dice;
 
 import javax.json.JsonObject;
 
-public abstract class DiceResponse {
+
+public class DiceResponse extends model.bet.DiceResponse {
 	boolean success;
 	int webStatusCode;
 	String errorMessage;
@@ -10,7 +11,8 @@ public abstract class DiceResponse {
 	boolean rateLimited;
 	
 	DiceResponse(){}
-	void setRawResponse(JsonObject resp)
+	
+	protected void setRawResponse(JsonObject resp)
 	{
 		rawResponse = resp;
 		if (resp.containsKey("error") && !resp.isNull("error"))

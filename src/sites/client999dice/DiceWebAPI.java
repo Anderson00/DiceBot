@@ -217,7 +217,7 @@ public class DiceWebAPI {
 	static BeginSessionResponse Process(BeginSessionResponse res,
 			String username) {
 		if (res.isSuccess() && res.getSession() != null)
-			res.getSession().username = username;
+			res.getSession().setUsername(username);
 		return res;
 	}
 
@@ -517,16 +517,20 @@ public class DiceWebAPI {
 	}
 
 	public static PlaceBetResponse PlaceBet(SessionInfo session,
-			BigDecimal payIn, long guessLow, long guessHigh) {
-		Validate(session, guessLow, guessHigh);
-		if (payIn.signum() > 0)
-			payIn = payIn.negate();
+			model.bet.PlaceBetRequest request) {
+		PlaceBetRequest rq = (PlaceBetRequest) request;		
+		Validate(session, rq.getGuessLow(), rq.getGuessHigh());
+		if (rq.getPayIn().signum() > 0)
+			rq.setPayIn(rq.getPayIn().negate());
+		
+		PlaceBetResponse response = new PlaceBetResponse();
+		response.setRequest(request);
 		return Process(
 				session,
 				(PlaceBetResponse) Request(
-						GetFormDataPlaceBet(session.sessionCookie, payIn,
-								guessLow, guessHigh), new PlaceBetResponse()),
-				payIn, guessLow, guessHigh);
+						GetFormDataPlaceBet(session.sessionCookie, rq.getPayIn(),
+								rq.getGuessLow(), rq.getGuessHigh()), response),
+				rq.getPayIn(), rq.getGuessLow(), rq.getGuessHigh());
 	}
 
 	public static PlaceAutomatedBetsResponse PlaceAutomatedBets(

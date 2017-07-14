@@ -6,7 +6,7 @@ public final class GetDepositAddressResponse extends DiceResponse {
 	String depositAddress;
 
 	@Override
-	void setRawResponse(JsonObject resp) {
+	protected void setRawResponse(JsonObject resp) {
 		super.setRawResponse(resp);
 
 		if (resp.containsKey("Address") && !resp.isNull("Address")) {

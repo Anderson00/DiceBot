@@ -15,7 +15,7 @@ public final class PlaceAutomatedBetsResponse extends DiceResponse {
 	BigDecimal startingBalance;
 
 	@Override
-	void setRawResponse(JsonObject resp) {
+	protected void setRawResponse(JsonObject resp) {
 		super.setRawResponse(resp);
 
 		if (resp.containsKey("ChanceTooHigh"))

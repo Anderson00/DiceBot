@@ -6,7 +6,7 @@ public final class ChangePasswordResponse extends DiceResponse {
 	boolean wrongPassword;
 
 	@Override
-	void setRawResponse(JsonObject resp) {
+	protected void setRawResponse(JsonObject resp) {
 		super.setRawResponse(resp);
 
 		if (resp.containsKey("WrongPassword"))

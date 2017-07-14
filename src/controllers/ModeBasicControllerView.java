@@ -19,10 +19,9 @@ import javafx.scene.control.ToggleGroup;
 import jfxtras.labs.scene.control.BigDecimalField;
 import model.Bet;
 import model.BotHeart;
-import sites.client999dice.BeginSessionResponse;
-import sites.client999dice.DiceWebAPI;
-import sites.client999dice.PlaceBetResponse;
-import sites.client999dice.SessionInfo;
+import model.bet.BeginSessionResponse;
+import model.bet.PlaceBetResponse;
+import model.bet.SessionInfo;
 
 public class ModeBasicControllerView {
 	
@@ -149,7 +148,7 @@ public class ModeBasicControllerView {
 					continue;
 				}
 				Thread.sleep(100);
-				if(betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0){
+				if(!betResponse.isWinner()){
 					startBet = startBet.multiply(onLoss.getNumber());
 					System.out.println(">> "+startBet);
 				}else{
@@ -192,21 +191,22 @@ public class ModeBasicControllerView {
 					// TODO Auto-generated method stub		
 					System.out.println(">>>\t"+betResponse.isNoPossibleProfit());
 					if(betResponse.isSuccess()){	
-						BigDecimal profit = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? startBet.negate() : betResponse.getPayOut().subtract(startBet);
+						BigDecimal profit = betResponse.getProfit();
+						System.out.println(">>"+profit.toPlainString());
 						sessionProfit += profit.doubleValue();
 						
-						BigDecimal balance = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? betResponse.getStartingBalance().subtract(startBet) : betResponse.getPayOut().subtract(startBet).add(betResponse.getStartingBalance());
-						boolean win = (betResponse.getPayOut().compareTo(BigDecimal.ZERO) == 0)? false : true; 
+						BigDecimal balance = betResponse.getBalance().setScale(8, BigDecimal.ROUND_CEILING);
+						boolean win = betResponse.isWinner(); 
 						
-						controller.topBalance.setText(balance.toString());
-						controller.balanceLB.setText(balance.toString());
+						controller.topBalance.setText(balance.toPlainString());
+						controller.balanceLB.setText(balance.toPlainString());
 						
 						Calendar date = Calendar.getInstance();
 						date.setTimeInMillis(workDone);
 						controller.tableBets.getItems().add(0, new Bet.BetBuilder(betResponse.getBetId(), chanceToWin.getNumber().setScale(2, BigDecimal.ROUND_DOWN).toPlainString(), startBet.setScale(8, BigDecimal.ROUND_CEILING).toPlainString(),win)
 								.date(date.getTime().toString())
 								.high(betType.getToggles().get(0).equals(betType.getSelectedToggle()))
-								.roll(betResponse.getSecret())
+								.roll(betResponse.getRollNumber())
 								.profit(profit.setScale(8, BigDecimal.ROUND_CEILING).toPlainString())
 								.build());
 						
@@ -217,15 +217,15 @@ public class ModeBasicControllerView {
 							lossesCount++;
 							controller.lossesLB.setText(lossesCount+"");
 						}
-						
+						System.out.println("--------- "+betResponse.getRequest().isHigh()+"");
 						controller.totalBetsLB.setText(++betCount+"");	
 
-						BigDecimal prof = botHeart.getSession().getSession().getBetPayOut().add(botHeart.getSession().getSession().getBetPayIn());
+						BigDecimal prof = botHeart.getSession().getSession().getProfit();
 						
 						controller.profitLB.setText(prof.setScale(8, BigDecimal.ROUND_CEILING).toPlainString());
-						controller.wageredLB.setText(botHeart.getSession().getSession().getBetPayIn().abs()+"");
+						controller.wageredLB.setText(botHeart.getSession().getSession().getWagered().toPlainString());
 						
-						System.out.println(">> "+betResponse.getPayOut().toPlainString());	
+						System.out.println(">> "+betResponse.getProfit().toPlainString());	
 						controller.chartBets.getData().get(0).getData().add(new XYChart.Data<Number,Number>(++count, sessionProfit));
 					}
 				}
