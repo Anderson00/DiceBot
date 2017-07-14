@@ -1,7 +1,8 @@
-/application/
 /controllers/
 /exceptions/
-/libs/
 /model/
-/resources/
 /sites/
+/META-INF/
+/application/
+/libs/
+/resources/
