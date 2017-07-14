@@ -1,3 +1,3 @@
 # DiceBot
 
-![alt text](Screenshot.png "screenshot")
+![alt text](Screenshot.jpg "screenshot")
