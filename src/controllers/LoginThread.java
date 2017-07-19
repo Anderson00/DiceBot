@@ -8,7 +8,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import model.BotHeart;
 import model.bet.BeginSessionResponse;
-import sites.client999dice.DiceWebAPI;
 import model.bet.SessionInfo;
 
 public class LoginThread extends Task<BeginSessionResponse> {
@@ -29,7 +28,6 @@ public class LoginThread extends Task<BeginSessionResponse> {
 		System.out.println(site);
 		BotHeart bot = new BotHeart(site);
 		BeginSessionResponse session = bot.login(this.user, this.pass);
-		System.out.println("QOWEKLOQWKLEOQWLE");
 		if(session != null){
 			ApplicationSingleton.getInstance().setBotHeart(bot);
 			return session;
@@ -50,7 +48,7 @@ public class LoginThread extends Task<BeginSessionResponse> {
 			}
 			HomeControllerView controller = ApplicationSingleton.getInstance().getHomeController();
 			SessionInfo session = value.getSession();
-			String balance = session.getBalance().toString();
+			String balance = session.getBalance().toPlainString();
 			long wins = session.getBetWinCount();
 			long betCount = session.getBetCount();
 			BigDecimal profit = session.getProfit();

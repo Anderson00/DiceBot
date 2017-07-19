@@ -35,7 +35,7 @@
          <center>
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton fx:id="startBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" ripplerFill="GREEN" style="-fx-background-color: #222;" text="Start" textFill="GREEN" HBox.hgrow="ALWAYS" />
+                  <JFXButton fx:id="startBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" ripplerFill="GREEN" style="-fx-background-color: #222;" text="Start" textFill="LIME" HBox.hgrow="ALWAYS" />
                   <JFXButton fx:id="stopBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="60.0" ripplerFill="RED" style="-fx-background-color: #111;" text="Stop" textFill="RED" />
                </children>
             </HBox>
@@ -90,31 +90,76 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <Label text="Profit:" textFill="#cccccc">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </Label>
-            <Label text="Bets:" textFill="#cccccc">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </Label>
-            <Label text="Wins:" textFill="#cccccc">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </Label>
-            <Label text="Losses:" textFill="#cccccc">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </Label>
-            <Label text="Current Streak:" textFill="#cccccc">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </Label>
+            <HBox>
+               <children>
+                  <Label text="Profit:" textFill="#cccccc">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="profitSession" text="0" textFill="#cccccc">
+                     <padding>
+                        <Insets bottom="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label text="Bets:" textFill="#cccccc">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="nBetsSession" text="0" textFill="#cccccc">
+                     <padding>
+                        <Insets bottom="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label text="Wins:" textFill="#cccccc">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="winsSession" text="0" textFill="LIME">
+                     <padding>
+                        <Insets bottom="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label text="Losses:" textFill="#cccccc">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lossesSession" text="0" textFill="RED">
+                     <padding>
+                        <Insets bottom="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label text="Current Streak:" textFill="#cccccc">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="currentStreakSession" text="0" textFill="#cccccc">
+                     <padding>
+                        <Insets bottom="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" />

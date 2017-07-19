@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -18,9 +19,9 @@
 <?import javafx.scene.text.Font?>
 <?import jfxtras.labs.scene.control.BigDecimalField?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="370.0" prefWidth="600.0" style="-fx-background-color: #000;" stylesheets="@../style/modes.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="370.0" prefWidth="600.0" style="-fx-background-color: #000;" stylesheets="@../style/modes.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModeAdvancedControllerView">
    <center>
-      <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Strategies">
                <content>
@@ -28,40 +29,44 @@
                      <children>
                         <VBox>
                            <children>
-                              <HBox alignment="CENTER">
+                              <HBox alignment="CENTER" fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Label text="Starting Bet: " textFill="GREEN" HBox.hgrow="ALWAYS" />
-                                    <BigDecimalField minWidth="50.0" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </BigDecimalField>
-                                    <Label text="Chance: " textFill="GREEN" HBox.hgrow="ALWAYS" />
-                                    <BigDecimalField minWidth="50.0" HBox.hgrow="ALWAYS" />
+                                    <VBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Starting Bet: " textFill="WHITE" />
+                                          <BigDecimalField fx:id="startingBet" maxWidth="1.7976931348623157E308" minWidth="50.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Chance: " textFill="WHITE" />
+                                          <BigDecimalField fx:id="chanceBet" minWidth="50.0" />
+                                       </children>
+                                    </VBox>
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                               </HBox>
-                              <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="SOMETIMES">
+                              <TabPane fx:id="tabPaneStrategies" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="SOMETIMES">
                                 <tabs>
-                                  <Tab text="Martingale">
+                                  <Tab fx:id="martingaleTab" text="Martingale">
                                     <content>
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                     </content>
                                   </Tab>
-                                  <Tab text="Labouchère">
+                                  <Tab fx:id="labouchereTab" text="Labouchère">
                                     <content>
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                     </content>
                                   </Tab>
-                                    <Tab text="Fibonacci">
+                                    <Tab fx:id="fibonacciTab" text="Fibonacci">
                                        <content>
                                           <StackPane>
                                              <children>
                                                 <HBox prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <ListView prefHeight="200.0" prefWidth="200.0">
+                                                      <ListView fx:id="fibonacciList" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/listView.css">
                                                          <HBox.margin>
                                                             <Insets bottom="10.0" left="10.0" top="10.0" />
                                                          </HBox.margin>
@@ -86,7 +91,7 @@
                                                                      <children>
                                                                         <HBox StackPane.alignment="CENTER">
                                                                            <children>
-                                                                              <BigDecimalField prefWidth="70.0" />
+                                                                              <BigDecimalField fx:id="stepOnLossField" prefWidth="70.0" />
                                                                               <Label maxHeight="1.7976931348623157E308" text="Steps on Loss" textFill="#cccccc" />
                                                                            </children>
                                                                         </HBox>
@@ -111,16 +116,16 @@
                                                                               <ToggleGroup fx:id="onWin" />
                                                                            </toggleGroup>
                                                                         </RadioButton>
-                                                                        <RadioButton mnemonicParsing="false" selected="true" text="Reset on loss" textFill="#cccccc" toggleGroup="$onWin" />
-                                                                        <RadioButton mnemonicParsing="false" text="Stop on loss" textFill="#cccccc" toggleGroup="$onWin" />
+                                                                        <RadioButton mnemonicParsing="false" selected="true" text="Reset on win" textFill="#cccccc" toggleGroup="$onWin" />
+                                                                        <RadioButton mnemonicParsing="false" text="Stop on win" textFill="#cccccc" toggleGroup="$onWin" />
                                                                      </children>
                                                                   </VBox>
                                                                   <StackPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0">
                                                                      <children>
                                                                         <HBox StackPane.alignment="CENTER">
                                                                            <children>
-                                                                              <BigDecimalField prefWidth="70.0" />
-                                                                              <Label maxHeight="1.7976931348623157E308" text="Steps on Loss" textFill="#cccccc" />
+                                                                              <BigDecimalField fx:id="stepOnWinField" prefWidth="70.0" />
+                                                                              <Label maxHeight="1.7976931348623157E308" text="Steps on Win " textFill="#cccccc" />
                                                                            </children>
                                                                         </HBox>
                                                                      </children>
@@ -134,7 +139,7 @@
                                                                         <Insets right="10.0" />
                                                                      </HBox.margin>
                                                                   </JFXCheckBox>
-                                                                  <BigDecimalField prefWidth="70.0" />
+                                                                  <BigDecimalField fx:id="levelReachedField" prefWidth="70.0" />
                                                                   <Label text="is reached" textFill="#cccccc" />
                                                                </children>
                                                                <VBox.margin>
@@ -168,7 +173,7 @@
                                           </StackPane>
                                        </content>
                                     </Tab>
-                                    <Tab text="d´Alembert">
+                                    <Tab fx:id="alembertTab" text="d´Alembert">
                                        <content>
                                           <StackPane>
                                              <children>
@@ -244,12 +249,12 @@
                                           </StackPane>
                                        </content>
                                     </Tab>
-                                    <Tab text="Preset List">
+                                    <Tab fx:id="presetTab" text="Preset List">
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                        </content>
                                     </Tab>
-                                    <Tab text="Custom">
+                                    <Tab fx:id="customTab" text="Custom">
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                        </content>
@@ -279,11 +284,28 @@
       </TabPane>
    </center>
    <bottom>
-      <HBox prefHeight="40.0" BorderPane.alignment="CENTER">
+      <VBox BorderPane.alignment="CENTER">
          <children>
-            <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #222;" text="Start" textFill="GREEN" HBox.hgrow="SOMETIMES" />
-            <JFXButton maxHeight="1.7976931348623157E308" style="-fx-background-color: #111;" text="Stop" textFill="RED" />
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXRadioButton selected="true" text="High" HBox.hgrow="ALWAYS">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="betType2" />
+                     </toggleGroup>
+                  </JFXRadioButton>
+                  <JFXRadioButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Low" toggleGroup="$betType2" HBox.hgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <HBox prefHeight="40.0">
+               <children>
+                  <JFXButton fx:id="startBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #222;" text="Start" textFill="LIME" HBox.hgrow="SOMETIMES" />
+                  <JFXButton fx:id="stopBtn" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="70.0" style="-fx-background-color: #111;" text="Stop" textFill="RED" />
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </bottom>
 </BorderPane>

@@ -35,3 +35,26 @@
 }
 
 .tab-pane:top .tab-header-area .headers-region .tab .text {-fx-fill:#fff}
+
+.virtual-flow .corner {
+	-fx-background-color:#000;
+}
+
+.virtual-flow > .scroll-bar >.thumb{
+	-fx-background-color:green
+}
+
+
+.scroll-bar .track {
+	-fx-background-color:#111;
+}
+
+.scroll-bar .decrement-button,.increment-button {
+	-fx-base: green;
+	-fx-background-color:#111;
+	-fx-background-insets: 0;
+}
+
+.scroll-bar .decrement-button .decrement-arrow, .increment-button .increment-arrow{
+	-fx-background-color:green;
+}
