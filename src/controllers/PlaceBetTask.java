@@ -31,7 +31,7 @@ public abstract class PlaceBetTask extends Task<String> {
 	private static long count;
 	private static double sessionProfit;
 	private double profitSes;
-	private boolean stopBetting = false;
+	private boolean stopBetting = false, errorBetting = false;
 	private ToggleGroup betType = null;
 	private JFXButton stopBtn = null;
 	private String mode = null;
@@ -88,6 +88,9 @@ public abstract class PlaceBetTask extends Task<String> {
 			
 			//Execution Mode	
 			executionMode(this.mode, betType.getToggles().get(0).equals(betType.getSelectedToggle()));
+			if(this.errorBetting){
+				return "";
+			}
 		}
 	}
 	
@@ -95,6 +98,8 @@ public abstract class PlaceBetTask extends Task<String> {
 	protected void updateValue(String value) {
 		// TODO Auto-generated method stub
 		super.updateValue(value);	
+		if(value == null || value.isEmpty())
+			return;
 		Platform.runLater(() ->{				
 			stopBtn.fire();
 			ApplicationSingleton.getInstance().getHomeController().infoLB.setText((value == null)? "" : value);
@@ -120,10 +125,8 @@ public abstract class PlaceBetTask extends Task<String> {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub		
-				System.out.println(">>>\t"+betResponse.isNoPossibleProfit());
 				if(betResponse.isSuccess()){						
 					BigDecimal profit = betResponse.getProfit();
-					System.out.println(">>"+profit.toPlainString());
 					sessionProfit += profit.doubleValue();
 					profitSes += profit.doubleValue();
 					
@@ -155,7 +158,6 @@ public abstract class PlaceBetTask extends Task<String> {
 						streakLose++;
 						controller.lossesLB.setText(lossesCount+"");
 					}						
-					System.out.println("--------- "+betResponse.getRequest().isHigh()+"");
 					controller.totalBetsLB.setText(++betCount+"");	
 
 					BigDecimal prof = botHeart.getSession().getSession().getProfit();
@@ -163,7 +165,6 @@ public abstract class PlaceBetTask extends Task<String> {
 					controller.profitLB.setText(prof.setScale(8, BigDecimal.ROUND_CEILING).toPlainString());
 					controller.wageredLB.setText(botHeart.getSession().getSession().getWagered().toPlainString());
 					
-					System.out.println(">> "+betResponse.getProfit().toPlainString());	
 					controller.chartBets.getData().get(0).getData().add(new XYChart.Data<Number,Number>(++count, sessionProfit));
 					
 					
@@ -277,6 +278,10 @@ public abstract class PlaceBetTask extends Task<String> {
 
 	public BigDecimalField getChance() {
 		return chance;
+	}
+	
+	public void setErrorBetting(boolean errorBetting) {
+		this.errorBetting = errorBetting;
 	}
 
 }

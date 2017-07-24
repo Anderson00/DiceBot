@@ -7,3 +7,20 @@
 .titled-pane:expanded .title .text {-fx-fill:green}
 .titled-pane:collapsed .arrow-button .arrow {-fx-background-color:green; -fx-effect: none;}
 .titled-pane:expanded .content {-fx-background-color:#111; -fx-border-color:none}
+
+
+.big-decimal-field{
+	-fx-background-color:#000;
+}
+
+.big-decimal-field .arrow-button-up,.arrow-button-down{
+	-fx-background-color:#000
+}
+
+.big-decimal-field .spinner-arrow-up,.spinner-arrow-down{
+	-fx-stroke:green;
+}
+
+.big-decimal-field .arrow-button-up:pressed,.arrow-button-down:pressed{
+	-fx-background-color:#333;
+}

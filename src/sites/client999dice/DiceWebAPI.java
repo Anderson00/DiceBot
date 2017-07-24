@@ -46,6 +46,7 @@ public class DiceWebAPI {
 				client.setRequestMethod("POST");
 				client.setAllowUserInteraction(false);
 				client.setUseCaches(false);
+				client.setConnectTimeout(6000);
 				client.setDoInput(true);
 				client.setDoOutput(true);
 				client.connect();

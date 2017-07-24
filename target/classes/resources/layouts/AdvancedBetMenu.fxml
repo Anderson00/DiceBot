@@ -78,13 +78,13 @@
                                                                <children>
                                                                   <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                                      <children>
-                                                                        <RadioButton mnemonicParsing="false" selected="true" text="Increment" textFill="#cccccc">
+                                                                        <RadioButton fx:id="incrementLoss" mnemonicParsing="false" selected="true" text="Increment" textFill="#cccccc">
                                                                            <toggleGroup>
                                                                               <ToggleGroup fx:id="onLoss" />
                                                                            </toggleGroup>
                                                                         </RadioButton>
-                                                                        <RadioButton mnemonicParsing="false" text="Reset on loss" textFill="#cccccc" toggleGroup="$onLoss" />
-                                                                        <RadioButton mnemonicParsing="false" text="Stop on loss" textFill="#cccccc" toggleGroup="$onLoss" />
+                                                                        <RadioButton fx:id="resetLoss" mnemonicParsing="false" text="Reset on loss" textFill="#cccccc" toggleGroup="$onLoss" />
+                                                                        <RadioButton fx:id="stopLoss" mnemonicParsing="false" text="Stop on loss" textFill="#cccccc" toggleGroup="$onLoss" />
                                                                      </children>
                                                                   </VBox>
                                                                   <StackPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" HBox.hgrow="SOMETIMES">
@@ -111,13 +111,13 @@
                                                                <children>
                                                                   <VBox HBox.hgrow="ALWAYS">
                                                                      <children>
-                                                                        <RadioButton mnemonicParsing="false" text="Increment" textFill="#cccccc">
+                                                                        <RadioButton fx:id="incrementWin" mnemonicParsing="false" text="Increment" textFill="#cccccc">
                                                                            <toggleGroup>
                                                                               <ToggleGroup fx:id="onWin" />
                                                                            </toggleGroup>
                                                                         </RadioButton>
-                                                                        <RadioButton mnemonicParsing="false" selected="true" text="Reset on win" textFill="#cccccc" toggleGroup="$onWin" />
-                                                                        <RadioButton mnemonicParsing="false" text="Stop on win" textFill="#cccccc" toggleGroup="$onWin" />
+                                                                        <RadioButton fx:id="resetWin" mnemonicParsing="false" selected="true" text="Reset on win" textFill="#cccccc" toggleGroup="$onWin" />
+                                                                        <RadioButton fx:id="stopWin" mnemonicParsing="false" text="Stop on win" textFill="#cccccc" toggleGroup="$onWin" />
                                                                      </children>
                                                                   </VBox>
                                                                   <StackPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0">
@@ -134,7 +134,7 @@
                                                             </HBox>
                                                             <HBox alignment="CENTER">
                                                                <children>
-                                                                  <JFXCheckBox text="When level" textFill="#cccccc">
+                                                                  <JFXCheckBox fx:id="leavelReachedCheckBox" text="When level" textFill="#cccccc">
                                                                      <HBox.margin>
                                                                         <Insets right="10.0" />
                                                                      </HBox.margin>
@@ -148,7 +148,7 @@
                                                             </HBox>
                                                             <HBox alignment="CENTER">
                                                                <children>
-                                                                  <RadioButton mnemonicParsing="false" text="Stop" textFill="#cccccc">
+                                                                  <RadioButton fx:id="stopLevelReached_RB" mnemonicParsing="false" text="Stop" textFill="#cccccc">
                                                                      <HBox.margin>
                                                                         <Insets right="10.0" />
                                                                      </HBox.margin>

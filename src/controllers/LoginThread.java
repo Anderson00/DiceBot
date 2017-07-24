@@ -1,7 +1,7 @@
 package controllers;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import application.ApplicationSingleton;
 import javafx.concurrent.Task;
@@ -48,17 +48,18 @@ public class LoginThread extends Task<BeginSessionResponse> {
 			}
 			HomeControllerView controller = ApplicationSingleton.getInstance().getHomeController();
 			SessionInfo session = value.getSession();
-			String balance = session.getBalance().toPlainString();
+			String balance = session.getBalance().setScale(8, RoundingMode.CEILING).toPlainString();
 			long wins = session.getBetWinCount();
 			long betCount = session.getBetCount();
-			BigDecimal profit = session.getProfit();
+		    String profit = session.getProfit().setScale(8, RoundingMode.CEILING).toPlainString();
+		    String wagered = session.getWagered().setScale(8, RoundingMode.CEILING).toPlainString();
 			controller.topBalance.setText(balance);
 			controller.balanceLB.setText(balance);
 			controller.winsLB.setText(wins+"");
 			controller.lossesLB.setText(betCount - wins+"");
 			controller.totalBetsLB.setText(betCount+"");
-			controller.profitLB.setText(profit+"");
-			controller.wageredLB.setText(session.getWagered().toPlainString());
+			controller.profitLB.setText(profit);
+			controller.wageredLB.setText(wagered);
 			
 		}else{
 			controller.removeModal();

@@ -1,6 +1,5 @@
 package controllers;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -11,14 +10,15 @@ import java.util.ResourceBundle;
 import application.ApplicationSingleton;
 import application.Main;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -184,6 +184,18 @@ public class HomeControllerView {
 		});
 				
 		ObservableList dataTable = FXCollections.observableArrayList();
+		dataTable.addListener(new InvalidationListener() {
+			
+			@Override
+			public void invalidated(Observable arg0) {
+				// TODO Auto-generated method stub
+				System.out.println(tableBets.getItems().size());
+				if(tableBets.getItems().size() > 50){
+					tableBets.getItems().remove(50);
+				}
+				
+			}
+		});
 		tableBets.setItems(dataTable);
 		
 		profitLB.textProperty().addListener( (observable, oldValue, newValue) -> {
