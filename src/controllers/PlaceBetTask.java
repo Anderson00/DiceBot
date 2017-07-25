@@ -74,7 +74,6 @@ public abstract class PlaceBetTask extends Task<String> {
 		betCount = session.getSession().getBetCount();
 		lossesCount = betCount - winsCount;
 		
-		//updateValue("Start "+Calendar.getInstance().getTime());
 		updateMessage("Start "+Calendar.getInstance().getTime());
 		SessionInfo info = session.getSession();
 		

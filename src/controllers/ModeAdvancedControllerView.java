@@ -133,7 +133,7 @@ public class ModeAdvancedControllerView {
 			@Override
 			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
 				// TODO Auto-generated method stub
-				System.out.println( ((RadioButton)newValue).getText() );
+				//System.out.println( ((RadioButton)newValue).getText() );
 			}
         	
 		});
@@ -210,6 +210,9 @@ public class ModeAdvancedControllerView {
 			PlaceBetResponse betResponse = botHeart.placeBet(betType2.getToggles().get(0).equals(betType2.getSelectedToggle()), this.getStartBet(), chanceBet.getNumber().doubleValue());
 			this.setBetResponse(betResponse);
 			if(!betResponse.isSuccess()){
+				System.out.println("---------------------");
+				System.out.println(betResponse.toString());
+				System.out.println("---------------------");
 				this.setErrorBetting(true);
 				this.updateValue("Bet Error");
 				return;

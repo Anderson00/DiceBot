@@ -3,8 +3,10 @@ package controllers;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import application.ApplicationSingleton;
@@ -34,6 +36,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import jfxtras.labs.scene.control.BigDecimalField;
 import model.Bet;
 
 public class HomeControllerView {
@@ -84,6 +87,9 @@ public class HomeControllerView {
     @FXML
     protected Label balanceLB, winsLB, lossesLB, totalBetsLB, profitLB, wageredLB, infoLB;
     
+    @FXML
+    private BigDecimalField amountField, chanceField, payoutField;
+    
     private Main application;
 
     @FXML
@@ -93,6 +99,24 @@ public class HomeControllerView {
         assert topBalance != null : "fx:id=\"topBalance\" was not injected: check your FXML file 'Dicebot.fxml'.";
         
         ApplicationSingleton.getInstance().setHomeController(this);
+        
+        amountField.setNumber(BigDecimal.ZERO);
+        amountField.setFormat(new DecimalFormat("#,########0.00000000", new DecimalFormatSymbols(Locale.ENGLISH)));
+        amountField.setMinValue(BigDecimal.ZERO);
+    	//amountField.setMaxValue(new BigDecimal(1)); // Depends on the balance
+        amountField.setStepwidth(new BigDecimal(0.00000100));
+        
+        chanceField.setNumber(new BigDecimal(49.95));// Changes depending on site
+        chanceField.setStepwidth(new BigDecimal(0.5));
+        chanceField.setMinValue(new BigDecimal(5));// Changes depending on site
+        chanceField.setMaxValue(new BigDecimal(95));// Changes depending on site
+        chanceField.setFormat(new DecimalFormat("#,###0.000", new DecimalFormatSymbols(Locale.ENGLISH)));
+        
+        payoutField.setNumber(new BigDecimal(2));// Changes depending on site
+        payoutField.setStepwidth(new BigDecimal(0.5));
+        payoutField.setMinValue(new BigDecimal(1.05157));// Changes depending on site
+        payoutField.setMaxValue(new BigDecimal(19.98));// Changes depending on site
+        payoutField.setFormat(new DecimalFormat("#,###0.000", new DecimalFormatSymbols(Locale.ENGLISH)));
         
         chartBets.setLegendVisible(false);
         NumberAxis xAxis = (NumberAxis) chartBets.getXAxis();
@@ -189,7 +213,6 @@ public class HomeControllerView {
 			@Override
 			public void invalidated(Observable arg0) {
 				// TODO Auto-generated method stub
-				System.out.println(tableBets.getItems().size());
 				if(tableBets.getItems().size() > 50){
 					tableBets.getItems().remove(50);
 				}

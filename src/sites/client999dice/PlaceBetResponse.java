@@ -103,5 +103,11 @@ public final class PlaceBetResponse extends DiceResponse implements model.bet.Pl
 		this.request = request;
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		
+		return getRawResponse().toString();
+	}
 	
 }

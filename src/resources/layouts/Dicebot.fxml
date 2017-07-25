@@ -143,19 +143,19 @@
                                                 <Insets bottom="4.0" />
                                              </GridPane.margin>
                                           </Label>
-                                          <BigDecimalField GridPane.columnIndex="1" />
+                                          <BigDecimalField fx:id="amountField" GridPane.columnIndex="1" />
                                           <Label alignment="CENTER_RIGHT" style="-fx-text-fill: #fff;" text="Chance:" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                              <GridPane.margin>
                                                 <Insets bottom="4.0" />
                                              </GridPane.margin>
                                           </Label>
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <BigDecimalField fx:id="chanceField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label alignment="CENTER_RIGHT" style="-fx-text-fill: #fff;" text="Payout:" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                              <GridPane.margin>
                                                 <Insets bottom="4.0" />
                                              </GridPane.margin>
                                           </Label>
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <BigDecimalField fx:id="payoutField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label alignment="CENTER_RIGHT" style="-fx-text-fill: #fff;" text="Profit:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                                           <Label alignment="CENTER_RIGHT" style="-fx-text-fill: #fff;" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                        </children>
