@@ -170,7 +170,7 @@ public class ModeAdvancedControllerView {
     public class PlaceBetTask2 extends controllers.PlaceBetTask{
     	
     	private int losseCount = 0, levelLosse;
-    	private int winCount = 0, levelWin;
+    	private int winCount = 0, levelWin, fibonacciLevel;
 
 		public PlaceBetTask2(String mode, BigDecimalField startingBet, BigDecimalField chance, ToggleGroup betType,
 				JFXButton stopBtn) {
@@ -222,18 +222,17 @@ public class ModeAdvancedControllerView {
 				this.setStopBetting(true);
 				return;
 			}
-			Thread.sleep(100);
+			
 			
 			int levelReached = levelReachedField.getNumber().intValue();
 			
-			if(leavelReachedCheckBox.isSelected() && (levelLosse >= levelReached || levelWin >= levelReached)){
+			if(leavelReachedCheckBox.isSelected() && fibonacciLevel >= levelReached){
 				if(stopLevelReached_RB.isSelected()){
 					stopBetting = true;
 					this.setStopBetting(true);
 					return;
 				}else{
-					levelWin = 0;
-					levelLosse = 0;
+					fibonacciLevel = 0;
 					winCount = 0;
 					losseCount = 0;
 					this.setStartBet(this.getStartingBet().getNumber());
@@ -244,14 +243,18 @@ public class ModeAdvancedControllerView {
 			
 			if(betResponse.isWinner()){
 				winCount++;
-				losseCount = 0;
-				levelLosse = 0;				
+				losseCount = 0;				
 				if(resetWin.isSelected()){
-					this.setStartBet(this.getStartingBet().getNumber());
+					fibonacciLevel = 0;
+					this.setStartBet(this.getStartingBet().getNumber());					
 				}else if(incrementWin.isSelected()){
 					int n = stepOnWinField.getNumber().intValue();
-					levelWin += n;
-					String fibValue = fibList.get(levelWin);
+					if(fibonacciLevel >= 0 && fibonacciLevel+n >= 0)
+						fibonacciLevel += n;
+					else
+						fibonacciLevel = 0;
+					
+					String fibValue = fibList.get(fibonacciLevel);
 					BigDecimal amount = this.getStartingBet().getNumber().multiply(new BigDecimal(fibValue));
 					this.setStartBet(amount);
 				}else{
@@ -260,21 +263,27 @@ public class ModeAdvancedControllerView {
 				}
 			}else{
 				losseCount++;
-				winCount = 0;
-				levelWin = 0;				
+				winCount = 0;				
 				if(incrementLoss.isSelected()){	
 					int n = stepOnLossField.getNumber().intValue();
-					levelLosse += n;					
-					String fibValue = fibList.get(levelLosse);
+					if(fibonacciLevel >= 0 && fibonacciLevel+n >= 0)
+						fibonacciLevel += n;
+					else
+						fibonacciLevel = 0;
+					
+					String fibValue = fibList.get(fibonacciLevel);
 					BigDecimal amount = this.getStartingBet().getNumber().multiply(new BigDecimal(fibValue));
 					this.setStartBet(amount);					
 				}else if(resetLoss.isSelected()){
+					fibonacciLevel = 0;
 					this.setStartBet(this.getStartingBet().getNumber());
 				}else{
 					stopBetting = true;
 					this.setStopBetting(true);
 				}
 			}
+			
+			Thread.sleep(500);
 			
 		}
 	}
