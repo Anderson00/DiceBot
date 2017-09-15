@@ -23,24 +23,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import jfxtras.labs.scene.control.BigDecimalField?>
+<?import org.controlsfx.control.HiddenSidesPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="821.0" style="-fx-background-color: #000;" stylesheets="@../style/main.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeControllerView">
-   <bottom>
-      <BorderPane BorderPane.alignment="CENTER">
-         <center>
-            <ToolBar prefHeight="20.0" style="-fx-background-color: #111;" BorderPane.alignment="CENTER">
-               <items>
-                  <Label fx:id="infoLB" text="No connection" textFill="GREEN" />
-               </items>
-            </ToolBar>
-         </center></BorderPane>
-   </bottom>
    <center>
       <SplitPane fx:id="split_horizontal" dividerPositions="0.8" prefHeight="160.0" prefWidth="200.0" style="-fx-background-color: #000;" BorderPane.alignment="CENTER">
          <items>
+          <HiddenSidesPane fx:id="hiddenSidesPane" triggerDistance="28">
+           <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
-               <center>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <center>               
+               		<BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <top>
                         <HBox alignment="CENTER_LEFT" prefHeight="112.0" prefWidth="647.0" BorderPane.alignment="CENTER">
                            <children>
@@ -197,6 +192,7 @@
                         </SplitPane>
                      </center>
                   </BorderPane>
+                  
                </center>
                <top>
                   <MenuBar fx:id="menu" stylesheets="@../style/menu.css" BorderPane.alignment="CENTER">
@@ -248,7 +244,20 @@
                      </menus>
                   </MenuBar>
                </top>
+               <bottom>
+                  <ToolBar prefHeight="20.0" style="-fx-background-color: #111;" BorderPane.alignment="CENTER">
+                     <items>
+                     	<Label fx:id="infoDate" style="-fx-font-weight:bold; -fx-text-fill:#00ff00;" />
+                        <Label fx:id="infoLB" text="No connection" textFill="GREEN" />
+                     </items>
+                  </ToolBar>
+               </bottom>
             </BorderPane>
+           </content>
+            <bottom>
+             <ListView fx:id="consoleLog" prefHeight="200"></ListView>
+            </bottom>
+           </HiddenSidesPane>
             <BorderPane fx:id="bet_area" minWidth="170.0">
                <top>
                   <StackPane prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #222;" BorderPane.alignment="CENTER">

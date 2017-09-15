@@ -3,23 +3,29 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import jfxtras.labs.scene.control.BigDecimalField?>
+<?import jfxtras.scene.control.LocalDateTimeTextField?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="370.0" prefWidth="600.0" style="-fx-background-color: #000;" stylesheets="@../style/modes.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModeAdvancedControllerView">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1000.0" prefWidth="600.0" style="-fx-background-color: #000;" stylesheets="@../style/modes.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModeAdvancedControllerView">
    <center>
       <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -271,13 +277,417 @@
                <content>
                   <StackPane>
                      <children>
-                        <ScrollPane fitToWidth="true" StackPane.alignment="CENTER" />
+                        <ScrollPane fitToWidth="true" StackPane.alignment="CENTER">
+                           <content>
+                              <VBox>
+                                 <children>
+                                    <GridPane hgap="5.0" vgap="4.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints vgrow="SOMETIMES" />
+                                        <RowConstraints vgrow="SOMETIMES" />
+                                        <RowConstraints prefHeight="40.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Limit:" textFill="WHITE" />
+                                          <Label text="Lower Limit:" textFill="WHITE" GridPane.rowIndex="1" />
+                                          <Label text="When limit is reached:" textFill="WHITE" GridPane.rowIndex="2" />
+                                          <BigDecimalField GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </BigDecimalField>
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </BigDecimalField>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                             <children>
+                                                <JFXRadioButton text="Withdraw" textFill="WHITE" />
+                                                <JFXRadioButton text="Stop Playing" textFill="WHITE" />
+                                             </children>
+                                          </HBox>
+                                          <JFXCheckBox text="Enabled" textFill="WHITE" GridPane.columnIndex="2" />
+                                          <JFXCheckBox text="Enabled" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <Label text="Amount:" textFill="WHITE" GridPane.rowIndex="3" />
+                                          <Label text="Withdraw to:" textFill="WHITE" GridPane.rowIndex="4" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </BigDecimalField>
+                                          <JFXTextField focusColor="LIME" minWidth="300.0" promptText="address" unFocusColor="GREEN" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </GridPane>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                          <Label text="General Stop/reset conditions" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <GridPane hgap="5.0" vgap="4.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <BigDecimalField GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </BigDecimalField>
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </BigDecimalField>
+                                          <JFXCheckBox text="Stop after" textFill="WHITE">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                             <padding>
+                                                <Insets right="4.0" />
+                                             </padding>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="1" />
+                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="2">
+                                             <padding>
+                                                <Insets right="4.0" />
+                                             </padding>
+                                          </JFXCheckBox>
+                                          <Label minWidth="78.0" text="Bets" textFill="WHITE" GridPane.columnIndex="2" />
+                                          <Label text="Bets" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <LocalDateTimeTextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </GridPane>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                          <Label text="Stop/reset conditions on losses" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <GridPane hgap="5.0" vgap="4.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <BigDecimalField GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </BigDecimalField>
+                                          <JFXCheckBox text="Reset after" textFill="WHITE">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets right="4.0" />
+                                             </GridPane.margin>
+                                          </JFXCheckBox>
+                                          <Label minWidth="56.0" prefHeight="17.0" prefWidth="86.0" text="Losses in a row" textFill="WHITE" GridPane.columnIndex="2" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="Btc streak loss" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                          <Label text="Loss" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets right="4.0" />
+                                             </GridPane.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="4" />
+                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="5" />
+                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="6">
+                                             <GridPane.margin>
+                                                <Insets right="4.0" />
+                                             </GridPane.margin>
+                                          </JFXCheckBox>
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <Label text="Btc streak loss" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                          <Label text="Btc loss" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                          <Label text="Losses" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="1">
+                                             <padding>
+                                                <Insets right="4.0" />
+                                             </padding>
+                                          </JFXCheckBox>
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label text="Losses in a row" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="7" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                          <Label text="Losses" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </GridPane>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                          <Label text="Stop/reset conditions on wins" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <GridPane hgap="5.0" vgap="4.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <BigDecimalField GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </BigDecimalField>
+                                          <JFXCheckBox text="Reset after" textFill="WHITE">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets right="4.0" />
+                                             </GridPane.margin>
+                                          </JFXCheckBox>
+                                          <Label minWidth="56.0" prefHeight="17.0" prefWidth="86.0" text="Wins in a row" textFill="WHITE" GridPane.columnIndex="2" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="Streak Winnings" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                          <Label text="Profit" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets right="4.0" />
+                                             </GridPane.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="4" />
+                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="5" />
+                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="6">
+                                             <GridPane.margin>
+                                                <Insets right="4.0" />
+                                             </GridPane.margin>
+                                          </JFXCheckBox>
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <Label text="Btc streak profit" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                          <Label text="Btc profit" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                          <Label text="Wins" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="1">
+                                             <padding>
+                                                <Insets right="4.0" />
+                                             </padding>
+                                          </JFXCheckBox>
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label text="Wins in a row" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="7" />
+                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                          <Label text="Wins" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                           </content></ScrollPane>
                      </children></StackPane>
                </content>
           </Tab>
             <Tab text="Advanced Bet Settings">
                <content>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0" />
+                        <VBox>
+                           <children>
+                              <GridPane hgap="5.0" vgap="4.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints prefHeight="40.0" vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Limit:" textFill="WHITE" />
+                                    <Label text="Lower Limit:" textFill="WHITE" GridPane.rowIndex="1" />
+                                    <Label text="When limit is reached:" textFill="WHITE" GridPane.rowIndex="2" />
+                                    <BigDecimalField GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </BigDecimalField>
+                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </BigDecimalField>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                       <children>
+                                          <JFXRadioButton text="Withdraw" textFill="WHITE" />
+                                          <JFXRadioButton text="Stop Playing" textFill="WHITE" />
+                                       </children>
+                                    </HBox>
+                                    <JFXCheckBox text="Enabled" textFill="WHITE" GridPane.columnIndex="2" />
+                                    <JFXCheckBox text="Enabled" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <Label text="Amount:" textFill="WHITE" GridPane.rowIndex="3" />
+                                    <Label text="Withdraw to:" textFill="WHITE" GridPane.rowIndex="4" />
+                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </BigDecimalField>
+                                    <JFXTextField focusColor="LIME" minWidth="300.0" promptText="address" unFocusColor="GREEN" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </GridPane>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                    <Label text="Switch High/Low" textFill="WHITE">
+                                       <HBox.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <GridPane hgap="5.0" vgap="4.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <BigDecimalField GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </BigDecimalField>
+                                    <JFXCheckBox text="Switch after" textFill="WHITE">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox text="Switch after" textFill="WHITE" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </JFXCheckBox>
+                                    <Label minWidth="56.0" prefHeight="17.0" prefWidth="86.0" text="Wins" textFill="WHITE" GridPane.columnIndex="2" />
+                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Losses" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <Label text="Losses in a row" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <JFXCheckBox text="Switch after" textFill="WHITE" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox text="Switch after" textFill="WHITE" GridPane.rowIndex="4" />
+                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Bets" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <JFXCheckBox text="Switch after" textFill="WHITE" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </JFXCheckBox>
+                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Wins in a row" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </children></StackPane>
                </content>
             </Tab>
         </tabs>

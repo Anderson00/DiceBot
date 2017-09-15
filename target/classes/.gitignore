@@ -1,7 +1,4 @@
-/application/
 /controllers/
-/exceptions/
+/application/
 /libs/
-/model/
 /resources/
-/sites/

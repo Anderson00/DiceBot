@@ -44,3 +44,8 @@
 .scroll-bar .decrement-button .decrement-arrow, .increment-button .increment-arrow{
 	-fx-background-color:green;
 }
+
+/*Scroll-pane */
+.scroll-pane, .scroll-pane > .viewport{
+	-fx-background-color:#000;
+}

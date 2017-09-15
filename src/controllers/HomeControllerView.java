@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.HiddenSidesPane;
+
 import application.ApplicationSingleton;
 import application.Main;
 import javafx.application.Platform;
@@ -21,10 +23,12 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
@@ -33,11 +37,17 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import jfxtras.labs.scene.control.BigDecimalField;
 import model.Bet;
+import model.ConsoleLog;
 
 public class HomeControllerView {
 
@@ -85,18 +95,41 @@ public class HomeControllerView {
     protected StackPane modes; 
     
     @FXML
-    protected Label balanceLB, winsLB, lossesLB, totalBetsLB, profitLB, wageredLB, infoLB;
+    protected Label balanceLB, winsLB, lossesLB, totalBetsLB, profitLB, wageredLB, infoDate, infoLB;
+    
+    @FXML
+    protected ListView<Node> consoleLog;
+    
+    @FXML
+    protected HiddenSidesPane hiddenSidesPane;
     
     @FXML
     private BigDecimalField amountField, chanceField, payoutField;
     
     private Main application;
+    
+    private ConsoleLog lastLog = null;
 
     @FXML
     void initialize() {
         assert chartBets != null : "fx:id=\"chartBets\" was not injected: check your FXML file 'Dicebot.fxml'.";
         assert tableBets != null : "fx:id=\"tableBets\" was not injected: check your FXML file 'Dicebot.fxml'.";
         assert topBalance != null : "fx:id=\"topBalance\" was not injected: check your FXML file 'Dicebot.fxml'.";
+        
+        hiddenSidesPane.setAnimationDuration(Duration.millis(200));
+        /*Resolução BUG no HiddenSidePane do desenvolverdor do controlsfx*/
+        Node bottomSide = hiddenSidesPane.getBottom();
+        bottomSide.visibleProperty().addListener( (observable,oldValue,newValue) -> {
+        	if(oldValue == null)
+        		return;
+        	if(newValue){
+        		hiddenSidesPane.setTriggerDistance(consoleLog.getPrefHeight());
+        	}else{
+        		hiddenSidesPane.setTriggerDistance(27);//27 valor relativo ao tamanho da barra de notificação
+        		//Depois criar uma classe que guarde todos esses valores constantes da aplicação. 
+        	}
+        });
+        /*Resolução BUG*/
         
         ApplicationSingleton.getInstance().setHomeController(this);
         
@@ -240,6 +273,40 @@ public class HomeControllerView {
         //chartBets.setAnimated(false);
         //TestChart();
 
+    }
+    
+    public void addLog(ConsoleLog log){
+    	lastLog = log;
+        Label lb = new Label("["+log.getDate().toString()+"]");
+        lb.setStyle("-fx-font-weight:bold; -fx-text-fill:#00ff00;");             
+        infoDate.setText(lb.getText());
+        
+        Label lb2 = new Label(log.getMsg());
+        infoLB.setText(lb2.getText());
+        infoLB.setStyle("-fx-text-fill:GREEN");
+        if(log.isError()){
+        	lb2.setStyle("-fx-text-fill:red");
+        	infoLB.setStyle("-fx-text-fill:red");
+        }
+        
+        
+        HBox hbox = new HBox(lb,lb2);
+        hbox.setSpacing(5);
+        consoleLog.getItems().add(hbox);
+        consoleLog.scrollTo(consoleLog.getItems().size()-1);
+    }
+    
+    public void updateLastLog(ConsoleLog log){
+    	/*if(lastLog != null){
+    		infoDate.setText("["+log.getDate().toString()+"]");
+    		infoLB.setText(log.);
+    		consoleLog.getItems().remove(consoleLog.getItems().size()-1);
+    		addLog(lastLog);    		
+    	}*/
+    	if(log != null){
+    		consoleLog.getItems().remove(consoleLog.getItems().size()-1);//Remove last log
+    		this.addLog(log);
+    	}
     }
     
     void TestChart(){

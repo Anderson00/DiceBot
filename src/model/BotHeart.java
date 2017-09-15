@@ -1,7 +1,10 @@
 package model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import application.ApplicationSingleton;
 import exceptions.ErrorsList;
 import model.bet.PlaceBetRequest;
 import model.bet.BeginSessionResponse;
@@ -16,9 +19,11 @@ public class BotHeart{
 	private BeginSessionResponse session;
 	private String user,pass;
 	private BigDecimal balance = BigDecimal.ZERO;
+	private List<ConsoleLog> logs;
 	
 	public BotHeart(String site){
 		this.site = site;
+		logs = new ArrayList<ConsoleLog>();
 	}
 	
 	public BeginSessionResponse login(String user, String pass){
@@ -60,6 +65,14 @@ public class BotHeart{
 		return this.session;
 	}
 	
+	public void addLog(ConsoleLog log){
+		ApplicationSingleton.getInstance().getHomeController().addLog(log);
+	}
+	
+	public void updateLastLog(ConsoleLog log){
+		ApplicationSingleton.getInstance().getHomeController().updateLastLog(log);
+	}
+	
 	public static String Validate(BeginSessionResponse session){
 		if(session != null){
 			if(!session.isSuccess()){
@@ -80,7 +93,5 @@ public class BotHeart{
 	public static String Validate(PlaceBetResponse response){
 		//if(!ses)
 		return null;
-	}
-	
-	
+	}	
 }
