@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -24,8 +27,6 @@
 <?import javafx.scene.text.Font?>
 <?import jfxtras.labs.scene.control.BigDecimalField?>
 <?import org.controlsfx.control.HiddenSidesPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="821.0" style="-fx-background-color: #000;" stylesheets="@../style/main.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeControllerView">
    <center>
@@ -152,7 +153,7 @@
                                           </Label>
                                           <BigDecimalField fx:id="payoutField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label alignment="CENTER_RIGHT" style="-fx-text-fill: #fff;" text="Profit:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                                          <Label alignment="CENTER_RIGHT" style="-fx-text-fill: #fff;" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label fx:id="profitManualBet" alignment="CENTER_RIGHT" style="-fx-text-fill: #fff;" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                        </children>
                                        <padding>
                                           <Insets top="5.0" />
@@ -160,6 +161,27 @@
                                     </GridPane>
                                  </children>
                               </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <JFXRadioButton selected="true" maxWidth="1.7976931348623157E308" text="High" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" top="10.0" />
+                                             </VBox.margin>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="oneBetRadio" />
+                                             </toggleGroup>
+                                          </JFXRadioButton>
+                                          <JFXRadioButton maxWidth="1.7976931348623157E308" text="Low" toggleGroup="$oneBetRadio" VBox.vgrow="ALWAYS">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" />
+                                             </VBox.margin>
+                                          </JFXRadioButton>
+                                          <JFXButton fx:id="oneBetButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #111;" text="Bet" textFill="GREEN" VBox.vgrow="ALWAYS" />
+                                       </children>
+                                    </VBox>
                            </children>
                         </HBox>
                      </top>
@@ -195,7 +217,9 @@
                   
                </center>
                <top>
-                  <MenuBar fx:id="menu" stylesheets="@../style/menu.css" BorderPane.alignment="CENTER">
+               <HBox>
+                    <children>
+                    	<MenuBar fx:id="menu" stylesheets="@../style/menu.css" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
                      <menus>
                         <Menu mnemonicParsing="false" text="File">
                            <items>
@@ -243,19 +267,33 @@
                         </Menu>
                      </menus>
                   </MenuBar>
+                        <HBox>
+                    		<children>
+                        		<JFXButton fx:id="resetChart" maxWidth="1.7976931348623157E308" textFill="GREEN" />
+                    			<JFXButton fx:id="resetTable" maxWidth="1.7976931348623157E308" textFill="GREEN" />
+                			</children>
+                		</HBox>
+                	</children>
+                </HBox>
+               	
+                  
                </top>
                <bottom>
-                  <ToolBar prefHeight="20.0" style="-fx-background-color: #111;" BorderPane.alignment="CENTER">
-                     <items>
-                     	<Label fx:id="infoDate" style="-fx-font-weight:bold; -fx-text-fill:#00ff00;" />
-                        <Label fx:id="infoLB" text="No connection" textFill="GREEN" />
-                     </items>
-                  </ToolBar>
+               	<HBox>
+               	 <children>
+	                  <ToolBar prefHeight="20.0" style="-fx-background-color: #111;" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+	                     <items>
+	                     	<Label fx:id="infoDate" style="-fx-font-weight:bold; -fx-text-fill:#00ff00;" />
+	                        <Label fx:id="infoLB" text="No connection" textFill="GREEN" />
+	                     </items>
+	                  </ToolBar>	                  
+                 </children>
+               	</HBox>
                </bottom>
             </BorderPane>
            </content>
             <bottom>
-             <ListView fx:id="consoleLog" prefHeight="200"></ListView>
+             <ListView fx:id="consoleLog" prefHeight="200" />
             </bottom>
            </HiddenSidesPane>
             <BorderPane fx:id="bet_area" minWidth="170.0">

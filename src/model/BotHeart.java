@@ -23,7 +23,7 @@ public class BotHeart{
 	
 	public BotHeart(String site){
 		this.site = site;
-		logs = new ArrayList<ConsoleLog>();
+		this.logs = new ArrayList<ConsoleLog>();
 	}
 	
 	public BeginSessionResponse login(String user, String pass){
@@ -94,4 +94,13 @@ public class BotHeart{
 		//if(!ses)
 		return null;
 	}	
+	
+	
+	public static BigDecimal calculatePayout(boolean high, double chance){		
+		return DiceWebAPI.CalculatePayoutMultiplier(high, chance);
+	}
+	
+	public static BigDecimal calculatePayout(double payout){
+		return DiceWebAPI.CalculateChancePayout(false, payout);
+	}
 }

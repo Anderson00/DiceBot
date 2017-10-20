@@ -48,7 +48,7 @@
                            <Insets bottom="10.0" />
                         </VBox.margin>
                      </ChoiceBox>
-               		<JFXCheckBox checkedColor="GREEN" text="Remeber me" textFill="#cccccc" />
+               		<JFXCheckBox fx:id="saveUserCheckBox" checkedColor="GREEN" text="Remeber me" textFill="#cccccc" />
                      <StackPane prefHeight="150.0" prefWidth="200.0">
                         <children>
                            <Text fx:id="avisoIncorreto" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" StackPane.alignment="CENTER" />

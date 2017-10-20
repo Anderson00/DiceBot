@@ -42,6 +42,11 @@
   		<version>1.0</version>
   	</dependency>
   	<dependency>
+    	<groupId>eu.hansolo.enzo</groupId>
+    	<artifactId>Enzo</artifactId>
+    	<version>0.3.6</version>
+	</dependency>
+  	<dependency>
   		<groupId>de.jensd</groupId>
   		<artifactId>fontawesomefx</artifactId>
   		<version>8.0.10</version>

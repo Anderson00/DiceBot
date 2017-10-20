@@ -1,6 +1,12 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 
+#notifyRoot {
+	-fx-background-color:#222;
+	-fx-fill: #222;
+}
+
+
 /*.chart {
 	
 }*/
@@ -62,3 +68,10 @@
 .choice-box .context-menu {-fx-background-color:#111}
 .choice-box .context-menu .label > .text {-fx-fill:green}
 .choice-box .context-menu .menu-item:focused{ -fx-background-color: #000}
+
+
+/* Rippler */
+
+.jfx-radio-button .jfx-rippler {
+	-fx-rippler-radius: 1;
+}

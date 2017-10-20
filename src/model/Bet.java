@@ -2,7 +2,6 @@ package model;
 
 import com.jfoenix.controls.JFXCheckBox;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

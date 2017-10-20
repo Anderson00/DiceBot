@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ConsoleLog {
-	//private int id;
 	private Date date;
 	private String msg;
 	private boolean error = false;
@@ -12,12 +11,17 @@ public class ConsoleLog {
 	public ConsoleLog(){
 		date = Calendar.getInstance().getTime();
 		msg = "";
-	}
+	}	
 	
 	public ConsoleLog(String msg, boolean error){
 		this();
 		this.msg = msg;
 		this.error = error;
+		System.out.println(error);
+	}
+	
+	public ConsoleLog(String msg){
+		this(msg,false);
 	}
 	
 	public Date getDate(){

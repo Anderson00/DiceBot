@@ -72,7 +72,7 @@
                                              <children>
                                                 <HBox prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <ListView fx:id="fibonacciList" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/listView.css">
+                                                      <ListView fx:id="fibonacciList" prefWidth="180.0" stylesheets="@../style/listView.css">
                                                          <HBox.margin>
                                                             <Insets bottom="10.0" left="10.0" top="10.0" />
                                                          </HBox.margin>
@@ -193,7 +193,10 @@
                                                       <HBox alignment="CENTER_LEFT">
                                                          <children>
                                                             <Label text="Increment bet by" textFill="WHITE" />
-                                                            <BigDecimalField />
+                                                            <BigDecimalField>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" right="5.0" />
+                                                               </HBox.margin></BigDecimalField>
                                                             <Label text="On loss" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
@@ -205,7 +208,7 @@
                                                             <Label text="Stretch losses by" textFill="WHITE" />
                                                             <BigDecimalField>
                                                                <HBox.margin>
-                                                                  <Insets left="2.0" />
+                                                                  <Insets left="7.0" right="5.0" />
                                                                </HBox.margin>
                                                             </BigDecimalField>
                                                             <Label text="bets" textFill="WHITE" />
@@ -225,7 +228,10 @@
                                                       <HBox alignment="CENTER_LEFT">
                                                          <children>
                                                             <Label text="Increment bet by" textFill="WHITE" />
-                                                            <BigDecimalField />
+                                                            <BigDecimalField>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" right="5.0" />
+                                                               </HBox.margin></BigDecimalField>
                                                             <Label text="On win" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
@@ -237,7 +243,7 @@
                                                             <Label text="Stretch wins by" textFill="WHITE" />
                                                             <BigDecimalField>
                                                                <HBox.margin>
-                                                                  <Insets left="10.0" />
+                                                                  <Insets left="15.0" right="5.0" />
                                                                </HBox.margin>
                                                             </BigDecimalField>
                                                             <Label text="bets" textFill="WHITE" />
@@ -291,39 +297,42 @@
                                         <RowConstraints vgrow="SOMETIMES" />
                                         <RowConstraints vgrow="SOMETIMES" />
                                         <RowConstraints prefHeight="40.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
                                           <Label text="Limit:" textFill="WHITE" />
                                           <Label text="Lower Limit:" textFill="WHITE" GridPane.rowIndex="1" />
                                           <Label text="When limit is reached:" textFill="WHITE" GridPane.rowIndex="2" />
-                                          <BigDecimalField GridPane.columnIndex="1">
+                                          <BigDecimalField fx:id="stopLimitDecimalFeld" GridPane.columnIndex="1">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </BigDecimalField>
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                          <BigDecimalField fx:id="stopLowerLimitDecimalFeld" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </BigDecimalField>
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                              <children>
-                                                <JFXRadioButton text="Withdraw" textFill="WHITE" />
-                                                <JFXRadioButton text="Stop Playing" textFill="WHITE" />
+                                                <JFXRadioButton fx:id="withdrawLimitReached" text="Withdraw" textFill="WHITE">
+                                                   <toggleGroup>
+                                                      <ToggleGroup fx:id="limitReachedGroup" />
+                                                   </toggleGroup></JFXRadioButton>
+                                                <JFXRadioButton fx:id="stopPlayingLimitReached" selected="true" text="Stop Playing" textFill="WHITE" toggleGroup="$limitReachedGroup" />
                                              </children>
                                           </HBox>
-                                          <JFXCheckBox text="Enabled" textFill="WHITE" GridPane.columnIndex="2" />
-                                          <JFXCheckBox text="Enabled" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <JFXCheckBox fx:id="limitEnabled" text="Enabled" textFill="WHITE" GridPane.columnIndex="2" />
+                                          <JFXCheckBox fx:id="lowerLimitEnabled" text="Enabled" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                           <Label text="Amount:" textFill="WHITE" GridPane.rowIndex="3" />
                                           <Label text="Withdraw to:" textFill="WHITE" GridPane.rowIndex="4" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                          <BigDecimalField fx:id="withdrawAmount" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </BigDecimalField>
-                                          <JFXTextField focusColor="LIME" minWidth="300.0" promptText="address" unFocusColor="GREEN" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <JFXTextField fx:id="addressField" focusColor="LIME" minWidth="300.0" promptText="address" unFocusColor="GREEN" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                        </children>
                                        <VBox.margin>
                                           <Insets bottom="10.0" top="10.0" />
@@ -331,13 +340,13 @@
                                     </GridPane>
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                          <Separator HBox.hgrow="ALWAYS" />
                                           <Label text="General Stop/reset conditions" textFill="WHITE">
                                              <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                          <Separator HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <GridPane hgap="5.0" vgap="4.0">
@@ -352,17 +361,17 @@
                                           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <BigDecimalField GridPane.columnIndex="1">
+                                          <BigDecimalField fx:id="stopAfterGDFbets" GridPane.columnIndex="1">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </BigDecimalField>
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                          <BigDecimalField fx:id="resetAfterGDFbets" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </BigDecimalField>
-                                          <JFXCheckBox text="Stop after" textFill="WHITE">
+                                          <JFXCheckBox fx:id="stopAfterGCBbets" text="Stop after" textFill="WHITE">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
@@ -370,15 +379,15 @@
                                                 <Insets right="4.0" />
                                              </padding>
                                           </JFXCheckBox>
-                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="1" />
-                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="2">
+                                          <JFXCheckBox fx:id="resetAfterGCBbets" text="Reset after" textFill="WHITE" GridPane.rowIndex="1" />
+                                          <JFXCheckBox fx:id="stopAfterGCBDate" text="Stop after" textFill="WHITE" GridPane.rowIndex="2">
                                              <padding>
                                                 <Insets right="4.0" />
                                              </padding>
                                           </JFXCheckBox>
                                           <Label minWidth="78.0" text="Bets" textFill="WHITE" GridPane.columnIndex="2" />
                                           <Label text="Bets" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                          <LocalDateTimeTextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <LocalDateTimeTextField fx:id="stopAfterGLDDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                        </children>
                                        <VBox.margin>
                                           <Insets top="10.0" />
@@ -389,13 +398,13 @@
                                     </GridPane>
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                          <Separator HBox.hgrow="ALWAYS" />
                                           <Label text="Stop/reset conditions on losses" textFill="WHITE">
                                              <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                          <Separator HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <GridPane hgap="5.0" vgap="4.0">
@@ -406,7 +415,7 @@
                                        </columnConstraints>
                                        <rowConstraints>
                                           <RowConstraints vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                           <RowConstraints vgrow="SOMETIMES" />
                                           <RowConstraints vgrow="SOMETIMES" />
                                           <RowConstraints vgrow="SOMETIMES" />
@@ -415,53 +424,53 @@
                                           <RowConstraints vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <BigDecimalField GridPane.columnIndex="1">
+                                          <BigDecimalField fx:id="resetAfterLDFinRow" GridPane.columnIndex="1">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </BigDecimalField>
-                                          <JFXCheckBox text="Reset after" textFill="WHITE">
+                                          <JFXCheckBox fx:id="resetAfterLCBinRow" text="Reset after" textFill="WHITE">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </JFXCheckBox>
-                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="2">
+                                          <JFXCheckBox fx:id="stopAfterLCBstreak" text="Stop after" textFill="WHITE" GridPane.rowIndex="2">
                                              <GridPane.margin>
                                                 <Insets right="4.0" />
                                              </GridPane.margin>
                                           </JFXCheckBox>
                                           <Label minWidth="56.0" prefHeight="17.0" prefWidth="86.0" text="Losses in a row" textFill="WHITE" GridPane.columnIndex="2" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <BigDecimalField fx:id="stopAfterLDFstreak" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label text="Btc streak loss" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                           <Label text="Loss" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="3">
+                                          <BigDecimalField fx:id="stopAfterLDFloss" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <JFXCheckBox fx:id="stopAfterLCBloss" text="Stop after" textFill="WHITE" GridPane.rowIndex="3">
                                              <GridPane.margin>
                                                 <Insets right="4.0" />
                                              </GridPane.margin>
                                           </JFXCheckBox>
-                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="4" />
-                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="5" />
-                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="6">
+                                          <JFXCheckBox fx:id="resetAfterLCBstreak" text="Reset after" textFill="WHITE" GridPane.rowIndex="4" />
+                                          <JFXCheckBox fx:id="resetAfterLCBloss" text="Reset after" textFill="WHITE" GridPane.rowIndex="5" />
+                                          <JFXCheckBox fx:id="stopAfterLCBlosses" text="Stop after" textFill="WHITE" GridPane.rowIndex="6">
                                              <GridPane.margin>
                                                 <Insets right="4.0" />
                                              </GridPane.margin>
                                           </JFXCheckBox>
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <BigDecimalField fx:id="resetAfterLDFstreak" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <BigDecimalField fx:id="resetAfterLDFloss" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <BigDecimalField fx:id="stopAfterLDFlosses" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                           <Label text="Btc streak loss" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                           <Label text="Btc loss" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                                           <Label text="Losses" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="1">
+                                          <JFXCheckBox fx:id="stopAfterLCBinRow" text="Stop after" textFill="WHITE" GridPane.rowIndex="1">
                                              <padding>
                                                 <Insets right="4.0" />
                                              </padding>
                                           </JFXCheckBox>
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <BigDecimalField fx:id="stopAfterLDFinRow" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="Losses in a row" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="7" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                          <JFXCheckBox fx:id="resetAfterLCBlosses" text="Reset after" textFill="WHITE" GridPane.rowIndex="7" />
+                                          <BigDecimalField fx:id="resetAfterLDFlosses" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                           <Label text="Losses" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                                        </children>
                                        <padding>
@@ -473,13 +482,13 @@
                                     </GridPane>
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                          <Separator HBox.hgrow="ALWAYS" />
                                           <Label text="Stop/reset conditions on wins" textFill="WHITE">
                                              <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                          <Separator HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <GridPane hgap="5.0" vgap="4.0">
@@ -490,7 +499,7 @@
                                        </columnConstraints>
                                        <rowConstraints>
                                           <RowConstraints vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                           <RowConstraints vgrow="SOMETIMES" />
                                           <RowConstraints vgrow="SOMETIMES" />
                                           <RowConstraints vgrow="SOMETIMES" />
@@ -500,53 +509,53 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <BigDecimalField GridPane.columnIndex="1">
+                                          <BigDecimalField fx:id="resetAfterWDFinRow" GridPane.columnIndex="1">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </BigDecimalField>
-                                          <JFXCheckBox text="Reset after" textFill="WHITE">
+                                          <JFXCheckBox fx:id="resetAfterWCBinRow" text="Reset after" textFill="WHITE">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </JFXCheckBox>
-                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="2">
+                                          <JFXCheckBox fx:id="stopAfterWCBstreak" text="Stop after" textFill="WHITE" GridPane.rowIndex="2">
                                              <GridPane.margin>
                                                 <Insets right="4.0" />
                                              </GridPane.margin>
                                           </JFXCheckBox>
                                           <Label minWidth="56.0" prefHeight="17.0" prefWidth="86.0" text="Wins in a row" textFill="WHITE" GridPane.columnIndex="2" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <BigDecimalField fx:id="stopAfterWDFstreak" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label text="Streak Winnings" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                           <Label text="Profit" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="3">
+                                          <BigDecimalField fx:id="stopAfterWDFprofit" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <JFXCheckBox fx:id="stopAfterWCBprofit" text="Stop after" textFill="WHITE" GridPane.rowIndex="3">
                                              <GridPane.margin>
                                                 <Insets right="4.0" />
                                              </GridPane.margin>
                                           </JFXCheckBox>
-                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="4" />
-                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="5" />
-                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="6">
+                                          <JFXCheckBox fx:id="resetAfterWCBstreak" text="Reset after" textFill="WHITE" GridPane.rowIndex="4" />
+                                          <JFXCheckBox fx:id="resetAfterWCBprofit" text="Reset after" textFill="WHITE" GridPane.rowIndex="5" />
+                                          <JFXCheckBox fx:id="stopAfterWCBwins" text="Stop after" textFill="WHITE" GridPane.rowIndex="6">
                                              <GridPane.margin>
                                                 <Insets right="4.0" />
                                              </GridPane.margin>
                                           </JFXCheckBox>
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <BigDecimalField fx:id="resetAfterWDFstreak" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <BigDecimalField fx:id="resetAfterWDFprofit" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <BigDecimalField fx:id="stopAfterWDFwins" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                           <Label text="Btc streak profit" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                           <Label text="Btc profit" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                                           <Label text="Wins" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                                          <JFXCheckBox text="Stop after" textFill="WHITE" GridPane.rowIndex="1">
+                                          <JFXCheckBox fx:id="stopAfterWCBinRow" text="Stop after" textFill="WHITE" GridPane.rowIndex="1">
                                              <padding>
                                                 <Insets right="4.0" />
                                              </padding>
                                           </JFXCheckBox>
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <BigDecimalField fx:id="stopAfterWDFinRow" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="Wins in a row" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                          <JFXCheckBox text="Reset after" textFill="WHITE" GridPane.rowIndex="7" />
-                                          <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                          <JFXCheckBox fx:id="resetAfterWCBwins" text="Reset after" textFill="WHITE" GridPane.rowIndex="7" />
+                                          <BigDecimalField fx:id="resetAfterWDFwins" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                           <Label text="Wins" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                                        </children>
                                        <padding>
@@ -578,40 +587,44 @@
                                  <rowConstraints>
                                     <RowConstraints vgrow="SOMETIMES" />
                                     <RowConstraints vgrow="SOMETIMES" />
-                                    <RowConstraints prefHeight="40.0" vgrow="SOMETIMES" />
-                                    <RowConstraints vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label text="Limit:" textFill="WHITE" />
-                                    <Label text="Lower Limit:" textFill="WHITE" GridPane.rowIndex="1" />
-                                    <Label text="When limit is reached:" textFill="WHITE" GridPane.rowIndex="2" />
                                     <BigDecimalField GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
                                     </BigDecimalField>
-                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <BigDecimalField maxHeight="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
                                     </BigDecimalField>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <Label maxHeight="1.7976931348623157E308" text="Minimum Bet" textFill="WHITE" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                    <Label text="Maximum Bet" textFill="WHITE" GridPane.rowIndex="5" />
+                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </BigDecimalField>
+                                    <JFXCheckBox text="Bot Speed" textFill="WHITE" />
+                                    <Label text="Bets/s" textFill="WHITE" GridPane.columnIndex="2" />
+                                    <JFXCheckBox prefHeight="27.0" text="Reset seed after" textFill="WHITE" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                    <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                        <children>
-                                          <JFXRadioButton text="Withdraw" textFill="WHITE" />
-                                          <JFXRadioButton text="Stop Playing" textFill="WHITE" />
+                                          <JFXRadioButton text="Bets" textFill="WHITE" />
+                                          <JFXRadioButton text="Wins" textFill="WHITE" />
+                                          <JFXRadioButton prefWidth="74.0" selected="true" text="Losses" textFill="WHITE" />
                                        </children>
-                                    </HBox>
-                                    <JFXCheckBox text="Enabled" textFill="WHITE" GridPane.columnIndex="2" />
-                                    <JFXCheckBox text="Enabled" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <Label text="Amount:" textFill="WHITE" GridPane.rowIndex="3" />
-                                    <Label text="Withdraw to:" textFill="WHITE" GridPane.rowIndex="4" />
-                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="3">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
-                                    </BigDecimalField>
-                                    <JFXTextField focusColor="LIME" minWidth="300.0" promptText="address" unFocusColor="GREEN" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    </HBox>
+                                    <BigDecimalField GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" top="10.0" />
@@ -619,13 +632,13 @@
                               </GridPane>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                    <Separator HBox.hgrow="ALWAYS" />
                                     <Label text="Switch High/Low" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                    <Separator HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <GridPane hgap="5.0" vgap="4.0">

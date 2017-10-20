@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,6 +22,8 @@ public class DiceWebAPI {
 	static private final String WebUri = "https://www.999dice.com/api/web.aspx";
 	static private final long GuessSpan = 1000000;
 	static private final BigDecimal HousePayout = new BigDecimal("0.999");
+	static private final double basePayout = 2;// 2x payout = 49.95 chance
+	static private final double baseChance = 49.95;
 
 	static private final JsonReaderFactory jsonReaderFactoryInstance = Json
 			.createReaderFactory(null);
@@ -396,6 +399,23 @@ public class DiceWebAPI {
 		return HousePayout.divide(CalculateChanceToWin(guessLow, guessHigh),
 				MathContext.DECIMAL128);
 	}
+	
+	public static BigDecimal CalculatePayoutMultiplier(boolean high, double chance){
+		double chanceAux = (999999.0) * (chance / 100.0);		
+		
+		long guessLow = (high ? 999999 - (int)chanceAux : 0);
+		long guessHigh = (high ? 999999 : (int)chanceAux);
+		
+		return HousePayout.divide(CalculateChanceToWin(guessLow, guessHigh),
+				MathContext.DECIMAL128);
+	}
+	
+	public static BigDecimal CalculateChancePayout(boolean high, double payout){
+		BigDecimal chance = new BigDecimal(99.9)
+				.divide(new BigDecimal(payout), MathContext.DECIMAL128);
+		return new BigDecimal(99.9/payout);
+	}
+	
 
 	public static BeginSessionResponse BeginSession(String apiKey) {
 		Validate(apiKey);

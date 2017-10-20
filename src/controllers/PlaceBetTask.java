@@ -1,6 +1,7 @@
 package controllers;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Calendar;
 
@@ -24,20 +25,22 @@ public abstract class PlaceBetTask extends Task<String> {
 	
 	private PlaceBetResponse betResponse = null;
 	private BigDecimalField startingBet = null, chance = null; 	
-	private BigDecimal startBet = BigDecimal.ZERO, chanceToWin = BigDecimal.ZERO;
+	private BigDecimal startBet = BigDecimal.ZERO, chanceToWin = BigDecimal.ZERO, balance = BigDecimal.ZERO;
 	private HomeControllerView controller = ApplicationSingleton.getInstance().getHomeController();
 	private BotHeart botHeart = ApplicationSingleton.getInstance().getBotHeart();
-	private int wins,losses,numberOfBets,currentStreak,streakWin,streakLose;
+	private int wins, losses, numberOfBets, currentStreak, streakWin, streakLose, bigStreakWin, bigStreakLoss;
 	private long winsCount,lossesCount,betCount;
 	private static long count;
+	private long sessionNumberOfBets = 0;
 	private static double sessionProfit;
-	private BigDecimal profit2 = BigDecimal.ZERO;
+	private BigDecimal profit2 = BigDecimal.ZERO, btcStreakLoss = BigDecimal.ZERO, btcStreakWin = BigDecimal.ZERO;
 	private double profitSes;
 	private boolean stopBetting = false, errorBetting = false;
 	private ToggleGroup betType = null;
 	private JFXButton stopBtn = null;
 	private String mode = null;
-	private boolean error = false;//Quando error for igual a true, PlaceBetTask para; 
+	private boolean error = false;//Quando error for igual a true, PlaceBetTask para;
+	private String finalMsg = null;	
 	
 	public PlaceBetTask(String mode, BigDecimalField startingBet, BigDecimalField chance, ToggleGroup betType, JFXButton stopBtn){
 		this.mode = mode;
@@ -54,13 +57,13 @@ public abstract class PlaceBetTask extends Task<String> {
 		
 		BeginSessionResponse session = ApplicationSingleton.getInstance().getBotHeart().refreshSession();		
 		if(session == null){
-			error = true;
+			this.error = true;
 			return ErrorsList.CONNECTION_ERROR;
 		}
 		
 		//Check balance
 		if(botHeart.getSession().getSession().getBalance().compareTo(startBet) <= 0){
-			error = true;
+			this.error = true;
 			return ErrorsList.INSUFFICIENT_FUNDS;
 		}
 		
@@ -78,6 +81,7 @@ public abstract class PlaceBetTask extends Task<String> {
 		winsCount = session.getSession().getBetWinCount();
 		betCount = session.getSession().getBetCount();
 		lossesCount = betCount - winsCount;
+		balance = botHeart.getBalance();
 		
 		updateMessage("Started");
 		SessionInfo info = session.getSession();
@@ -89,8 +93,9 @@ public abstract class PlaceBetTask extends Task<String> {
 		
 		while(true){				
 			if(stopBetting){ 
-				Calendar date = Calendar.getInstance();
-				date.setTimeInMillis(System.currentTimeMillis());
+				if(finalMsg != null && finalMsg != "" ){
+					return finalMsg;
+				}
 				return "Finished";				
 			}
 			if(startBet.compareTo(BigDecimal.ZERO) == 0) return ErrorsList.INSUFFICIENT_FUNDS;
@@ -98,9 +103,10 @@ public abstract class PlaceBetTask extends Task<String> {
 			//Execution Mode	
 			executionMode(this.mode, betType.getToggles().get(0).equals(betType.getSelectedToggle()));
 			if(this.errorBetting){
-				error = true;
+				this.error = true;
 				return "";
 			}
+			Thread.sleep(200);
 		}
 	}
 	
@@ -110,10 +116,12 @@ public abstract class PlaceBetTask extends Task<String> {
 		super.updateValue(value);	
 		if(value == null || value.isEmpty())
 			return;
-		Platform.runLater(() ->{				
-			stopBtn.fire();
+		Platform.runLater(() ->{	
+			if(stopBtn != null)
+				stopBtn.fire();
 			//ApplicationSingleton.getInstance().getHomeController().infoLB.setText();
-			this.botHeart.addLog(new ConsoleLog((value == null)? "" : value,error));
+			System.out.println(error);
+			this.botHeart.addLog(new ConsoleLog((value == null)? "" : value,this.error));
 		});			
 	}
 	
@@ -123,7 +131,7 @@ public abstract class PlaceBetTask extends Task<String> {
 		super.updateMessage(message);
 		Platform.runLater(() ->{
 			//ApplicationSingleton.getInstance().getHomeController().infoLB.setText((message == null)? "" : message);				
-			this.botHeart.addLog(new ConsoleLog((message == null)? "" : message,false));
+			this.botHeart.addLog(new ConsoleLog((message == null)? "" : message,this.error));
 		});
 	}
 	
@@ -137,7 +145,9 @@ public abstract class PlaceBetTask extends Task<String> {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub		
-				if(betResponse.isSuccess()){						
+				if(betResponse.isSuccess()){	
+					sessionNumberOfBets++;
+					
 					BigDecimal profit = betResponse.getProfit();
 					sessionProfit += profit.doubleValue();
 					profitSes += profit.doubleValue();
@@ -146,7 +156,7 @@ public abstract class PlaceBetTask extends Task<String> {
 					
 					System.out.println("Profit: "+betResponse.getProfit().toPlainString()+" "+profit2.toPlainString()+" "+new BigDecimal(sessionProfit).setScale(8, BigDecimal.ROUND_CEILING).toPlainString());
 					
-					BigDecimal balance = betResponse.getBalance().setScale(8, BigDecimal.ROUND_CEILING);
+					balance = betResponse.getBalance().setScale(8, BigDecimal.ROUND_CEILING);
 					boolean win = betResponse.isWinner(); 
 					
 					controller.topBalance.setText(balance.toPlainString());
@@ -165,13 +175,25 @@ public abstract class PlaceBetTask extends Task<String> {
 						winsCount++;
 						wins++;			
 						streakLose = 0;
-						streakWin++;
+						streakWin++;						
+						btcStreakWin = btcStreakWin.add(startBet,MathContext.DECIMAL128);
+						btcStreakLoss = BigDecimal.ZERO;
+						
+						if(streakWin > bigStreakWin){
+							bigStreakWin = streakWin;
+						}
 						controller.winsLB.setText(winsCount+"");
 					}else{
 						lossesCount++;
 						losses++;
 						streakWin = 0;
 						streakLose++;
+						btcStreakLoss = btcStreakLoss.add(startBet,MathContext.DECIMAL128);
+						btcStreakWin = BigDecimal.ZERO;
+						
+						if(streakLose > bigStreakLoss){
+							bigStreakLoss = streakLose;
+						}
 						controller.lossesLB.setText(lossesCount+"");
 					}						
 					controller.totalBetsLB.setText(++betCount+"");	
@@ -183,9 +205,11 @@ public abstract class PlaceBetTask extends Task<String> {
 					
 					controller.chartBets.getData().get(0).getData().add(new XYChart.Data<Number,Number>(++count, sessionProfit));
 					
+					numberOfBets = (int) count;
+					
 					String msgLog = "Running(count,profit,streak): "+count+", "+
 									profit2.setScale(8, BigDecimal.ROUND_CEILING).toPlainString()+", "+
-									"win:"+streakWin+" losse:"+streakLose;
+									"win:"+bigStreakWin+" losse:"+bigStreakLoss;
 					botHeart.updateLastLog(new ConsoleLog(msgLog,false));
 				}
 			}
@@ -193,12 +217,12 @@ public abstract class PlaceBetTask extends Task<String> {
 		
 	}
 	
-	public double getProfitSes() {
-		return profitSes;
+	public BigDecimal getBalance(){
+		return this.balance;
 	}
-
-	public void setProfitSes(double profitSes) {
-		this.profitSes = profitSes;
+	
+	public BigDecimal getSessionProfit() {
+		return profit2;
 	}
 
 	public int getStreakWin() {
@@ -223,14 +247,6 @@ public abstract class PlaceBetTask extends Task<String> {
 
 	public void setLossesCount(long lossesCount) {
 		this.lossesCount = lossesCount;
-	}
-
-	public double getSessionProfit() {
-		return sessionProfit;
-	}
-
-	public void setSessionProfit(double sessionProfit) {
-		this.sessionProfit = sessionProfit;
 	}
 
 	public PlaceBetResponse getBetResponse() {
@@ -301,6 +317,56 @@ public abstract class PlaceBetTask extends Task<String> {
 	
 	public void setErrorBetting(boolean errorBetting) {
 		this.errorBetting = errorBetting;
+	}
+	
+	
+	public void setFinalMessage(String msg){
+		this.finalMsg = msg;
+	}
+	
+	public long getSessionNumberOfBets(){
+		return this.sessionNumberOfBets;
+	}
+	
+	public void resetStreak(){
+		setStreakLose(0);
+		setStreakWin(0);
+		setBigStreakLoss(0);
+		setBigStreakWin(0);
+		setBtcStreakLoss(BigDecimal.ZERO);
+		setBtcStreakWin(BigDecimal.ZERO);
+	}
+
+	public int getBigStreakWin() {
+		return bigStreakWin;
+	}
+
+	protected void setBigStreakWin(int bigStreakWin) {
+		this.bigStreakWin = bigStreakWin;
+	}
+
+	public int getBigStreakLoss() {
+		return bigStreakLoss;
+	}
+
+	private void setBtcStreakLoss(BigDecimal btcStreakLoss) {
+		this.btcStreakLoss = btcStreakLoss;
+	}
+
+	private void setBtcStreakWin(BigDecimal btcStreakWin) {
+		this.btcStreakWin = btcStreakWin;
+	}
+
+	protected void setBigStreakLoss(int bigStreakLoss) {
+		this.bigStreakLoss = bigStreakLoss;
+	}
+
+	public BigDecimal getBtcStreakLoss() {
+		return btcStreakLoss;
+	}
+
+	public BigDecimal getBtcStreakWin() {
+		return btcStreakWin;
 	}
 
 }

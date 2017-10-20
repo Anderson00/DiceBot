@@ -1,6 +1,7 @@
 package controllers;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -8,18 +9,24 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import org.controlsfx.control.HiddenSidesPane;
+import org.controlsfx.glyphfont.FontAwesome.Glyph;
+
+import com.github.plushaze.traynotification.animations.Animations;
+import com.github.plushaze.traynotification.notification.Notifications;
+import com.github.plushaze.traynotification.notification.TrayNotification;
+import com.jfoenix.controls.JFXButton;
 
 import application.ApplicationSingleton;
-import application.Main;
+import controllers.ModeAdvancedControllerView.PlaceBetTask2;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -35,19 +42,19 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import jfxtras.labs.scene.control.BigDecimalField;
 import model.Bet;
+import model.BotHeart;
 import model.ConsoleLog;
+import model.bet.PlaceBetResponse;
 
 public class HomeControllerView {
 
@@ -106,15 +113,43 @@ public class HomeControllerView {
     @FXML
     private BigDecimalField amountField, chanceField, payoutField;
     
-    private Main application;
+    @FXML 
+    private Label profitManualBet;
     
-    private ConsoleLog lastLog = null;
-
+    @FXML
+    private ToggleGroup oneBetRadio;
+    
+    @FXML
+    private JFXButton resetChart, resetTable, oneBetButton;
+    
+    private BotHeart botHeart;
+    
     @FXML
     void initialize() {
         assert chartBets != null : "fx:id=\"chartBets\" was not injected: check your FXML file 'Dicebot.fxml'.";
         assert tableBets != null : "fx:id=\"tableBets\" was not injected: check your FXML file 'Dicebot.fxml'.";
         assert topBalance != null : "fx:id=\"topBalance\" was not injected: check your FXML file 'Dicebot.fxml'.";
+        
+        botHeart = ApplicationSingleton.getInstance().getBotHeart();
+        
+        /*Teste*/
+        resetChart.setOnAction(event -> {
+        	TrayNotification tray = new TrayNotification("Bet Error", "Insuficients Funds", Notifications.ERROR);
+			tray.setAnimation(Animations.POPUP);
+			tray.showAndDismiss(Duration.millis(5000));
+        });
+        
+        resetTable.setOnAction(event -> {
+        	tableBets.getItems().clear();
+        	tableBets.refresh();
+        });
+        
+        addLog(new ConsoleLog("Initied"));
+        
+        resetChart.setText("Reset");
+        resetTable.setText("Reset");
+        resetChart.setGraphic(new org.controlsfx.glyphfont.Glyph("FontAwesome", Glyph.AREA_CHART));
+        resetTable.setGraphic(new org.controlsfx.glyphfont.Glyph("FontAwesome", Glyph.TABLE));
         
         hiddenSidesPane.setAnimationDuration(Duration.millis(200));
         /*Resolução BUG no HiddenSidePane do desenvolverdor do controlsfx*/
@@ -133,23 +168,7 @@ public class HomeControllerView {
         
         ApplicationSingleton.getInstance().setHomeController(this);
         
-        amountField.setNumber(BigDecimal.ZERO);
-        amountField.setFormat(new DecimalFormat("#,########0.00000000", new DecimalFormatSymbols(Locale.ENGLISH)));
-        amountField.setMinValue(BigDecimal.ZERO);
-    	//amountField.setMaxValue(new BigDecimal(1)); // Depends on the balance
-        amountField.setStepwidth(new BigDecimal(0.00000100));
         
-        chanceField.setNumber(new BigDecimal(49.95));// Changes depending on site
-        chanceField.setStepwidth(new BigDecimal(0.5));
-        chanceField.setMinValue(new BigDecimal(5));// Changes depending on site
-        chanceField.setMaxValue(new BigDecimal(95));// Changes depending on site
-        chanceField.setFormat(new DecimalFormat("#,###0.000", new DecimalFormatSymbols(Locale.ENGLISH)));
-        
-        payoutField.setNumber(new BigDecimal(2));// Changes depending on site
-        payoutField.setStepwidth(new BigDecimal(0.5));
-        payoutField.setMinValue(new BigDecimal(1.05157));// Changes depending on site
-        payoutField.setMaxValue(new BigDecimal(19.98));// Changes depending on site
-        payoutField.setFormat(new DecimalFormat("#,###0.000", new DecimalFormatSymbols(Locale.ENGLISH)));
         
         chartBets.setLegendVisible(false);
         NumberAxis xAxis = (NumberAxis) chartBets.getXAxis();
@@ -202,7 +221,102 @@ public class HomeControllerView {
         
         new MenuViewListener(this, menu);
         
+        configureTableView();
+		
+		profitLB.textProperty().addListener( (observable, oldValue, newValue) -> {
+			BigDecimal profit = new BigDecimal(newValue);
+			int compare = profit.compareTo(BigDecimal.ZERO);
+			if(compare > 0)
+				profitLB.setStyle("-fx-text-fill:#00ff00");
+			else if(compare == 0)
+				profitLB.setStyle("-fx-text-fill:#ccc");
+			else
+				profitLB.setStyle("-fx-text-fill:red");
+		} );
         
+        SplitPane.setResizableWithParent(split_horizontal.getItems().get(1), false);
+        
+        XYChart.Series<Number,Number> data = new XYChart.Series<>();        
+    	chartBets.getData().add(data);
+    	
+    	configureManualBet();
+
+    }
+    
+    private boolean chanceExecuted = false, payoutExecuted = false;
+    
+    private void configureManualBet(){
+    	amountField.setNumber(BigDecimal.ZERO);
+        amountField.setFormat(new DecimalFormat("#,########0.00000000", new DecimalFormatSymbols(Locale.ENGLISH)));
+        amountField.setMinValue(BigDecimal.ZERO);
+    	//amountField.setMaxValue(new BigDecimal(1)); // Depends on the balance
+        amountField.setStepwidth(new BigDecimal(0.00000100));
+        
+        chanceField.setNumber(new BigDecimal(49.95));// Changes depending on site
+        chanceField.setStepwidth(new BigDecimal(0.5));
+        chanceField.setMinValue(new BigDecimal(5));// Changes depending on site
+        chanceField.setMaxValue(new BigDecimal(95));// Changes depending on site
+        chanceField.setFormat(new DecimalFormat("#,####0.0000", new DecimalFormatSymbols(Locale.ENGLISH)));
+        
+        payoutField.setNumber(new BigDecimal(2));// Changes depending on site
+        payoutField.setStepwidth(new BigDecimal(0.5));
+        payoutField.setMinValue(new BigDecimal(1.05157));// Changes depending on site
+        payoutField.setMaxValue(new BigDecimal(19.98));// Changes depending on site
+        payoutField.setFormat(new DecimalFormat("#,###0.000", new DecimalFormatSymbols(Locale.ENGLISH)));
+                
+        oneBetButton.setOnAction(event -> {
+	    	Thread task = new Thread(new OneBetTask("",this.amountField, this.chanceField, oneBetRadio, new JFXButton("stop")));
+	    	task.start();  
+        });
+        
+        Consumer<String> setProfit = (prf) -> {
+        	BigDecimal subtract = amountField.getNumber().multiply(payoutField.getNumber())
+					.subtract(amountField.getNumber());
+        	System.out.println(">> ");
+        	profitManualBet.setText(subtract.setScale(8, RoundingMode.CEILING).toPlainString());
+        };
+        
+        amountField.numberProperty().addListener((observable, oldValue, newValue) -> {        	
+        	setProfit.accept(null);
+        });
+        
+        
+        
+        chanceField.numberProperty().addListener((observable, oldValue, newValue) -> {
+        	if(!payoutExecuted){
+	        	BigDecimal decimal = BotHeart.calculatePayout(true, chanceField.getNumber().doubleValue());
+	        	chanceExecuted = true;
+	        	payoutExecuted = false;
+	        	payoutField.setNumber(decimal);   	
+	        	
+	        	
+	        	setProfit.accept(null);
+	        	
+        	}
+        	
+        	chanceExecuted = false;
+        	payoutExecuted = false;
+        });
+        
+        payoutField.numberProperty().addListener((observable, oldValue, newValue) -> {
+        	if(!chanceExecuted){
+        		BigDecimal chance = BotHeart.calculatePayout(payoutField.getNumber().doubleValue());
+        		payoutExecuted = true;
+        		chanceExecuted = false;
+        		System.out.println(chance.doubleValue());
+        		chanceField.setNumber(chance);
+        		
+        		
+        		setProfit.accept(null);
+        	}
+        	
+        	chanceExecuted = false;
+        	payoutExecuted = false;
+        });
+    }
+    
+    private void configureTableView(){
+
         id_column.setCellValueFactory(new PropertyValueFactory<Bet,Integer>("id"));
         date_column.setCellValueFactory(new PropertyValueFactory<Bet,String>("date"));
         high_column.setCellValueFactory(new PropertyValueFactory<Bet,Object>("high"));
@@ -253,30 +367,9 @@ public class HomeControllerView {
 			}
 		});
 		tableBets.setItems(dataTable);
-		
-		profitLB.textProperty().addListener( (observable, oldValue, newValue) -> {
-			BigDecimal profit = new BigDecimal(newValue);
-			int compare = profit.compareTo(BigDecimal.ZERO);
-			if(compare > 0)
-				profitLB.setStyle("-fx-text-fill:#00ff00");
-			else if(compare == 0)
-				profitLB.setStyle("-fx-text-fill:#ccc");
-			else
-				profitLB.setStyle("-fx-text-fill:red");
-		} );
-        
-        SplitPane.setResizableWithParent(split_horizontal.getItems().get(1), false);
-        
-        XYChart.Series<Number,Number> data = new XYChart.Series<>();        
-    	chartBets.getData().add(data);
-    	
-        //chartBets.setAnimated(false);
-        //TestChart();
-
     }
     
     public void addLog(ConsoleLog log){
-    	lastLog = log;
         Label lb = new Label("["+log.getDate().toString()+"]");
         lb.setStyle("-fx-font-weight:bold; -fx-text-fill:#00ff00;");             
         infoDate.setText(lb.getText());
@@ -296,13 +389,7 @@ public class HomeControllerView {
         consoleLog.scrollTo(consoleLog.getItems().size()-1);
     }
     
-    public void updateLastLog(ConsoleLog log){
-    	/*if(lastLog != null){
-    		infoDate.setText("["+log.getDate().toString()+"]");
-    		infoLB.setText(log.);
-    		consoleLog.getItems().remove(consoleLog.getItems().size()-1);
-    		addLog(lastLog);    		
-    	}*/
+    public void updateLastLog(ConsoleLog log){    	
     	if(log != null){
     		consoleLog.getItems().remove(consoleLog.getItems().size()-1);//Remove last log
     		this.addLog(log);
@@ -327,12 +414,12 @@ public class HomeControllerView {
 				
 				while(true){
 					updateProgress(0, 0);
-					try {
-						Thread.sleep(1000);
+					/*try {
+						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
+					}*/
 				}
 			}
 			
@@ -370,4 +457,35 @@ public class HomeControllerView {
 		//new Thread(task).start();    	
     }
     
+    private class OneBetTask extends PlaceBetTask{
+
+		public OneBetTask(String mode, BigDecimalField startingBet, BigDecimalField chance, ToggleGroup betType,
+				JFXButton stopBtn) {
+			super(mode, startingBet, chance, betType, stopBtn);
+			// TODO Auto-generated constructor stub
+			System.out.println(betType);
+		}
+		
+		public OneBetTask(BigDecimalField startingBet, BigDecimalField chance, ToggleGroup betType){
+			super("",startingBet,chance,betType,null);		
+		}
+
+		@Override
+		public void executionMode(String mode, boolean high) throws Exception {
+			// TODO Auto-generated method stub				
+
+			PlaceBetResponse betResponse = botHeart.placeBet(oneBetRadio.getToggles().get(0).equals(oneBetRadio.getSelectedToggle()), this.getStartBet(), chanceField.getNumber().doubleValue());
+			this.setBetResponse(betResponse);
+			if(!betResponse.isSuccess()){
+				this.setErrorBetting(true);
+				this.updateValue("Bet Error");
+				return;
+			}
+
+			this.incrementNumberOfBets();
+			updateProgress(System.currentTimeMillis(), 0);
+			this.setStopBetting(true);			
+		}
+    	
+    };
 }

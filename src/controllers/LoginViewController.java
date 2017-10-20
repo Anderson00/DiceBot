@@ -1,37 +1,48 @@
 package controllers;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
+import com.github.plushaze.traynotification.animations.Animations;
+import com.github.plushaze.traynotification.notification.NotificationSide;
+import com.github.plushaze.traynotification.notification.Notifications;
+import com.github.plushaze.traynotification.notification.TrayNotification;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
+import application.ApplicationSingleton;
 import de.jensd.fx.fontawesome.AwesomeIcon;
 import de.jensd.fx.fontawesome.Icon;
+import impl.org.controlsfx.skin.NotificationPaneSkin;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.RoundImageView;
 import model.RoundImageViewSkin;
-import sites.client999dice.DiceWebAPI;
 
 public class LoginViewController implements Initializable {
     @FXML
@@ -48,6 +59,9 @@ public class LoginViewController implements Initializable {
     
     @FXML
     private ChoiceBox<String> choiceMode;
+    
+    @FXML
+    private JFXCheckBox saveUserCheckBox;
 
     @FXML
     private Text avisoIncorreto;
@@ -63,8 +77,25 @@ public class LoginViewController implements Initializable {
     
     StackPane modal;
 
+	private Stage stage;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
+		
+		Properties prop = System.getProperties();
+		try {
+			prop.loadFromXML(new FileInputStream("Prop"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String username = prop.getProperty("username");
+		if(!username.equals(""))
+			if(username != null && username != ""){
+				authField.setText(username);
+				saveUserCheckBox.setSelected(true);
+			}
+		
 		RoundImageView imageView = new RoundImageView();
 		
 		RoundImageViewSkin skin = new RoundImageViewSkin(imageView);
@@ -105,6 +136,15 @@ public class LoginViewController implements Initializable {
 		requiredPass.setIcon(new Icon(AwesomeIcon.WARNING,"0.6em",";","error"));
 		requiredPass.setMessage("Required Pass");
 		
+		EventHandler<KeyEvent> fullScreenEvent = keyEvent -> {
+			if(keyEvent.getCode().equals(KeyCode.F11)){
+				stage.setFullScreen(!stage.fullScreenProperty().get());
+			}
+		};
+		
+		authField.setOnKeyPressed(fullScreenEvent);
+		pwdField.setOnKeyPressed(fullScreenEvent);
+		
 		authField.getValidators().add(requiredUser);
         pwdField.getValidators().add(requiredPass);
 		
@@ -117,13 +157,47 @@ public class LoginViewController implements Initializable {
     		authField.validate();
     		pwdField.validate();
 		}else{
+			saveUserName();
 			modal = new StackPane(new JFXSpinner());
 			modal.setStyle("-fx-background-color: rgba(0,0,0,.5)");
 			stackPane.getChildren().add(modal);
 			LoginThread thread = new LoginThread(this, choiceMode.getValue(),authField.getText(),pwdField.getText());
 			new Thread(thread).start();			
 		}
+		
+		TrayNotification tray = new TrayNotification("Bet Error", "Insuficients Funds", Notifications.ERROR, NotificationSide.BOTTOM_RIGHT);
+		tray.setAnimation(Animations.POPUP);
+		tray.showAndDismiss(Duration.millis(5000));
     }
+	
+	private void saveUserName(){
+		Properties prop = System.getProperties();
+		if(saveUserCheckBox.isSelected()){			
+			prop.setProperty("username", authField.getText());
+			try {
+				FileOutputStream stream = new FileOutputStream("Prop");
+				prop.storeToXML(stream,"");
+				stream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			prop.setProperty("username","");
+			try {
+				FileOutputStream stream = new FileOutputStream("Prop");
+				prop.storeToXML(stream,"");
+				stream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void setStage(Stage stage){
+		this.stage = stage;
+	}
 	
 	void removeModal(){
 		stackPane.getChildren().remove(modal);
