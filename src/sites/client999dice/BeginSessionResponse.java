@@ -42,24 +42,18 @@ public final class BeginSessionResponse extends DiceResponse implements model.be
 			if (resp.containsKey("BetPayIn"))
 				session.betPayIn = resp
 						.getJsonNumber("BetPayIn")
-						.bigDecimalValue()
-						.divide(new BigDecimal(100000000),
-								MathContext.DECIMAL128);
+						.bigDecimalValue();
 			if (resp.containsKey("BetPayOut"))
 				session.betPayOut = resp
 						.getJsonNumber("BetPayOut")
-						.bigDecimalValue()
-						.divide(new BigDecimal(100000000),
-								MathContext.DECIMAL128);
+						.bigDecimalValue();
 			if (resp.containsKey("BetWinCount"))
 				session.betWinCount = resp.getJsonNumber("BetWinCount")
 						.longValue();
 			if (resp.containsKey("Balance"))
 				session.balance = resp
 						.getJsonNumber("Balance")
-						.bigDecimalValue()
-						.divide(new BigDecimal(100000000),
-								MathContext.DECIMAL128);
+						.bigDecimalValue();
 			if (resp.containsKey("Email") && !resp.isNull("Email"))
 				session.email = resp.getString("Email");
 			if (resp.containsKey("EmergencyAddress")

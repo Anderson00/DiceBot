@@ -10,13 +10,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.dao.UserJpaDAO;
 
 
 public class Main extends Application {	
 	
 	@Override
 	public void start(Stage primaryStage) {
-		try {
+		try {			
+			UserJpaDAO.getInstance();//Initialize Hibernate and Hsqldb
 			ApplicationSingleton.getInstance().setApplication(this);// init singleton	
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/layouts/LoginView.fxml"));			
 			StackPane root = loader.load();

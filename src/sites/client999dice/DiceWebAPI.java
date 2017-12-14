@@ -24,6 +24,7 @@ public class DiceWebAPI {
 	static private final BigDecimal HousePayout = new BigDecimal("0.999");
 	static private final double basePayout = 2;// 2x payout = 49.95 chance
 	static private final double baseChance = 49.95;
+	public static final BigDecimal menorValor = new BigDecimal(1.0e-8);
 
 	static private final JsonReaderFactory jsonReaderFactoryInstance = Json
 			.createReaderFactory(null);
@@ -119,7 +120,7 @@ public class DiceWebAPI {
 		Map<String, String> x = new HashMap<String, String>();
 		x.put("a", "Withdraw");
 		x.put("s", sessionCookie);
-		x.put("Amount", String.valueOf(toSatoshis(amount)));
+		x.put("Amount", String.valueOf(amount));
 		x.put("Address", address);
 		return x;
 	}
@@ -187,9 +188,11 @@ public class DiceWebAPI {
 		Map<String, String> x = new HashMap<String, String>();
 		x.put("a", "PlaceBet");
 		x.put("s", sessionCookie);
-		x.put("PayIn", String.valueOf(toSatoshis(payIn)));
+		x.put("PayIn", String.valueOf(payIn));
 		x.put("Low", String.valueOf(guessLow));
 		x.put("High", String.valueOf(guessHigh));
+		
+		System.out.println(">> "+ String.valueOf(payIn) +" "+ String.valueOf(guessLow) +" "+ String.valueOf(guessHigh));
 		return x;
 	}
 
@@ -198,7 +201,7 @@ public class DiceWebAPI {
 		Map<String, String> x = new HashMap<String, String>();
 		x.put("a", "PlaceAutomatedBets");
 		x.put("s", sessionCookie);
-		x.put("BasePayIn",String.valueOf(toSatoshis(settings.getBasePayIn())));
+		x.put("BasePayIn",String.valueOf(settings.getBasePayIn()));
 		x.put("Low", String.valueOf(settings.getGuessLow()));
 		x.put("High", String.valueOf(settings.getGuessHigh()));
 		x.put("MaxBets", String.valueOf(settings.getMaxBets()));
@@ -208,12 +211,12 @@ public class DiceWebAPI {
 				.toPlainString());
 		x.put("IncreaseOnLosePercent", settings.getIncreaseOnLosePercent()
 				.toPlainString());
-		x.put("MaxPayIn",String.valueOf(toSatoshis(settings.getMaxAllowedPayIn())));
+		x.put("MaxPayIn",String.valueOf(settings.getMaxAllowedPayIn()));
 		x.put("ResetOnLoseMaxBet", settings.isResetOnLoseMaxBet() ? "1" : "0");
 		x.put("StopOnLoseMaxBet", settings.isStopOnLoseMaxBet() ? "1" : "0");
-		x.put("StopMaxBalance",String.valueOf(toSatoshis(settings.getStopMaxBalance())));
-		x.put("StopMinBalance",String.valueOf(toSatoshis(settings.getStopMinBalance())));
-		x.put("StartingPayIn",String.valueOf(toSatoshis(settings.getStartingPayIn())));
+		x.put("StopMaxBalance",String.valueOf(settings.getStopMaxBalance()));
+		x.put("StopMinBalance",String.valueOf(settings.getStopMinBalance()));
+		x.put("StartingPayIn",String.valueOf(settings.getStartingPayIn()));
 		return x;
 	}
 

@@ -4,6 +4,7 @@ import controllers.HomeControllerView;
 import controllers.ModeBasicControllerView;
 import javafx.application.Application;
 import model.BotHeart;
+import model.entity.User;
 
 public class ApplicationSingleton {
 	private static final ApplicationSingleton  uniqueInstance = new ApplicationSingleton();
@@ -11,6 +12,7 @@ public class ApplicationSingleton {
 	private HomeControllerView homeController;
 	private ModeBasicControllerView modeBasicController;// Mode of Bet BASIC
 	private BotHeart botHeart;
+	private User thisUser;
 	
 	private ApplicationSingleton(){}
 	
@@ -34,6 +36,10 @@ public class ApplicationSingleton {
 		this.botHeart = botHeart;
 	}
 	
+	public void setThisUser(User user){
+		this.thisUser = user;
+	}
+	
 	//Getters
 	public HomeControllerView getHomeController(){
 		return this.homeController;
@@ -45,6 +51,10 @@ public class ApplicationSingleton {
 	
 	public BotHeart getBotHeart(){
 		return this.botHeart;
+	}
+	
+	public User getThisUser(){
+		return this.thisUser;
 	}
 	
 	//Singleton instance

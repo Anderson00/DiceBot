@@ -6,6 +6,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="conf"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -13,7 +14,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="src/libs/jfoenix.jar"/>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
@@ -21,5 +22,6 @@
 	<classpathentry kind="lib" path="src/libs/jfxtras-labs-samples-8.0-r6-SNAPSHOT-all.jar"/>
 	<classpathentry kind="lib" path="src/libs/javax.json-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Anderson/Desktop/TrayNotification.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Anderson/Downloads/hsqldb-2.4.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

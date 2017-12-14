@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 
 public class PlaceBetRequest implements model.bet.PlaceBetRequest{
 	
-	private BigDecimal payIn;
+	private BigDecimal payIn;//inteiro melhora a precisão
 	private long amount,payout,guessLow,guessHigh;
 	private boolean isHigh;
 	private double chance,chanceAux;
 	
 	public PlaceBetRequest(BigDecimal payIn, boolean high, double chance){
 		this.payIn = payIn;
-		this.amount = Math.abs(DiceWebAPI.toSatoshis(payIn));
+		this.amount = Math.abs(payIn.longValue());
 		this.isHigh = (guessLow == 0)? false : true;
 		this.chance = chance;
 		this.chanceAux = (999999.0) * (chance / 100.0);		

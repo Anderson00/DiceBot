@@ -43,6 +43,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.RoundImageView;
 import model.RoundImageViewSkin;
+import model.dao.UserJpaDAO;
+import model.entity.Bets;
+import model.entity.User;
 
 public class LoginViewController implements Initializable {
     @FXML
@@ -152,7 +155,7 @@ public class LoginViewController implements Initializable {
 	}
 	
 	@FXML
-    void loginButtonAction(ActionEvent event) {
+    void loginButtonAction(ActionEvent event) {		
 		if(authField.getText().equals("") || pwdField.getText().equals("")){
     		authField.validate();
     		pwdField.validate();
@@ -164,10 +167,6 @@ public class LoginViewController implements Initializable {
 			LoginThread thread = new LoginThread(this, choiceMode.getValue(),authField.getText(),pwdField.getText());
 			new Thread(thread).start();			
 		}
-		
-		TrayNotification tray = new TrayNotification("Bet Error", "Insuficients Funds", Notifications.ERROR, NotificationSide.BOTTOM_RIGHT);
-		tray.setAnimation(Animations.POPUP);
-		tray.showAndDismiss(Duration.millis(5000));
     }
 	
 	private void saveUserName(){

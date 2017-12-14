@@ -38,15 +38,12 @@ public final class PlaceBetResponse extends DiceResponse implements model.bet.Pl
 			
 			success = true;			
 			betId = resp.getJsonNumber("BetId").longValue();
-			payOut = resp.getJsonNumber("PayOut").bigDecimalValue()
-					.divide(new BigDecimal(100000000), MathContext.DECIMAL128);
+			payOut = resp.getJsonNumber("PayOut").bigDecimalValue();
 			secret = resp.getJsonNumber("Secret").longValue();
-			startingBalance = resp.getJsonNumber("StartingBalance")
-					.bigDecimalValue()
-					.divide(new BigDecimal(100000000), MathContext.DECIMAL128);
-			System.out.println(">>>>>>>>>> "+ request.getAmount());
+			startingBalance = resp.getJsonNumber("StartingBalance").bigDecimalValue();			
 			BigDecimal amount = new BigDecimal(request.getAmount());
-			amount = amount.multiply(new BigDecimal(1e-8));
+			System.out.println(">>>>>>>>>> "+ amount);
+			
 			profit = (payOut.compareTo(BigDecimal.ZERO) == 0)? amount.negate() : payOut.subtract(amount);
 			win = (payOut.compareTo(BigDecimal.ZERO) == 0)? false : true;
 			balance = startingBalance.add(profit);

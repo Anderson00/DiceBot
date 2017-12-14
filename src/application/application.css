@@ -75,3 +75,8 @@
 .jfx-radio-button .jfx-rippler {
 	-fx-rippler-radius: 1;
 }
+
+/* icons */
+#resetIcon{
+	-fx-fill: green;
+}

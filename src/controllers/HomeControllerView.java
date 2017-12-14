@@ -10,6 +10,8 @@ import java.text.ParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import java.util.Calendar;
+import java.util.List;
 
 import org.controlsfx.control.HiddenSidesPane;
 import org.controlsfx.glyphfont.FontAwesome.Glyph;
@@ -20,7 +22,7 @@ import com.github.plushaze.traynotification.notification.TrayNotification;
 import com.jfoenix.controls.JFXButton;
 
 import application.ApplicationSingleton;
-import controllers.ModeAdvancedControllerView.PlaceBetTask2;
+//import controllers.ModeAdvancedControllerView.PlaceBetTask2;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -52,6 +54,7 @@ import javafx.util.Duration;
 import javafx.util.StringConverter;
 import jfxtras.labs.scene.control.BigDecimalField;
 import model.Bet;
+import model.entity.Bets;
 import model.BotHeart;
 import model.ConsoleLog;
 import model.bet.PlaceBetResponse;
@@ -132,11 +135,18 @@ public class HomeControllerView {
         
         botHeart = ApplicationSingleton.getInstance().getBotHeart();
         
+        
         /*Teste*/
         resetChart.setOnAction(event -> {
-        	TrayNotification tray = new TrayNotification("Bet Error", "Insuficients Funds", Notifications.ERROR);
-			tray.setAnimation(Animations.POPUP);
-			tray.showAndDismiss(Duration.millis(5000));
+        	System.out.println(Calendar.getInstance().getTime().toString());
+        	System.out.println("------------------------------------|Bets|------------------------------------");
+        	List<Bets> lista = ApplicationSingleton.getInstance().getThisUser().getUserBets();
+        	for(Bets bet : lista){
+        		System.out.println(bet.getId()+"| "+bet.getIdBet()+" "+bet.getInitialId()+" "+bet.getdate().toString()+" "+bet.isHigh()+" "+bet.isWon()+" "+bet.getAmount()+" "+bet.getChance()+" "+bet.getProfit()+" "+bet.getMode());
+        	}
+        	System.out.println("------------------------------------------------------------------------------");
+        	//chartBets.getData().get(0).getData().clear();
+        	//PlaceBetTask.resetCount();
         });
         
         resetTable.setOnAction(event -> {
@@ -270,10 +280,11 @@ public class HomeControllerView {
         });
         
         Consumer<String> setProfit = (prf) -> {
-        	BigDecimal subtract = amountField.getNumber().multiply(payoutField.getNumber())
-					.subtract(amountField.getNumber());
+        	long value = BotHeart.toLongInteger(amountField.getNumber());
+        	BigDecimal subtract = new BigDecimal(value).multiply(payoutField.getNumber()).subtract(new BigDecimal(value));
+        	
         	System.out.println(">> ");
-        	profitManualBet.setText(subtract.setScale(8, RoundingMode.CEILING).toPlainString());
+        	profitManualBet.setText(BotHeart.convertToCoin(subtract).toPlainString());
         };
         
         amountField.numberProperty().addListener((observable, oldValue, newValue) -> {        	
@@ -467,14 +478,13 @@ public class HomeControllerView {
 		}
 		
 		public OneBetTask(BigDecimalField startingBet, BigDecimalField chance, ToggleGroup betType){
-			super("",startingBet,chance,betType,null);		
+			super("onebet",startingBet,chance,betType,null);		
 		}
 
 		@Override
 		public void executionMode(String mode, boolean high) throws Exception {
 			// TODO Auto-generated method stub				
-
-			PlaceBetResponse betResponse = botHeart.placeBet(oneBetRadio.getToggles().get(0).equals(oneBetRadio.getSelectedToggle()), this.getStartBet(), chanceField.getNumber().doubleValue());
+			PlaceBetResponse betResponse = botHeart.placeBet(oneBetRadio.getToggles().get(0).equals(oneBetRadio.getSelectedToggle()), new BigDecimal(this.getStartBet()), chanceField.getNumber().doubleValue());
 			this.setBetResponse(betResponse);
 			if(!betResponse.isSuccess()){
 				this.setErrorBetting(true);

@@ -1,6 +1,8 @@
 package model;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +17,18 @@ import sites.client999dice.SessionInfo;
 public class BotHeart{
 	
 	public static final String API = "f3a5f0d8e5b24ba4a99ecd1a952f7064";
-	private String site;
+	public static final double satoshi = 1.0e-8;
+	private Sites site;
 	private BeginSessionResponse session;
 	private String user,pass;
-	private BigDecimal balance = BigDecimal.ZERO;
+	private BigDecimal balance = BigDecimal.ZERO;	
 	private List<ConsoleLog> logs;
 	
-	public BotHeart(String site){
+	public static enum Sites{
+		DICE999, PRIME_DICE;
+	}
+	
+	public BotHeart(Sites site){
 		this.site = site;
 		this.logs = new ArrayList<ConsoleLog>();
 	}
@@ -29,8 +36,8 @@ public class BotHeart{
 	public BeginSessionResponse login(String user, String pass){
 		this.user = user;
 		this.pass = pass;
-		switch(site.toLowerCase()){
-			case "999dice":
+		switch(site){
+			case DICE999:
 				session = DiceWebAPI.BeginSession(BotHeart.API, user, pass);
 				if(session.isSuccess()){
 					this.balance = session.getSession().getBalance();
@@ -102,5 +109,49 @@ public class BotHeart{
 	
 	public static BigDecimal calculatePayout(double payout){
 		return DiceWebAPI.CalculateChancePayout(false, payout);
+	}
+	
+	public static BigDecimal convertSatoshiToBTC(BigDecimal satoshi){
+		return satoshi.multiply(new BigDecimal(BotHeart.satoshi), MathContext.DECIMAL128)
+				.setScale(8,RoundingMode.DOWN);
+	}
+	
+	public static BigDecimal convertSatoshiToBTC(long satoshi){
+		return new BigDecimal(satoshi).multiply(new BigDecimal(BotHeart.satoshi), MathContext.DECIMAL128)
+				.setScale(8,RoundingMode.DOWN);
+	}
+	
+	public static long toLongInteger(BigDecimal val){
+		return val.multiply(new BigDecimal(100000000),
+				MathContext.DECIMAL128).longValue();
+	}
+	
+	public static BigDecimal toBigDecimalLong(BigDecimal val){
+		return val.multiply(new BigDecimal(100000000),
+				MathContext.DECIMAL128);
+	}
+	
+	public static BigDecimal toBigDecimalLong(long val){
+		return toBigDecimalLong(new BigDecimal(val));
+	}
+	
+	public static BigDecimal convertToCoin(BigDecimal val){
+		return val.divide(new BigDecimal(100000000),
+				MathContext.DECIMAL128).setScale(8, RoundingMode.DOWN);
+	}
+	
+	public static BigDecimal convertToCoin(long val){
+		return convertToCoin(new BigDecimal(val));
+	}
+	
+	public static Sites returnSiteEnum(String site){
+		switch(site.toLowerCase()){
+		case "999dice":
+			return Sites.DICE999;
+		case "primedice":
+			return Sites.PRIME_DICE;
+		default:
+			return Sites.DICE999;
+		}
 	}
 }

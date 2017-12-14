@@ -9,17 +9,20 @@ import javafx.fxml.FXMLLoader;
 import model.BotHeart;
 import model.bet.BeginSessionResponse;
 import model.bet.SessionInfo;
+import model.dao.UserJpaDAO;
+import model.entity.User;
 
 public class LoginThread extends Task<BeginSessionResponse> {
 	
 	private LoginViewController controller;
-	private String site, user, pass;
+	private String user, pass;
+	private BotHeart.Sites site;
 	
 	public LoginThread(LoginViewController controller, String site, String user, String pass){
 		this.controller = controller;
 		this.user = user;
 		this.pass = pass;
-		this.site = site;
+		this.site = BotHeart.returnSiteEnum(site);
 	}
 
 	@Override
@@ -46,13 +49,14 @@ public class LoginThread extends Task<BeginSessionResponse> {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			HomeControllerView controller = ApplicationSingleton.getInstance().getHomeController();
+			ApplicationSingleton singleton = ApplicationSingleton.getInstance();
+			HomeControllerView controller = singleton.getHomeController();
 			SessionInfo session = value.getSession();
-			String balance = session.getBalance().setScale(8, RoundingMode.CEILING).toPlainString();
+			String balance = BotHeart.convertSatoshiToBTC(session.getBalance()).toPlainString();
 			long wins = session.getBetWinCount();
 			long betCount = session.getBetCount();
-		    String profit = session.getProfit().setScale(8, RoundingMode.CEILING).toPlainString();
-		    String wagered = session.getWagered().setScale(8, RoundingMode.CEILING).toPlainString();
+		    String profit = BotHeart.convertSatoshiToBTC(session.getProfit()).toPlainString();
+		    String wagered = BotHeart.convertSatoshiToBTC(session.getWagered()).toPlainString();
 			controller.topBalance.setText(balance);
 			controller.balanceLB.setText(balance);
 			controller.winsLB.setText(wins+"");
@@ -60,6 +64,17 @@ public class LoginThread extends Task<BeginSessionResponse> {
 			controller.totalBetsLB.setText(betCount+"");
 			controller.profitLB.setText(profit);
 			controller.wageredLB.setText(wagered);
+			
+			UserJpaDAO userDao = UserJpaDAO.getInstance();
+			System.out.println(userDao.findAll().size());
+			User user = userDao.findUser(this.user, site);
+			if(user == null){
+				user = new User();
+				user.setNome(this.user);
+				user.setSite(this.site.ordinal());
+				userDao.persist(user);
+			}
+			singleton.setThisUser(user);
 			
 		}else{
 			controller.removeModal();

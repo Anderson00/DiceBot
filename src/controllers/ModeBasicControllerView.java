@@ -1,6 +1,7 @@
 package controllers;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -93,7 +94,7 @@ public class ModeBasicControllerView {
     		stopBetting = false;
     		startBtn.setDisable(true);
 	    	//Thread task = new Thread(new PlaceBetTask());
-    		Thread task = new Thread(new PlaceBetTask2("", startingBet, chanceToWin, betType, stopBtn));
+    		Thread task = new Thread(new PlaceBetTask2(startingBet, chanceToWin, betType, stopBtn));
 	    	task.start();    		
     	});
     	
@@ -106,26 +107,31 @@ public class ModeBasicControllerView {
     public class PlaceBetTask2 extends controllers.PlaceBetTask{
     	
     	private BigDecimal profit = BigDecimal.ZERO;
+    	private boolean pastBet = false;//false = losse
 
 		public PlaceBetTask2(String mode, BigDecimalField startingBet, BigDecimalField chance, ToggleGroup betType,
 				JFXButton stopBtn) {
 			super(mode, startingBet, chance, betType, stopBtn);
 			// TODO Auto-generated constructor stub
 		}
+		
+		public PlaceBetTask2(BigDecimalField startingBet, BigDecimalField chance, ToggleGroup betType, JFXButton stopBtn){
+			super("basicmode",startingBet,chance,betType,stopBtn);
+		}
 
 		@Override
 		public void executionMode(String mode, boolean high) throws Exception{
 			// TODO Auto-generated method stub
 
-			PlaceBetResponse betResponse = botHeart.placeBet(betType.getToggles().get(0).equals(betType.getSelectedToggle()), this.getStartBet(), chanceToWin.getNumber().doubleValue());
+			PlaceBetResponse betResponse = botHeart.placeBet(betType.getToggles().get(0).equals(betType.getSelectedToggle()), new BigDecimal(this.getStartBet()), chanceToWin.getNumber().doubleValue());
 			this.setBetResponse(betResponse);
+			System.out.println(">>>>>>>>>>>>>>>>>> " + betResponse.isSuccess());
 			if(!betResponse.isSuccess()){
 				this.setErrorBetting(true);
 				this.updateValue("Bet Error");
 				return;
 			}
 			profit = profit.add(betResponse.getProfit());
-			System.out.println(profit.setScale(8, RoundingMode.CEILING).toPlainString()+"  "+betResponse.getProfit().setScale(8, RoundingMode.CEILING));
 			this.incrementNumberOfBets();
 			updateProgress(System.currentTimeMillis(), 0);
 			if(stopBetting){				
@@ -134,13 +140,19 @@ public class ModeBasicControllerView {
 			}
 			Thread.sleep(100);
 			if(!betResponse.isWinner()){
-				this.setStartBet(this.getStartBet().multiply(onLoss.getNumber()));
+				BigDecimal decimal = BotHeart.convertToCoin(this.getStartBet()).multiply(onLoss.getNumber(), MathContext.DECIMAL128);
+				this.setStartBet(BotHeart.toLongInteger(decimal));
+				pastBet = false;
 			}else{
-				//reset bet
-				this.setStartBet(this.getStartingBet().getNumber());
-				this.setStartBet(this.getStartBet().multiply(onWin.getNumber()));
+				if(!pastBet){
+					this.setStartBet(BotHeart.toLongInteger(this.getStartingBet().getNumber()));
+				}else{
+					BigDecimal decimal = BotHeart.convertToCoin(this.getStartBet()).multiply(onWin.getNumber(), MathContext.DECIMAL128);
+					this.setStartBet(BotHeart.toLongInteger(decimal));
+				}
+				pastBet = true;
 			}	
-			this.setStartBet(this.getStartBet().setScale(8, BigDecimal.ROUND_CEILING));
+			
 		}
 		
 		@Override
@@ -156,7 +168,7 @@ public class ModeBasicControllerView {
 						nBetsSession.setText(getNumberOfBets()+"");
 						winsSession.setText(getWins()+"");
 						lossesSession.setText(getLosses()+"");
-						profitSession.setText(profit.setScale(8, BigDecimal.ROUND_CEILING).toPlainString());
+						profitSession.setText(BotHeart.convertToCoin(profit).toPlainString());
 						if(getStreakWin() > 0 || getStreakLose() > 0)
 							if(getStreakWin() > 0){
 								currentStreakSession.setStyle("-fx-text-fill:#00ff00");
