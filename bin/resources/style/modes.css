@@ -1,0 +1,51 @@
+
+
+/* TabPane style */
+
+.tab-pane:top .tab-header-area .tab-header-background { -fx-background-color: #222}
+.tab-pane:top .tab-header-area .headers-region .tab { -fx-background-color: #444}
+
+.tab-pane:top .tab-header-area .headers-region .tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.tab-pane:top .tab-header-area .headers-region .tab:selected
+{
+    /*-fx-background-color: #3c3c3c;*/
+    -fx-background-color:#111;
+}
+
+.tab-pane:top .tab-header-area .headers-region .tab .text {-fx-fill:#fff}
+
+.virtual-flow .corner {
+	-fx-background-color:#000;
+}
+
+.virtual-flow > .scroll-bar >.thumb{
+	-fx-background-color:green
+}
+
+
+.scroll-bar .track {
+	-fx-background-color:#111;
+}
+
+.scroll-bar .decrement-button,.increment-button {
+	-fx-base: green;
+	-fx-background-color:#111;
+	-fx-background-insets: 0;
+}
+
+.scroll-bar .decrement-button .decrement-arrow, .increment-button .increment-arrow{
+	-fx-background-color:green;
+}
+
+/*Scroll-pane */
+.scroll-pane, .scroll-pane > .viewport{
+	-fx-background-color:#000;
+}

@@ -7,10 +7,6 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import com.github.plushaze.traynotification.animations.Animations;
-import com.github.plushaze.traynotification.notification.NotificationSide;
-import com.github.plushaze.traynotification.notification.Notifications;
-import com.github.plushaze.traynotification.notification.TrayNotification;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -88,16 +84,16 @@ public class LoginViewController implements Initializable {
 		Properties prop = System.getProperties();
 		try {
 			prop.loadFromXML(new FileInputStream("Prop"));
+			String username = prop.getProperty("username");
+			if(!username.equals(""))
+				if(username != null && username != ""){
+					authField.setText(username);
+					saveUserCheckBox.setSelected(true);
+				}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		String username = prop.getProperty("username");
-		if(!username.equals(""))
-			if(username != null && username != ""){
-				authField.setText(username);
-				saveUserCheckBox.setSelected(true);
-			}
+		}	
 		
 		RoundImageView imageView = new RoundImageView();
 		

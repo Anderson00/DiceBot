@@ -38,7 +38,11 @@ public class BotHeart{
 		this.pass = pass;
 		switch(site){
 			case DICE999:
-				session = DiceWebAPI.BeginSession(BotHeart.API, user, pass);
+				try{
+					session = DiceWebAPI.BeginSession(BotHeart.API, user, pass);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 				if(session.isSuccess()){
 					this.balance = session.getSession().getBalance();
 					return session;

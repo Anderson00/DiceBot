@@ -1,8 +1,16 @@
 package controllers;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
@@ -30,6 +38,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import jfxtras.labs.scene.control.BigDecimalField;
 import jfxtras.scene.control.LocalDateTimeTextField;
 import model.BetTools;
@@ -151,9 +161,18 @@ public class ModeAdvancedControllerView {
     @FXML
     private BigDecimalField resetAfterWDFinRow, stopAfterWDFstreak, stopAfterWDFprofit, stopAfterWDFwins, resetAfterWDFstreak, resetAfterWDFprofit, resetAfterWDFwins, stopAfterWDFinRow;
 
-    //Labouchère    
+    //Labouchère 
+    
     @FXML
-    private JFXButton editListBTN, removeListBTN, clearListBTN;
+    private ListView<String> labListOfBets;
+    
+    @FXML
+    private JFXButton labLoadFile, editListBTN, removeListBTN, clearListBTN;
+    
+    @FXML
+    private JFXRadioButton labRadioStop;
+    
+    private File labouchereFile;
     
 	
 	//Fibonacci	
@@ -245,6 +264,29 @@ public class ModeAdvancedControllerView {
     	levelReachedField.setNumber(new BigDecimal(10));
     	levelReachedField.setMaxValue(new BigDecimal(MAX_LEVEL));
     	levelReachedField.setMinValue(new BigDecimal(0));
+    	
+    	
+    	labLoadFile.setOnAction(event -> {
+    		FileChooser chooser = new FileChooser();
+    		chooser.setTitle("Open text File");
+    		chooser.getExtensionFilters().add(new ExtensionFilter("Text", "*.txt"));
+    		File file = chooser.showOpenDialog(null);
+    		labouchereFile = file;
+    		labListOfBets.getItems().clear();
+			try {
+				InputStream stream = new FileInputStream(file);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+				
+				while(reader.ready()){					
+	    			labListOfBets.getItems().add(reader.readLine());
+	    		}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    		
+    	});
     	
     	
     	startingBet.numberProperty().addListener((observable, oldValue, newValue) -> {
@@ -628,7 +670,7 @@ public class ModeAdvancedControllerView {
 				
 				break;
 			case "labouchère":
-				
+				labouchere();
 				break;				
 			case "fibonacci":
 				fibonacci();
@@ -643,7 +685,11 @@ public class ModeAdvancedControllerView {
 				
 				break;
 			}
-		}   
+		}
+		
+		public void labouchere(){
+			
+		}
 		
 		public void fibonacci() throws Exception{
 			if(resetBetting){
@@ -756,7 +802,7 @@ public class ModeAdvancedControllerView {
 			
 			Thread.sleep(200);//Necessario para não alterar valores antes de exibir no grafico e na tabela
 			
-			
+				
 			if(betResponse.isWinner()){
 				streakWinCount++;
 				streakLosseCount = 0;

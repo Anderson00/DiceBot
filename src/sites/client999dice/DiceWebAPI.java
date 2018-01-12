@@ -17,6 +17,7 @@ import java.util.Map.Entry;
 import javax.json.Json;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
+import javax.net.ssl.HttpsURLConnection;
 
 public class DiceWebAPI {
 	static private final String WebUri = "https://www.999dice.com/api/web.aspx";
@@ -32,6 +33,7 @@ public class DiceWebAPI {
 	private static DiceResponse Request(Map<String, String> formData,
 			DiceResponse response) {
 		try {
+			System.out.println(WebUri);
 			URL url = new URL(WebUri);
 			StringBuilder sb = new StringBuilder();
 			for (Entry<String, String> kvp : formData.entrySet()) {
@@ -43,6 +45,7 @@ public class DiceWebAPI {
 			}			
 			String form = sb.toString();
 			HttpURLConnection client = (HttpURLConnection) url.openConnection();
+			System.out.println(WebUri);
 			try {
 				client.setRequestProperty("Content-type",
 						"application/x-www-form-urlencoded; charset=UTF-8");
@@ -68,8 +71,12 @@ public class DiceWebAPI {
 			}
 		} catch (MalformedURLException e) {
 			response.errorMessage = e.getMessage();
+			System.out.println("------");
 		} catch (IOException e) {
 			response.errorMessage = e.getMessage();
+			System.out.println("------");
+		} catch(Exception e){
+			System.out.println("------");
 		}
 		return response;
 	}
@@ -224,6 +231,7 @@ public class DiceWebAPI {
 			String username) {
 		if (res.isSuccess() && res.getSession() != null)
 			res.getSession().setUsername(username);
+		System.out.println("cccccccccccc");
 		return res;
 	}
 
@@ -436,7 +444,9 @@ public class DiceWebAPI {
 
 	public static BeginSessionResponse BeginSession(String apiKey,
 			String username, String password) {		
+		System.out.println("qqqqqqqqqqqqqq "+apiKey+" "+username);
 		Validate(apiKey, username);
+		System.out.println("qqqqqqqqqqqqqq "+apiKey+" "+username);
 		return Process(
 				(BeginSessionResponse) Request(
 						GetFormDataLogin(apiKey, username, password),

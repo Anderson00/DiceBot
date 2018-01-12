@@ -1,5 +1,9 @@
 package application;
 
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import controllers.LoginViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -7,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -18,9 +23,14 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {			
+			
+			//URL conn = new URL("https://google.com.br");
+			//System.out.println(conn.openConnection().getContentLength());
+			
+			
 			UserJpaDAO.getInstance();//Initialize Hibernate and Hsqldb
 			ApplicationSingleton.getInstance().setApplication(this);// init singleton	
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/layouts/LoginView.fxml"));			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/layouts/LoginView.fxml"));	
 			StackPane root = loader.load();
 			LoginViewController loginController = loader.getController();
 			loginController.setStage(primaryStage);

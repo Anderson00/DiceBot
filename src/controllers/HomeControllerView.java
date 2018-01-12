@@ -16,9 +16,6 @@ import java.util.List;
 import org.controlsfx.control.HiddenSidesPane;
 import org.controlsfx.glyphfont.FontAwesome.Glyph;
 
-import com.github.plushaze.traynotification.animations.Animations;
-import com.github.plushaze.traynotification.notification.Notifications;
-import com.github.plushaze.traynotification.notification.TrayNotification;
 import com.jfoenix.controls.JFXButton;
 
 import application.ApplicationSingleton;

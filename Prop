@@ -2,10 +2,10 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment/>
-<entry key="javafx.version">8.0.131</entry>
+<entry key="javafx.version">8.0.151</entry>
 <entry key="java.runtime.name">Java(TM) SE Runtime Environment</entry>
-<entry key="sun.boot.library.path">C:\Program Files\Java\jre1.8.0_131\bin</entry>
-<entry key="java.vm.version">25.131-b11</entry>
+<entry key="sun.boot.library.path">C:\Program Files\Java\jre1.8.0_151\bin</entry>
+<entry key="java.vm.version">25.151-b12</entry>
 <entry key="java.vm.vendor">Oracle Corporation</entry>
 <entry key="java.vendor.url">http://java.oracle.com/</entry>
 <entry key="path.separator">;</entry>
@@ -16,11 +16,11 @@
 <entry key="sun.java.launcher">SUN_STANDARD</entry>
 <entry key="sun.os.patch.level"/>
 <entry key="java.vm.specification.name">Java Virtual Machine Specification</entry>
-<entry key="user.dir">C:\Users\Anderson\Documents\GitHub\DiceBot</entry>
-<entry key="java.runtime.version">1.8.0_131-b11</entry>
+<entry key="user.dir">C:\Users\Anderson\workspace\DiceBt</entry>
+<entry key="java.runtime.version">1.8.0_151-b12</entry>
 <entry key="java.awt.graphicsenv">sun.awt.Win32GraphicsEnvironment</entry>
-<entry key="javafx.runtime.version">8.0.131-b11</entry>
-<entry key="java.endorsed.dirs">C:\Program Files\Java\jre1.8.0_131\lib\endorsed</entry>
+<entry key="javafx.runtime.version">8.0.151-b12</entry>
+<entry key="java.endorsed.dirs">C:\Program Files\Java\jre1.8.0_151\lib\endorsed</entry>
 <entry key="os.arch">amd64</entry>
 <entry key="java.io.tmpdir">C:\Users\Anderson\AppData\Local\Temp\</entry>
 <entry key="line.separator">&#13;
@@ -29,7 +29,7 @@
 <entry key="user.variant"/>
 <entry key="os.name">Windows 10</entry>
 <entry key="sun.jnu.encoding">Cp1252</entry>
-<entry key="java.library.path">C:\Program Files\Java\jre1.8.0_131\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_131/bin/server;C:/Program Files/Java/jre1.8.0_131/bin;C:/Program Files/Java/jre1.8.0_131/lib/amd64;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Haskell\bin;C:\Program Files\Haskell Platform\8.0.2\lib\extralibs\bin;C:\Program Files\Haskell Platform\8.0.2\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\WINDOWS\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Haskell Platform\8.0.2\mingw\bin;C:\Users\Anderson\AppData\Roaming\cabal\bin;C:\Users\Anderson\AppData\Roaming\local\bin;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Program Files (x86)\Nmap;C:\Users\Anderson\AppData\Local\Microsoft\WindowsApps;C:\WINDOWS\System32;;.</entry>
+<entry key="java.library.path">C:\Program Files\Java\jre1.8.0_151\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_151/bin/server;C:/Program Files/Java/jre1.8.0_151/bin;C:/Program Files/Java/jre1.8.0_151/lib/amd64;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Haskell\bin;C:\Program Files\Haskell Platform\8.0.2\lib\extralibs\bin;C:\Program Files\Haskell Platform\8.0.2\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\WINDOWS\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Haskell Platform\8.0.2\mingw\bin;C:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Users\Anderson\AppData\Roaming\cabal\bin;C:\Users\Anderson\AppData\Roaming\local\bin;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Program Files (x86)\Nmap;C:\Users\Anderson\AppData\Local\Microsoft\WindowsApps;;C:\WINDOWS\System32;;.</entry>
 <entry key="java.specification.name">Java Platform API Specification</entry>
 <entry key="java.class.version">52.0</entry>
 <entry key="sun.management.compiler">HotSpot 64-Bit Tiered Compilers</entry>
@@ -40,19 +40,19 @@
 <entry key="file.encoding">Cp1252</entry>
 <entry key="java.specification.version">1.8</entry>
 <entry key="username">Alucard999</entry>
-<entry key="java.class.path">C:\Users\Anderson\Documents\GitHub\DiceBot\target\classes;C:\Users\Anderson\.p2\pool\plugins\org.eclipse.fx.ide.css.jfx8_2.4.0.201605112122.jar;C:\Users\Anderson\Documents\GitHub\DiceBot\src\libs\jfoenix.jar;C:\Users\Anderson\Documents\GitHub\DiceBot\src\libs\jfxtras-labs-samples-8.0-r6-SNAPSHOT-all.jar;C:\Users\Anderson\Documents\GitHub\DiceBot\src\libs\javax.json-1.0.jar;C:\Users\Anderson\Desktop\TrayNotification.jar;C:\Users\Anderson\.m2\repository\org\controlsfx\controlsfx\8.40.13\controlsfx-8.40.13.jar;C:\Users\Anderson\.m2\repository\javax\json\javax.json-api\1.0\javax.json-api-1.0.jar;C:\Users\Anderson\.m2\repository\eu\hansolo\enzo\Enzo\0.3.6\Enzo-0.3.6.jar;C:\Users\Anderson\.m2\repository\de\jensd\fontawesomefx\8.0.10\fontawesomefx-8.0.10.jar</entry>
+<entry key="java.class.path">C:\Users\Anderson\workspace\DiceBt\target\classes;C:\Users\Anderson\.p2\pool\plugins\org.eclipse.fx.ide.css.jfx8_2.4.0.201605112122.jar;C:\Users\Anderson\workspace\DiceBt\src\libs\jfoenix.jar;C:\Users\Anderson\workspace\DiceBt\src\libs\jfxtras-labs-samples-8.0-r6-SNAPSHOT-all.jar;C:\Users\Anderson\workspace\DiceBt\src\libs\javax.json-1.0.jar;C:\Users\Anderson\Downloads\hsqldb-2.4.0.jar;C:\Users\Anderson\.m2\repository\javax\transaction\jta\1.1\jta-1.1.jar;C:\Users\Anderson\.m2\repository\org\eclipse\persistence\javax.persistence\2.2.0\javax.persistence-2.2.0.jar;C:\Users\Anderson\.m2\repository\org\hibernate\hibernate-core\5.2.12.Final\hibernate-core-5.2.12.Final.jar;C:\Users\Anderson\.m2\repository\org\jboss\logging\jboss-logging\3.3.0.Final\jboss-logging-3.3.0.Final.jar;C:\Users\Anderson\.m2\repository\org\hibernate\javax\persistence\hibernate-jpa-2.1-api\1.0.0.Final\hibernate-jpa-2.1-api-1.0.0.Final.jar;C:\Users\Anderson\.m2\repository\org\javassist\javassist\3.20.0-GA\javassist-3.20.0-GA.jar;C:\Users\Anderson\.m2\repository\antlr\antlr\2.7.7\antlr-2.7.7.jar;C:\Users\Anderson\.m2\repository\org\jboss\spec\javax\transaction\jboss-transaction-api_1.2_spec\1.0.1.Final\jboss-transaction-api_1.2_spec-1.0.1.Final.jar;C:\Users\Anderson\.m2\repository\org\jboss\jandex\2.0.3.Final\jandex-2.0.3.Final.jar;C:\Users\Anderson\.m2\repository\com\fasterxml\classmate\1.3.0\classmate-1.3.0.jar;C:\Users\Anderson\.m2\repository\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar;C:\Users\Anderson\.m2\repository\org\hibernate\common\hibernate-commons-annotations\5.0.1.Final\hibernate-commons-annotations-5.0.1.Final.jar;C:\Users\Anderson\.m2\repository\org\hibernate\hibernate-entitymanager\5.2.12.Final\hibernate-entitymanager-5.2.12.Final.jar;C:\Users\Anderson\.m2\repository\net\bytebuddy\byte-buddy\1.6.14\byte-buddy-1.6.14.jar;C:\Users\Anderson\.m2\repository\org\controlsfx\controlsfx\8.40.13\controlsfx-8.40.13.jar;C:\Users\Anderson\.m2\repository\org\glassfish\javax.json\1.0\javax.json-1.0.jar;C:\Users\Anderson\.m2\repository\eu\hansolo\enzo\Enzo\0.3.6\Enzo-0.3.6.jar;C:\Users\Anderson\.m2\repository\de\jensd\fontawesomefx\8.0.10\fontawesomefx-8.0.10.jar</entry>
 <entry key="user.name">Anderson</entry>
 <entry key="java.vm.specification.version">1.8</entry>
 <entry key="sun.java.command">application.Main</entry>
-<entry key="java.home">C:\Program Files\Java\jre1.8.0_131</entry>
+<entry key="java.home">C:\Program Files\Java\jre1.8.0_151</entry>
 <entry key="sun.arch.data.model">64</entry>
 <entry key="user.language">pt</entry>
 <entry key="java.specification.vendor">Oracle Corporation</entry>
 <entry key="awt.toolkit">sun.awt.windows.WToolkit</entry>
 <entry key="java.vm.info">mixed mode</entry>
-<entry key="java.version">1.8.0_131</entry>
-<entry key="java.ext.dirs">C:\Program Files\Java\jre1.8.0_131\lib\ext;C:\WINDOWS\Sun\Java\lib\ext</entry>
-<entry key="sun.boot.class.path">C:\Program Files\Java\jre1.8.0_131\lib\resources.jar;C:\Program Files\Java\jre1.8.0_131\lib\rt.jar;C:\Program Files\Java\jre1.8.0_131\lib\sunrsasign.jar;C:\Program Files\Java\jre1.8.0_131\lib\jsse.jar;C:\Program Files\Java\jre1.8.0_131\lib\jce.jar;C:\Program Files\Java\jre1.8.0_131\lib\charsets.jar;C:\Program Files\Java\jre1.8.0_131\lib\jfr.jar;C:\Program Files\Java\jre1.8.0_131\classes</entry>
+<entry key="java.version">1.8.0_151</entry>
+<entry key="java.ext.dirs">C:\Program Files\Java\jre1.8.0_151\lib\ext;C:\WINDOWS\Sun\Java\lib\ext</entry>
+<entry key="sun.boot.class.path">C:\Program Files\Java\jre1.8.0_151\lib\resources.jar;C:\Program Files\Java\jre1.8.0_151\lib\rt.jar;C:\Program Files\Java\jre1.8.0_151\lib\sunrsasign.jar;C:\Program Files\Java\jre1.8.0_151\lib\jsse.jar;C:\Program Files\Java\jre1.8.0_151\lib\jce.jar;C:\Program Files\Java\jre1.8.0_151\lib\charsets.jar;C:\Program Files\Java\jre1.8.0_151\lib\jfr.jar;C:\Program Files\Java\jre1.8.0_151\classes</entry>
 <entry key="java.vendor">Oracle Corporation</entry>
 <entry key="file.separator">\</entry>
 <entry key="java.vendor.url.bug">http://bugreport.sun.com/bugreport/</entry>

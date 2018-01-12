@@ -1,10 +1,5 @@
-
 .menu-bar{
 	-fx-background-color:#111;
-}
-
-.menu {
-	-fx-text-fill:green;
 }
 
 .menu:hover{
@@ -30,4 +25,3 @@
 .menu-item .label {
     -fx-text-fill: green;
 }
-
