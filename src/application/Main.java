@@ -23,10 +23,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {			
-			
-			//URL conn = new URL("https://google.com.br");
-			//System.out.println(conn.openConnection().getContentLength());
-			
+						
 			
 			UserJpaDAO.getInstance();//Initialize Hibernate and Hsqldb
 			ApplicationSingleton.getInstance().setApplication(this);// init singleton	
