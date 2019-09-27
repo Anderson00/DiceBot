@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,9 +26,10 @@ public class Main extends Application {
 		try {			
 						
 			
-			UserJpaDAO.getInstance();//Initialize Hibernate and Hsqldb
+			//UserJpaDAO.getInstance();//Initialize Hibernate and Hsqldb
 			ApplicationSingleton.getInstance().setApplication(this);// init singleton	
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/layouts/LoginView.fxml"));	
+			File file = new File(".");
+			FXMLLoader loader = new FXMLLoader(new File("src/resources/layouts/LoginView.fxml").toURL());	
 			StackPane root = loader.load();
 			LoginViewController loginController = loader.getController();
 			loginController.setStage(primaryStage);

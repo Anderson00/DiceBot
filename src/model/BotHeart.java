@@ -16,7 +16,7 @@ import sites.client999dice.SessionInfo;
 
 public class BotHeart{
 	
-	public static final String API = "f3a5f0d8e5b24ba4a99ecd1a952f7064";
+	public static final String API = "5bcddb918b3b425a8888cb8ebe771c5a";
 	public static final double satoshi = 1.0e-8;
 	private Sites site;
 	private BeginSessionResponse session;

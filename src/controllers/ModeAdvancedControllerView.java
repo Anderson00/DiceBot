@@ -161,7 +161,7 @@ public class ModeAdvancedControllerView {
     @FXML
     private BigDecimalField resetAfterWDFinRow, stopAfterWDFstreak, stopAfterWDFprofit, stopAfterWDFwins, resetAfterWDFstreak, resetAfterWDFprofit, resetAfterWDFwins, stopAfterWDFinRow;
 
-    //Labouchère 
+    //Labouchï¿½re 
     
     @FXML
     private ListView<String> labListOfBets;
@@ -669,13 +669,13 @@ public class ModeAdvancedControllerView {
 			case "martingale":
 				
 				break;
-			case "labouchère":
+			case "labouchere":
 				labouchere();
 				break;				
 			case "fibonacci":
 				fibonacci();
 				break;			
-			case "d´alembert":
+			case "d'alembert":
 				dAlembert();
 				break;		
 			case "custom":
@@ -718,7 +718,7 @@ public class ModeAdvancedControllerView {
 				return;
 			}	
 			
-			Thread.sleep(200);//Necessario para não alterar valores antes de exibir no grafico e na tabela
+			Thread.sleep(200);//Necessario para nï¿½o alterar valores antes de exibir no grafico e na tabela
 			
 			int levelReached = levelReachedField.getNumber().intValue();
 			
@@ -800,7 +800,7 @@ public class ModeAdvancedControllerView {
 				return;
 			}	
 			
-			Thread.sleep(200);//Necessario para não alterar valores antes de exibir no grafico e na tabela
+			Thread.sleep(200);//Necessario para nï¿½o alterar valores antes de exibir no grafico e na tabela
 			
 				
 			if(betResponse.isWinner()){

@@ -3,6 +3,7 @@ package controllers;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -111,7 +112,14 @@ public class LoginViewController implements Initializable {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
 				
-				URL url = getClass().getResource("../resources/icons/"+newValue+".png");
+				//URL url = getClass().getResource("../resources/icons/"+newValue+".png");
+				URL url = null;
+				try {
+					url = new URL("file:src/resources/icons/"+newValue+".png");
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if(url != null){
 					FadeTransition transition = new FadeTransition(Duration.millis(500));
 					transition.setFromValue(0.5);

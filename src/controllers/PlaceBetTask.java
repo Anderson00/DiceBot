@@ -50,7 +50,7 @@ public abstract class PlaceBetTask extends Task<String> {
 	private long initialId = -1;// Bet Id initial
 	
 	public static enum ModesConsts{
-		ONEBET, BASICMODE, PROGRAMMERMODE,MARTINGALE, LABOUCHÈRE, FIBONACCI, DALEMBERT, PRESETLIST, CUSTOM;
+		ONEBET, BASICMODE, PROGRAMMERMODE,MARTINGALE, LABOUCHERE, FIBONACCI, DALEMBERT, PRESETLIST, CUSTOM;
 	}
 	
 	public PlaceBetTask(String mode, BigDecimalField startingBet, BigDecimalField chance, ToggleGroup betType, JFXButton stopBtn){
@@ -442,11 +442,11 @@ public abstract class PlaceBetTask extends Task<String> {
 			return ModesConsts.PROGRAMMERMODE;		
 		case "martingale":
 			return ModesConsts.MARTINGALE;
-		case "labouchère":
-			return ModesConsts.LABOUCHÈRE;
+		case "labouchere":
+			return ModesConsts.LABOUCHERE;
 		case "fibonacci":
 			return ModesConsts.FIBONACCI;
-		case "d´alembert":
+		case "d'alembert":
 			return ModesConsts.DALEMBERT;
 		case "custom":
 			return ModesConsts.CUSTOM;
